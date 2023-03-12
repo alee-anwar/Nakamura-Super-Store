@@ -7,10 +7,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { mainNavbarItems } from "./consts/navbarItems";
+import { mainNavbarItems } from "./navbarItems";
 import { useNavigate } from "react-router-dom";
-// import { navbarStyles } from "./styles";
-var drawerWidth = 256;
+
+const drawerWidth = 256;
 const Navbar = () => {
   const navigate = useNavigate();
   const navbarStyles = {
