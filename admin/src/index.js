@@ -23,8 +23,8 @@ root.render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="dashboard" element={<Dashboard />} />
+        <Route element={<App />}>
+          <Route path="/" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
           <Route path="customers" element={<Customers />} />
           <Route path="orders" element={<Orders />} />
