@@ -1,14 +1,16 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
-import { titleStyle } from "../pages/Style/titleStyle";
-
+import Paper from "@mui/material/Paper";
+import { Container } from "@mui/material";
 const Dashboard = () => {
-    return (
-        <Grid item xs={8} style={titleStyle.title}>
-            Dashboard
-        </Grid>
-      )
-}
-
+  return (
+    <div>
+      <Container>
+        <Paper>Total Sales</Paper>
+        <Paper>Total Orders</Paper>
+        <Paper>Total Products</Paper>
+      </Container>
+    </div>
+  );
+};
 
 export default Dashboard;
