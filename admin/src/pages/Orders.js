@@ -1,11 +1,12 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import React from "react";
-import { titleStyle } from "../pages/Style/titleStyle";
 
 const Orders = () => {
   return (
-    <Grid item xs={8} style={titleStyle.title}>
-      Orders
+    <Grid item xs={8} >
+      {/* <Typography variant="h5" pt={10} pl={5}>
+        Orders
+      </Typography> */}
     </Grid>
   );
 };
