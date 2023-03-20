@@ -3,11 +3,8 @@ import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import Avatar from "@mui/material/Avatar";
 import admin from "../../json/admin.json";
@@ -37,7 +34,7 @@ export default function AccountMenu() {
             aria-expanded={open ? "true" : undefined}
             disableRipple
           >
-            <Avatar sx={{ bgcolor: deepOrange[700] }}>
+            <Avatar sx={{ bgcolor: deepOrange[700], width: 34, height: 34 }}>
               {admin[0].name[0].toUpperCase()}
             </Avatar>
             <ExpandMoreRoundedIcon />
@@ -67,7 +64,7 @@ export default function AccountMenu() {
               display: "block",
               position: "absolute",
               top: 0,
-              right: 10,
+              right: 12,
               width: 10,
               height: 10,
               bgcolor: "background.paper",
