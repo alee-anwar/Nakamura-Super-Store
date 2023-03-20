@@ -10,6 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { mainNavbarItems } from "./navbarItems";
 import { useNavigate } from "react-router-dom";
 
+
 const drawerWidth = 256;
 const Navbar = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Navbar = () => {
         <Toolbar />
         <Divider />
         <List>
-          {mainNavbarItems.map((item, index) => (
+          {mainNavbarItems.map((item) => (
             <ListItem key={item.id} sx={navbarStyles.listItem}>
               <ListItemButton onClick={() => navigate(item.route)}>
                 <ListItemIcon sx={navbarStyles.icons}>{item.icon}</ListItemIcon>
@@ -54,3 +55,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
