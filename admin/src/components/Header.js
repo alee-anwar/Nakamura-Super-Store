@@ -1,13 +1,16 @@
-import { Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
-import { AppbarSpace } from "./AppbarSpace";
+import { useTheme } from '@mui/material/styles';
+import { Box } from "@mui/system";
+
 const Header = ({ title }) => {
+  const theme = useTheme();
   return (
-    <Container>
-      <AppbarSpace />
-      <Typography variant="h1">{title}</Typography>
-      {/* <LiveSearch/> */}
-    </Container>
+    <Box sx={{display: 'inline-block'}}>
+      <Box sx={ theme.mixins.toolbar}/>
+      <Typography variant="h1" >{title}</Typography>
+
+    </Box>
   );
 };
 
