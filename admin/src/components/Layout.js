@@ -6,7 +6,6 @@ import Navbar from "./Navbar/Navbar";
 // import { useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
 
-
 export default function Layout({ children }) {
   // const [title, setTitle] = useState(null);
   // const location = useLocation();
@@ -18,21 +17,13 @@ export default function Layout({ children }) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* <CssBaseline /> */}
-      {/* Appbar */}
-      <Navbar />
       <Appbar />
-      {/* Drawer */}
-
-      <Box
-        component="main"
-        ml={32}
-        mr={5}
-        flexGrow={1}
-        mt={2}
-      >
+      <Navbar />
+      <Box component="main" mr={5} flexGrow={1} mt={2}>
         {/* <Header title={title} /> */}
-        <Box pt={1} mr={0}>{children}</Box>
+        <Box pt={1} mr={0}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );
