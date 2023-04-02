@@ -1,12 +1,15 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import AppbarSign from "./Appbar/AppbarSign";
+import { useTheme } from '@mui/material/styles';
 
 function SignLayout(props) {
+  const theme = useTheme();
+
   return (
     <Box>
-      <Box>
-        <Typography>Appbar</Typography>
-      </Box>
+      <AppbarSign/>
+      <Box sx={ theme.mixins.toolbar}/>
       <Box>{props.children}</Box>
     </Box>
   );
