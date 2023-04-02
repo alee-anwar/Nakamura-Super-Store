@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => {
       flexShrink: 0,
       ".MuiDrawer-paper": {
         width: drawerWidth,
-        boxSizing: 'border-box',
+        boxSizing: "border-box",
       },
     },
     icons: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => {
       background: "#f4f4f4",
     },
     logo: {
-      height: 55,
+      height: 50,
       justifyContent: "center",
     },
   };
@@ -54,13 +54,13 @@ const Navbar = () => {
   return (
     <div>
       <Drawer className={classes.drawer} variant="permanent" anchor="left">
-        <Toolbar sx={{justifyContent: 'center'}}>
+        <Toolbar sx={{ justifyContent: "center" }}>
           <Box
-          component="img"
-          className={classes.logo}
-          alt="Admin logo"
-          src={Logo}
-        />
+            component="img"
+            className={classes.logo}
+            alt="Admin logo"
+            src={Logo}
+          />
         </Toolbar>
         <Divider />
         <List>
