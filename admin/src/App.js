@@ -7,12 +7,11 @@ import Products from "./pages/Products";
 import Reviews from "./pages/Reviews";
 import Transactions from "./pages/Transactions";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/Signup";
 import CreateProduct from "./pages/CreateProduct";
 import SignLayout from "./components/SignLayout";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import SignUp from "./pages/Signup";
-
 
 const theme = createTheme({
   typography: {
