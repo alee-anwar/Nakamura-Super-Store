@@ -11,10 +11,16 @@ import admin from "../../json/admin.json";
 import { deepOrange } from "@mui/material/colors";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountMenu() {
+  const navigate= useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const handleLogout = () => {
+    navigate('/login')
+  }
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -82,7 +88,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           My Account
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
