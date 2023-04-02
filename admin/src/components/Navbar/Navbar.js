@@ -53,7 +53,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <Drawer sx={classes.drawer} variant="permanent" anchor="left">
+      <Drawer className={classes.drawer} variant="permanent" anchor="left">
         <Toolbar sx={{justifyContent: 'center'}}>
           <Box
           component="img"
