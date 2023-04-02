@@ -9,18 +9,7 @@ const Dashboard = () => {
   return (
     <Box>
        <Box sx={ theme.mixins.toolbar}/>
-      <Typography variant="h1" >Dashboard</Typography>
-      <Grid container spacing={4}>
-        <Grid item md={4}>
-          <Paper>Total Sales</Paper>
-        </Grid>
-        <Grid item md={4}>
-          <Paper>Total Sales</Paper>
-        </Grid>
-        <Grid item md={4}>
-          <Paper>Total Sales</Paper>
-        </Grid>
-      </Grid>
+      <Typography variant="h1" >Welcome, Nakamura</Typography>
     </Box>
   );
 };
