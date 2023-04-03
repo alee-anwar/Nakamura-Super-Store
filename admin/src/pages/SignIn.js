@@ -7,17 +7,28 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/blueicon.png";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  email: yup.string().email("Invalid email address").required("Required"),
+  password: yup.string().required("Required"),
+});
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+      navigate("/dashboard");
+    },
+  });
 
   return (
     <Container
@@ -42,7 +53,7 @@ export default function SignIn() {
         <Box component="img" src={Logo} sx={{ height: 50, mb: 1 }} />
 
         <Typography variant="h1">Sign in</Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             size="small"
             margin="normal"
@@ -53,6 +64,10 @@ export default function SignIn() {
             name="email"
             // autoComplete="email"
             // autoFocus
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
             size="small"
@@ -64,13 +79,16 @@ export default function SignIn() {
             type="password"
             id="password"
             // autoComplete="current-password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            onClick={() => navigate("/dashboard")}
           >
             Sign In
           </Button>
