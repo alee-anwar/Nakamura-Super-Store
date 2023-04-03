@@ -13,6 +13,7 @@ import LayoutSign from "./components/LayoutSign";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LayoutContainer from "./components/LayoutContainer";
+import MyAccount from "./pages/MyAccount";
 const theme = createTheme({
   typography: {
     fontFamily: "Nunito",
@@ -86,6 +87,7 @@ function App() {
               <Route path="reviews" element={<Reviews />} />
               <Route path="transactions" element={<Transactions />} />
               <Route path="createproduct" element={<CreateProduct />} />
+              <Route path="myaccount" element={<MyAccount />} />
             </Routes>
           </Layout>
         )}
