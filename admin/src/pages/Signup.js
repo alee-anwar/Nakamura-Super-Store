@@ -27,11 +27,16 @@ export default function SignUp() {
   };
 
   return (
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "75vh",
+      }}>
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            // marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -45,44 +50,48 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
+                size='small'
+                //   autoComplete="given-name"
                   name="firstName"
                   required
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  autoFocus
+                //   autoFocus
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                size='small'
                   required
                   fullWidth
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="family-name"
+                //   autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                size='small'
                   required
                   fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
+                //   autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                size='small'
                   required
                   fullWidth
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                //   autoComplete="new-password"
                 />
               </Grid>
             </Grid>
