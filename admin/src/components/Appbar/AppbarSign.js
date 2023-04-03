@@ -19,8 +19,8 @@ const AppbarSign = () => {
           />
         </Box>
 
-        {/* <Button onClick={() => navigate('/login')}>Log In</Button>
-        <Button onClick={() => navigate('/signup')}>Sign Up</Button> */}
+        <Button onClick={() => navigate('/login')}>LogIn</Button>
+        <Button onClick={() => navigate('/signup')}>SignUp</Button>
       </Toolbar>
     </AppBar>
   );
