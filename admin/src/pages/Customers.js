@@ -41,7 +41,7 @@ const Customers = () => {
     },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
-  const rows = orders.map((row) => ({
+  const rows = customers.map((row) => ({
     id: row.id,
     name: row.name,
     phone: row.phone,
@@ -69,7 +69,7 @@ const Customers = () => {
           rows={rows}
           columns={columns}
           initialState={{
-            ...orders.initialState,
+            ...customers.initialState,
             pagination: { paginationModel: { pageSize: 9 } },
           }}
           pageSizeOptions={[9, 18, 36]}
