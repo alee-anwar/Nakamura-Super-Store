@@ -19,11 +19,8 @@ export default function Layout({ children }) {
     <Box sx={{ display: "flex" }}>
       <Appbar />
       <Navbar />
-      <Box component="main" mr={5} flexGrow={1} mt={2}>
-        {/* <Header title={title} /> */}
-        <Box pt={1} mr={0}>
+      <Box component="main" mx={5} flexGrow={1} mt={3}>
           {children}
-        </Box>
       </Box>
     </Box>
   );
