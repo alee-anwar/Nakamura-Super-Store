@@ -242,15 +242,17 @@ export default function SignUp() {
                 helperText={formik.touched.password && formik.errors.password}
               />
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Submitting..." : "Sign Up"}
-            </Button>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ my: 2 }}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Sign Up"}
+              </Button>
+            </Grid>
           </Grid>
         </Box>
       </Box>
