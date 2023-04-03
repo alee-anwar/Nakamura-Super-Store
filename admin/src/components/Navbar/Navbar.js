@@ -10,7 +10,8 @@ import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import Logo from "../../assets/admin-logo.png";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { format } from "date-fns";
 
 import { mainNavbarItems } from "./navbarItems";
 
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     boxSizing: "border-box",
   },
   icons: {
-    marginLeft: theme.spacing(6)
+    marginLeft: theme.spacing(6),
   },
   text: {
     marginLeft: -15,
@@ -78,21 +79,37 @@ const Navbar = () => {
         />
       </Toolbar>
       <Divider />
-      <List>
-        {mainNavbarItems.map((item) => (
-          <ListItem
-            key={item.id}
-            sx={{ p: 0}}
-            onClick={() => handleClick(item)}
-            className={item.id === selectedItem ? classes.active : null}
-          >
-            <ListItemButton sx={{ px: 0, py: 1.5}}>
-              <ListItemIcon className={classes.icons}>{item.icon}</ListItemIcon>
-              <ListItemText className={classes.text} primary={item.label} />
+      <Box
+        sx={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <List>
+          {mainNavbarItems.map((item) => (
+            <ListItem
+              key={item.id}
+              sx={{ p: 0 }}
+              onClick={() => handleClick(item)}
+              className={item.id === selectedItem ? classes.active : null}
+            >
+              <ListItemButton sx={{ px: 0, py: 1.5 }}>
+                <ListItemIcon className={classes.icons}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText className={classes.text} primary={item.label} />
               </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+            </ListItem>
+          ))}
+        </List>
+        <Toolbar sx={{ justifyContent: "center" }}>
+          <Typography noWrap component="div" color="textSecondary">
+            {format(new Date(), "do MMMM Y")}
+          </Typography>
+        </Toolbar>
+      </Box>
     </Drawer>
   );
 };
