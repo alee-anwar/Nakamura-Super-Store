@@ -21,6 +21,9 @@ export default function AccountMenu() {
   const handleLogout = () => {
     navigate('/login')
   }
+  const handleAccount = () => {
+    navigate('/myaccount')
+  }
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -82,7 +85,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleAccount}>
           <ListItemIcon>
             <ManageAccountsRoundedIcon fontSize="small" />
           </ListItemIcon>
