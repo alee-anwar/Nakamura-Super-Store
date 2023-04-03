@@ -9,20 +9,20 @@ import DotsMenuBtn from "../components/DotsMenuBtn";
 const Customers = () => {
   const theme = useTheme();
   // const navigate = useNavigate();
-  const [orders, setOrders] = useState([]);
+  const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/products")
+    fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
-      .then((data) => setOrders(data));
+      .then((data) => setCustomers(data));
   }, []);
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:8000/products/" + id, {
+    await fetch("https://jsonplaceholder.typicode.com/users" + id, {
       method: "DELETE",
     });
-    const newOrders = orders.filter((order) => order.id !== id);
-    setOrders(newOrders);
+    const newCustomers = customers.filter((order) => order.id !== id);
+    setCustomers(newCustomers);
   };
 
   const columns = [
