@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../assets/blueicon.png";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "axios";
 
 const validationSchema = yup.object({
   email: yup.string().email("Invalid email address").required("Required"),
@@ -18,14 +19,29 @@ const validationSchema = yup.object({
 export default function SignIn() {
   const navigate = useNavigate();
 
+  const handleSignIn = async (values) => {
+    try {
+      const response = await axios.post("http://localhost:8000/admin", {
+        email: values.email,
+        password: values.password,
+      });
+      localStorage.setItem("accessToken", response.data.accessToken);
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: 
+    (values) => {
       console.log(values);
+      handleSignIn(values);
       navigate("/dashboard");
     },
   });
@@ -53,7 +69,7 @@ export default function SignIn() {
         <Box component="img" src={Logo} sx={{ height: 50, mb: 1 }} />
 
         <Typography variant="h1">Sign in</Typography>
-        <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={formik.handleSubmit} noValidate autoComplete="off" sx={{ mt: 1 }}>
           <TextField
             size="small"
             margin="normal"
@@ -62,8 +78,8 @@ export default function SignIn() {
             id="email"
             label="Email Address"
             name="email"
-            // autoComplete="email"
-            // autoFocus
+            autoComplete="email"
+            autoFocus
             value={formik.values.email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
