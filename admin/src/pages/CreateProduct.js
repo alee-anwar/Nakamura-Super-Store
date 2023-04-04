@@ -133,12 +133,7 @@ const CreateProduct = () => {
   return (
     <Box maxWidth={"md"} ml={20} mb={3}>
       <Box sx={theme.mixins.toolbar} />
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
+      <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Box sx={{ display: "flex" }} mb={3}>
           <Typography sx={{ flexGrow: 1 }} variant="h1">
             Add Product
