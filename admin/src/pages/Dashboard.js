@@ -1,6 +1,5 @@
 import React from "react";
-import Paper from "@mui/material/Paper";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 
 const Dashboard = () => {
