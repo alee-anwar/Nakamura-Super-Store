@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import AppbarSign from "./Appbar/AppbarSign";
 import { useTheme } from '@mui/material/styles';
 
