@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-    Avatar,
+  Avatar,
   Button,
-  Container,
   Divider,
   Grid,
   Paper,
@@ -13,13 +12,26 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const MyAccount = () => {
+  const [accountDetails, setAccountDetails] = useState({});
   const theme = useTheme();
   const navigate = useNavigate();
   const handleLogout = () => {
-    navigate('/login')
-  }
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/admin')
+      .then(response => setAccountDetails(response.data))
+      // .catch(error => console.log(error));
+  }, []);
+
+  // const handleChange = (event) => {
+  //   setAccountDetails({ ...accountDetails, [event.target.firstname]: event.target.value });
+  // };
+  console.log(accountDetails.firstName);
   return (
     <Box>
       <Box sx={theme.mixins.toolbar} />
@@ -29,7 +41,7 @@ const MyAccount = () => {
       <Box>
         <Paper sx={{ height: "auto", width: "100%", mt: 2 }}>
           <Grid container p={5}>
-            <Grid md={6}>
+            <Grid item md={6}>
               <Box component="form" noValidate autoComplete="off">
                 <Grid container spacing={2}>
                   <Grid item md={6}>
@@ -37,6 +49,8 @@ const MyAccount = () => {
                       size="small"
                       label="First Name"
                       fullWidth
+                      value={accountDetails.firstName}
+                      // onChange={handleChange}
                     ></TextField>
                   </Grid>
                   <Grid item md={6}>
@@ -44,22 +58,26 @@ const MyAccount = () => {
                       size="small"
                       label="Last Name"
                       fullWidth
+                      value={accountDetails.lastName}
+                      // onChange={handleChange}
+                      // onChange={(e) => setQuantity(e.target.value)}
                     ></TextField>
                   </Grid>
 
                   <Grid item md={6}>
                     <Stack spacing={2}>
-                      <TextField size="small" label="Email"></TextField>
-                      <TextField size="small" label="Phone"></TextField>
+                      <TextField size="small" label="Email"  value={accountDetails.email}></TextField>
+                      <TextField size="small" label="Phone"  value={accountDetails.phone}></TextField>
                     </Stack>
                   </Grid>
                 </Grid>
-                <Button variant="contained" sx={{ mt: 5 }}>
+                <Button type='submit' variant="contained" sx={{ mt: 5 }}>
                   Save Changes
                 </Button>
               </Box>
             </Grid>
             <Grid
+              item
               md={6}
               style={{
                 display: "flex",
@@ -68,8 +86,10 @@ const MyAccount = () => {
                 height: "auto",
               }}
             >
-              <Avatar alt="User Profile Picture" sx={{ width: 175, height: 175 }} />
-
+              <Avatar
+                alt="User Profile Picture"
+                sx={{ width: 175, height: 175 }}
+              />
             </Grid>
           </Grid>
           <Divider />
@@ -97,7 +117,7 @@ const MyAccount = () => {
                     fontSize: 12,
                     lineHeight: 0,
                   }}
-                  component="body2"
+                  variant="body"
                   color="textSecondary"
                 >
                   You can reset or change your password by clicking here
@@ -113,8 +133,8 @@ const MyAccount = () => {
                     Remove Account
                   </Typography>
                   <Button
-                    sx={{ color: "red", py: 0.1, px: 1 }}
-                    borderColor="error"
+                    sx={{ color: "red", py: 0.1, px: 1, borderColor:"error" }}
+                    
                   >
                     Deactivate
                   </Button>
@@ -125,7 +145,7 @@ const MyAccount = () => {
                     fontSize: 12,
                     lineHeight: 0,
                   }}
-                  component="body2"
+                  variant="body"
                   color="textSecondary"
                 >
                   Once you delete your account, there is no going back, please
@@ -135,7 +155,9 @@ const MyAccount = () => {
             </Grid>
           </Grid>
           <Box px={5} pb={6}>
-            <Button variant="contained" onClick={handleLogout}>Logout</Button>
+            <Button variant="contained" onClick={handleLogout}>
+              Logout
+            </Button>
           </Box>
         </Paper>
       </Box>
