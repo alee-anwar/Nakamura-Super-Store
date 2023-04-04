@@ -1,8 +1,8 @@
-import { Button, IconButton, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../components/DotsMenuBtn";
 
@@ -12,13 +12,13 @@ const Reviews = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/products")
+    fetch("http://localhost:3000/reviewList/viewReviews")
       .then((res) => res.json())
       .then((data) => setOrders(data));
   }, []);
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:8000/products/" + id, {
+    await fetch("http://localhost:3000/reviewList/viewReviews" + id, {
       method: "DELETE",
     });
     const newOrders = orders.filter((order) => order.id !== id);
