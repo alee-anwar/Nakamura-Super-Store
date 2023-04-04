@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Customers from "./pages/Customers";
@@ -11,9 +11,18 @@ import SignUp from "./pages/Signup";
 import CreateProduct from "./pages/CreateProduct";
 import LayoutSign from "./components/LayoutSign";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LayoutContainer from "./components/LayoutContainer";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import MyAccount from "./pages/MyAccount";
+// import { createStore } from "redux";
+// import { Provider } from "react-redux";
+// import rootReducer from "./reducers";
+
 const theme = createTheme({
   typography: {
     fontFamily: "Nunito",
@@ -29,70 +38,61 @@ const theme = createTheme({
     },
   },
 });
+
+// const initialState = {
+//   counter: 0,
+// };
+
+// function reducer(state = initialState, action) {
+//   switch (action.type) {
+//     case "INCREMENT":
+//       return { ...state, counter: state.counter + 1 };
+//     case "DECREMENT":
+//       return { ...state, counter: state.counter - 1 };
+//     default:
+//       return state;
+//   }
+// }
+
+// const store = createStore(reducer);
+
 function App() {
   const currentPath = window.location.pathname;
   const isLoginPage = currentPath === "/login";
   const isSignupPage = currentPath === "/signup";
 
+  // const store = createStore(reducer, initialState);
+
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        {isLoginPage || isSignupPage ? ( // render the new layout for login and signup pages
-          <LayoutSign>
-            <Routes>
-              <Route path="login" element={<SignIn />} />
-              <Route path="signup" element={<SignUp />} />
-            </Routes>
-          </LayoutSign>
-        ) : (
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Navigate to="dashboard" />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="products" element={<Products />} />
-              <Route path="customers" element={<Customers />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="reviews" element={<Reviews />} />
-              <Route path="transactions" element={<Transactions />} />
-              <Route path="createproduct" element={<CreateProduct />} />
-              <Route path="myaccount" element={<MyAccount />} />
-            </Routes>
-          </Layout>
-        )}
-      </BrowserRouter>
-    </ThemeProvider>
+    // <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          {isLoginPage || isSignupPage ? ( // render the new layout for login and signup pages
+            <LayoutSign>
+              <Routes>
+                <Route path="login" element={<SignIn />} />
+                <Route path="signup" element={<SignUp />} />
+              </Routes>
+            </LayoutSign>
+          ) : (
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Navigate to="dashboard" />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="products" element={<Products />} />
+                <Route path="customers" element={<Customers />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="reviews" element={<Reviews />} />
+                <Route path="transactions" element={<Transactions />} />
+                <Route path="createproduct" element={<CreateProduct />} />
+                <Route path="myaccount" element={<MyAccount />} />
+              </Routes>
+            </Layout>
+          )}
+        </BrowserRouter>
+      </ThemeProvider>
+    // </Provider>
   );
 }
 
 export default App;
-
-// const navigate = useNavigate();
-// const handleLogin = () => {
-//   navigate("/dashboard");
-// };
-
-// const handleSignup = () => {
-//   navigate("/dashboard");
-// };
-// <ThemeProvider theme={theme}>
-//   <BrowserRouter>
-//     <Routes>
-//       <Route path="/" element={<LayoutContainer />}>
-//         <Route element={<LayoutSign />}>
-//           <Route path="login" element={<SignIn />} />
-//           <Route path="signup" element={<SignUp />} />
-//         </Route>
-//         <Route element={<Layout />}>
-//           <Route path="/" element={<Navigate to="dashboard" />} />
-//           <Route path="dashboard" element={<Dashboard />} />
-//           <Route path="products" element={<Products />} />
-//           <Route path="customers" element={<Customers />} />
-//           <Route path="orders" element={<Orders />} />
-//           <Route path="reviews" element={<Reviews />} />
-//           <Route path="transactions" element={<Transactions />} />
-//           <Route path="createproduct" element={<CreateProduct />} />
-//         </Route>
-//       </Route>
-//     </Routes>
-//   </BrowserRouter>
-// </ThemeProvider>
