@@ -7,7 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import Logo from "../../assets/admin-logo.png";
 import { Box, Typography } from "@mui/material";
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const [selectedItem, setSelectedItem] = useState(null);
 
   // const handleListItemClick = (route) => {
@@ -106,7 +106,7 @@ const Navbar = () => {
         </List>
         <Toolbar sx={{ justifyContent: "center" }}>
           <Typography noWrap component="div" color="textSecondary">
-            {format(new Date(), "do MMMM Y")}
+            <i>{format(new Date(), "do MMMM Y")}</i>
           </Typography>
         </Toolbar>
       </Box>
