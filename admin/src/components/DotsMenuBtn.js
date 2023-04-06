@@ -3,10 +3,22 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
+import { useNavigate } from "react-router-dom";
 
 export default function DotsMenuBtn(props) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const setData = (data) => {
+    // let { title, id, description, category, price, status, date, subcategory, color, tag, image, quantity } = data;
+    Object.entries(data).forEach(([key, value]) => {
+      console.log(`"key" ${key} value: ${value}`)
+      localStorage.setItem(key, value);
+    });
+}
+
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -22,7 +34,7 @@ export default function DotsMenuBtn(props) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         disableRipple
-        sx={{p: 0}}
+        sx={{ p: 0 }}
       >
         <MoreHorizRoundedIcon />
       </Button>
@@ -35,13 +47,23 @@ export default function DotsMenuBtn(props) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem sx={{ py: 0.2 }} onClick={handleClose}>
+        <MenuItem
+          sx={{ py: 0.2 }}
+          onClick={() => {
+            // console.log(props.product)
+            setData(props.product)
+            navigate("/editproduct");
+          }}
+        >
           View
         </MenuItem>
-        <MenuItem sx={{ py: 0.2 }} onClick={handleClose}>
-          Edit
-        </MenuItem>
-        <MenuItem sx={{ py: 0.2 }} onClick={() => props.handleDelete(props.product)}>
+        <MenuItem
+          sx={{ py: 0.2 }}
+          onClick={() => {
+            // console.log(props.product.id);
+            props.handleDelete(props.product.id);
+          }}
+        >
           Delete
         </MenuItem>
       </Menu>
