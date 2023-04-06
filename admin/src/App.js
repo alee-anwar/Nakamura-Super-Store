@@ -3,12 +3,11 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Customers from "./pages/Customers";
 import Orders from "./pages/Orders";
-import Products from "./pages/Products";
 import Reviews from "./pages/Reviews";
 import Transactions from "./pages/Transactions";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Signup";
-import CreateProduct from "./pages/CreateProduct";
+import CreateProduct from "./pages/Products/CreateProduct";
 import LayoutSign from "./components/LayoutSign";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
@@ -19,6 +18,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import MyAccount from "./pages/MyAccount";
+import Products from "./pages/Products/Products";
+import EditProduct from "./pages/Products/EditProduct";
 // import { createStore } from "redux";
 // import { Provider } from "react-redux";
 // import rootReducer from "./reducers";
@@ -86,6 +87,7 @@ function App() {
                 <Route path="transactions" element={<Transactions />} />
                 <Route path="createproduct" element={<CreateProduct />} />
                 <Route path="myaccount" element={<MyAccount />} />
+                <Route path="editproduct" element={<EditProduct />} />
               </Routes>
             </Layout>
           )}
