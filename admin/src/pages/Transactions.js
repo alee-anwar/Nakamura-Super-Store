@@ -9,28 +9,28 @@ import DotsMenuBtn from "../components/DotsMenuBtn";
 const Transactions = () => {
   const theme = useTheme();
   // const navigate = useNavigate();
-  const [orders, setOrders] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/products")
+    fetch("http://localhost:3000/transactionList/viewTransaction")
       .then((res) => res.json())
-      .then((data) => setOrders(data));
+      .then((data) => setTransactions(data));
   }, []);
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:8000/products/" + id, {
+    await fetch("http://localhost:3000/transactionList/deleteTransaction/" + id, {
       method: "DELETE",
     });
-    const newOrders = orders.filter((order) => order.id !== id);
-    setOrders(newOrders);
+    const newTransactions = transactions.filter((transaction) => transaction.id !== id);
+    setTransactions(newTransactions);
   };
 
   const columns = [
-    { field: "id", headerName: "Transaction ID", width: 100 },
+    { field: "id", headerName: "Transaction ID", width: 200 },
     { field: "status", headerName: "Status", width: 150 },
-    { field: "oid", headerName: "OID", width: 150 },
-    { field: "name", headerName: "Name", width: 150 },
-    { field: "phone", headerName: "Phone#", width: 150 },
+    { field: "OID", headerName: "OID", width: 150 },
+    { field: "customerName", headerName: "Customer Name", width: 150 },
+    // { field: "phone", headerName: "Phone#", width: 150 },
     { field: "date", headerName: "Date", width: 150 },
     {
       field: "action",
@@ -42,12 +42,12 @@ const Transactions = () => {
     },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
-  const rows = orders.map((row) => ({
-    id: row.id,
+  const rows = transactions.map((row) => ({
+    id: row.transactionID,
     status: row.status,
-    oid: row.oid,
-    name: row.name,
-    phone: row.phone,
+    oid: row.OID,
+    name: row.customerName,
+    // phone: row.phone,
     date: row.date,
   }));
 
@@ -70,7 +70,7 @@ const Transactions = () => {
           rows={rows}
           columns={columns}
           initialState={{
-            ...orders.initialState,
+            ...transactions.initialState,
             pagination: { paginationModel: { pageSize: 9 } },
           }}
           pageSizeOptions={[9, 18, 36]}
