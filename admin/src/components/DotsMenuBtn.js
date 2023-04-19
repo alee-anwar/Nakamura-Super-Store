@@ -9,15 +9,24 @@ export default function DotsMenuBtn(props) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  // const [data, setData] = React.useState();
 
-  const setData = (data) => {
-    // let { title, id, description, category, price, status, date, subcategory, color, tag, image, quantity } = data;
-    Object.entries(data).forEach(([key, value]) => {
-      console.log(`"key" ${key} value: ${value}`)
-      localStorage.setItem(key, value);
-    });
-}
+  // const setData = (data) => {
+  //   // let { title, id, description, category, price, status, date, subcategory, color, tag, image, quantity } = data;
+  //   Object.entries(data).forEach(([key, value]) => {
+  //     console.log(`"key" ${key} value: ${value}`);
+  //     localStorage.setItem(key, value);
+  //   });
+  // };
 
+  // const handleEditClick = (id) => {
+  //   // find the product with matching id from the setData state
+  //   const product = setData.find((p) => p.id === id);
+  //   // store the product data in local storage
+  //   localStorage.setItem('editProduct', JSON.stringify(product));
+  //   // navigate to the edit page
+  //   navigate('/editproduct');
+  // }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,8 +59,8 @@ export default function DotsMenuBtn(props) {
         <MenuItem
           sx={{ py: 0.2 }}
           onClick={() => {
+            // handleEditClick(props.product.id)
             // console.log(props.product)
-            setData(props.product)
             navigate("/editproduct");
           }}
         >
@@ -62,6 +71,7 @@ export default function DotsMenuBtn(props) {
           onClick={() => {
             // console.log(props.product.id);
             props.handleDelete(props.product.id);
+            console.log(props.product.id)
           }}
         >
           Delete
