@@ -10,23 +10,29 @@ import Logo from "../assets/blueicon.png";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
+import PropTypes from 'prop-types';
 
 const validationSchema = yup.object({
   email: yup.string().email("Invalid email address").required("Required"),
   password: yup.string().required("Required"),
 });
 
-export default function SignIn() {
-  const navigate = useNavigate();
+export default function SignIn({setToken}) {
+  // const navigate = useNavigate();
 
   const handleSignIn = async (values) => {
+   
     try {
-      const response = await axios.post("http://localhost:8000/admin", {
+      const response =  await axios.post("http://localhost:3000/authUser/login", {
         email: values.email,
         password: values.password,
       });
-      localStorage.setItem("accessToken", response.data.accessToken);
-      navigate("/dashboard");
+      // console.log("handlesignin clicked")
+      console.log(response); // log the response object
+      localStorage.setItem("token", response.data.token);
+      // setToken(response.data.token)
+      // console.log(response.data.token)
+      // navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }
@@ -40,9 +46,9 @@ export default function SignIn() {
     validationSchema: validationSchema,
     onSubmit: 
     (values) => {
-      console.log(values);
+      // console.log(values);
       handleSignIn(values);
-      navigate("/dashboard");
+      // navigate("/dashboard");
     },
   });
 
@@ -112,4 +118,8 @@ export default function SignIn() {
       </Box>
     </Container>
   );
+}
+
+SignIn.propTypes = {
+  setToken: PropTypes.func.isRequired
 }
