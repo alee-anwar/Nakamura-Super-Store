@@ -10,27 +10,27 @@ const Customers = () => {
   const theme = useTheme();
   // const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
-
+  const [deleted, setDeleted] = useState(false);
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
+    fetch("http://localhost:3000/customerList/viewAllCustomers")
       .then((res) => res.json())
       .then((data) => setCustomers(data));
-  }, []);
+  }, [deleted]);
 
   const handleDelete = async (id) => {
-    await fetch("https://jsonplaceholder.typicode.com/users" + id, {
+    await fetch("http://localhost:3000/customerList/deleteCustomer/" + id, {
       method: "DELETE",
     });
-    const newCustomers = customers.filter((order) => order.id !== id);
+    const newCustomers = customers.filter((customer) => customer.id !== id);
     setCustomers(newCustomers);
+    setDeleted(true)
   };
 
   const columns = [
-    { field: "name", headerName: "Name", width: 100 },
-    { field: "phone", headerName: "Phone#", width: 250 },
+    { field: "id", headerName: "ID", width: 100 },
+    { field: "firstName", headerName: "First Name", width: 100 },
+    { field: "lastName", headerName: "Last Name", width: 100 },
     { field: "email", headerName: "Email", width: 150 },
-    { field: "password", headerName: "Password", width: 150 },
-    { field: "address", headerName: "Address", width: 150 },
     {
       field: "action",
       headerName: "Action",
@@ -42,16 +42,15 @@ const Customers = () => {
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = customers.map((row) => ({
-    id: row.id,
-    name: row.name,
-    phone: row.phone,
+    id: row._id,
+    firstName: row.firstName,
+    lastName: row.lastName,
     email: row.email,
-    passowrd: row.passowrd,
-    address: row.address,
+
   }));
 
   // console.log(products);
-
+  // const getRowId = (row) => row._id
   return (
     <Box>
       <Box sx={theme.mixins.toolbar} />
@@ -67,6 +66,7 @@ const Customers = () => {
       <div style={{ height: "78vh", width: "100%" }}>
         <DataGrid
           rows={rows}
+          // getRowId={(rows) => rows._id}
           columns={columns}
           initialState={{
             ...customers.initialState,
