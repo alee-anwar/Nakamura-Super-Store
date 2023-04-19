@@ -22,11 +22,11 @@ const MyAccount = () => {
     navigate("/login");
   };
 
-  useEffect(() => {
-    axios.get('http://localhost:8000/admin')
-      .then(response => setAccountDetails(response.data))
-      // .catch(error => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios.get('http://localhost:8000/admin')
+  //     .then(response => setAccountDetails(response.data))
+  //     // .catch(error => console.log(error));
+  // }, []);
 
   // const handleChange = (event) => {
   //   setAccountDetails({ ...accountDetails, [event.target.firstname]: event.target.value });
