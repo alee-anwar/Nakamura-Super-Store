@@ -19,13 +19,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
-
+import { parseISO } from "date-fns";
 const CreateProduct = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState("");
-  const [id, setID] = useState("");
+  const [productTitle, setProductTitle] = useState("");
+  const [SKU, setSKU] = useState("");
   const [description, setDescription] = useState("");
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -33,7 +33,7 @@ const CreateProduct = () => {
   const [status, setStatus] = useState("");
   const [date, setDate] = useState("");
   const [tag, setTag] = useState("");
-  const [image, setImage] = useState("");
+  const [testImage, setTestImage] = useState("");
   const [category, setCategory] = useState("");
   const [subcategory, setSubCategory] = useState("");
 
@@ -48,11 +48,19 @@ const CreateProduct = () => {
   const [categoryError, setCategoryError] = useState(false);
   const [subcategoryError, setSubCategoryError] = useState(false);
 
-  const categories = ["Biscuits", "Beverages", "Candy & Chocolate", "Chips & Pretzels", "Food", "Meat & Fish", "Snacks"];
+  const categories = [
+    "Biscuits",
+    "Beverages",
+    "Candy & Chocolate",
+    "Chips & Pretzels",
+    "Food",
+    "Meat & Fish",
+    "Snacks",
+  ];
 
   const body = {
-    title,
-    id,
+    productTitle,
+    SKU,
     description,
     category,
     price,
@@ -61,10 +69,10 @@ const CreateProduct = () => {
     subcategory,
     color,
     tag,
-    image,
+    testImage,
     quantity,
   };
-
+  console.log(testImage)
   const handleSubmit = (e) => {
     e.preventDefault();
     setTitleError(false);
@@ -73,10 +81,10 @@ const CreateProduct = () => {
     setCategoryError(false);
     setSubCategoryError(false);
 
-    if (title === "") {
+    if (productTitle === "") {
       setTitleError(true);
     }
-    if (id === "") {
+    if (SKU === "") {
       setIDError(true);
     }
     if (description === "") {
@@ -95,7 +103,7 @@ const CreateProduct = () => {
       setDateError(true);
     }
 
-    if (title && description && category) {
+    if (productTitle && description && category) {
       // fetch("http://localhost:8000/products", {
       //   method: "POST",
       //   headers: {
@@ -117,9 +125,9 @@ const CreateProduct = () => {
       //     console.error("Error posting data:", error);
       //   });
       axios
-        .post("http://localhost:8000/products", body, {
+        .post("http://localhost:3000/productList/postProduct", body, {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         })
         .then((response) => {
@@ -157,7 +165,7 @@ const CreateProduct = () => {
           </Button>
         </Box>
 
-        <Grid container spacing={2} display="flex" wrap>
+        <Grid container spacing={2} display="flex">
           <Grid container item spacing={2} direction="row" md={8}>
             <Grid item>
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
@@ -171,7 +179,7 @@ const CreateProduct = () => {
                       size="small"
                       required
                       error={idError}
-                      onChange={(e) => setID(e.target.value)}
+                      onChange={(e) => setSKU(e.target.value)}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -191,7 +199,7 @@ const CreateProduct = () => {
                       size="small"
                       required
                       error={titleError}
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => setProductTitle(e.target.value)}
                     />
                   </Grid>
 
@@ -239,14 +247,15 @@ const CreateProduct = () => {
                       margin="dense"
                     >
                       <MenuItem value="">None</MenuItem>
-                      <MenuItem value={"Activate"}>Activate</MenuItem>
-                      <MenuItem value={"Deactivate"}>Deactivate</MenuItem>
+                      <MenuItem value={"true"}>Activate</MenuItem>
+                      <MenuItem value={"false"}>Deactivate</MenuItem>
                     </TextField>
                   </Grid>
                   <Grid item md={6}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DatePicker
                         value={date}
+                        // value={date ? parseISO(date) : null}
                         onChange={(newValue) => setDate(newValue)}
                         sx={{
                           width: "100%",
@@ -279,11 +288,12 @@ const CreateProduct = () => {
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <Typography color="textSecondary">Images</Typography>
                 <TextField
+                  type='file'
                   margin="dense"
                   label="URL"
                   fullWidth
                   size="small"
-                  onChange={(e) => setImage(e.target.value)}
+                  onChange={(e) => setTestImage(e.target.files[0])}
                 />
               </Paper>
             </Grid>
