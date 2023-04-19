@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useTheme } from "@mui/material/styles";
+import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -10,134 +12,97 @@ import {
   FormLabel,
   Grid,
   MenuItem,
+  Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import { Paper } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import axios from "axios";
-import { parseISO } from "date-fns";
+import { Formik, Form, Field } from 'formik';
+
+const validationSchema = Yup.object().shape({
+  title: Yup.string().required("Title is required"),
+  id: Yup.string().required("ID is required"),
+  description: Yup.string().required("Description is required"),
+  category: Yup.string().required("Category is required"),
+  price: Yup.number().required("Price is required"),
+  status: Yup.string().required("Status is required"),
+  date: Yup.date().required("Date is required"),
+  subcategory: Yup.string().required("Subcategory is required"),
+  color: Yup.string().required("Color is required"),
+  tag: Yup.string().required("Tag is required"),
+  image: Yup.string().required("Image is required"),
+  quantity: Yup.number().required("Quantity is required"),
+});
+
+const initialValues = {
+  title: "",
+  id: "",
+  description: "",
+  category: "",
+  price: "",
+  status: "",
+  date: "",
+  subcategory: "",
+  color: "",
+  tag: "",
+  image: "",
+  quantity: "",
+};
+
+const categories = [
+  "Biscuits",
+  "Beverages",
+  "Candy & Chocolate",
+  "Chips & Pretzels",
+  "Food",
+  "Meat & Fish",
+  "Snacks",
+];
+
+const subcategories = [
+  { value: "Baking Needs", label: "Baking Needs" },
+  { value: "Baby Food", label: "Baby Food" },
+  { value: "Baby Care", label: "Baby Care" },
+  { value: "Canned Foods", label: "Canned Foods" },
+  { value: "Butter & Sour Cream", label: "Butter & Sour Cream" },
+  { value: "Instant Foods", label: "Instant Foods" },
+  { value: "Meat", label: "Meat" },
+  { value: "Liquid & UHT Milk", label: "Liquid & UHT Milk" },
+  { value: "Mineral Water", label: "Mineral Water" },
+  { value: "Oral Care", label: "Oral Care" },
+  { value: "Pulses & Chickpeas", label: "Pulses & Chickpeas" },
+];
+
+const onSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
+  try {
+    const response = await axios.put("http://localhost:8000/products", values);
+    console.log(response.data);
+    setStatus("Success");
+    resetForm();
+  } catch (error) {
+    console.error(error);
+    setStatus("Error");
+  } finally {
+    setSubmitting(false);
+  }
+};
 
 const EditProduct = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
-
-  const [title, setTitle] = useState("");
-  const [id, setID] = useState("");
-  const [description, setDescription] = useState("");
-  const [color, setColor] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
-  const [status, setStatus] = useState("");
-  const [date, setDate] = useState("");
-  const [tag, setTag] = useState("");
-  const [image, setImage] = useState("");
-  const [category, setCategory] = useState("");
-  const [subcategory, setSubCategory] = useState("");
-
-  useEffect(() => {
-    setID(localStorage.getItem("id"));
-    setTitle(localStorage.getItem("title"));
-    setImage(localStorage.getItem("image"));
-    setCategory(localStorage.getItem("category"));
-    setPrice(localStorage.getItem("price"));
-    setStatus(localStorage.getItem("status"));
-    setSubCategory(localStorage.getItem("subcategory"));
-    setColor(localStorage.getItem("color"));
-    setQuantity(localStorage.getItem("quantity"));
-    setDate(localStorage.getItem("date"));
-    setTag(localStorage.getItem("tag"));
-  }, []);
-
-  const categories = [
-    "Biscuits",
-    "Beverages",
-    "Candy & Chocolate",
-    "Chips & Pretzels",
-    "Food",
-    "Meat & Fish",
-    "Snacks",
-  ];
-
-  const subcategories = [
-    { value: "Baking Needs", label: "Baking Needs" },
-    { value: "Baby Food", label: "Baby Food" },
-    { value: "Baby Care", label: "Baby Care" },
-    { value: "Canned Foods", label: "Canned Foods" },
-    { value: "Butter & Sour Cream", label: "Butter & Sour Cream" },
-    { value: "Instant Foods", label: "Instant Foods" },
-    { value: "Meat", label: "Meat" },
-    { value: "Liquid & UHT Milk", label: "Liquid & UHT Milk" },
-    { value: "Mineral Water", label: "Mineral Water" },
-    { value: "Oral Care", label: "Oral Care" },
-    { value: "Pulses & Chickpeas", label: "Pulses & Chickpeas" },
-  ];
-
-  const [checkedItems, setCheckedItems] = useState({});
-
-  const handleChange = (event) => {
-    setCheckedItems({
-      ...checkedItems,
-      [event.target.value]: event.target.checked,
-    });
-  };
-
-  const body = {
-    title,
-    id,
-    description,
-    category,
-    price,
-    status,
-    date,
-    subcategory,
-    color,
-    tag,
-    image,
-    quantity,
-  };
-  // console.log(date);
-  // const handleUpdate = (e) => {
-  //   e.preventDefault();
-  //   if (title && description && category) {
-  //     axios
-  //       .post("http://localhost:8000/products", body, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       })
-  //       .then((response) => {
-  //         console.log("Data posted:", response.data);
-  //         navigate("/products");
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error posting data:", error);
-  //       });
-  //   }
-  // };
-
-  const updateAPIData = () => {
-    axios.put(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData/${id}`, body)
-    .then((response) => {
-      console.log("Data Updated", response.data);
-      navigate("/products")
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
+  const { values, errors, touched, handleBlur,handleChange, handleSubmit, isSubmitting } =
+    formik;
   return (
-    <Box maxWidth={"md"} ml={20} mb={3}>
-      <Box sx={theme.mixins.toolbar} />
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-        onSubmit={updateAPIData}
-      >
+    <form onSubmit={formik.handleSubmit}>
+      <Box maxWidth={"md"} ml={20} mb={3}>
+        <Box sx={theme.mixins.toolbar} />
         <Box sx={{ display: "flex" }} mb={3}>
           <Typography sx={{ flexGrow: 1 }} variant="h1">
             Edit Product
@@ -159,8 +124,11 @@ const EditProduct = () => {
                       fullWidth
                       size="small"
                       required
-                      value={id}
-                      onChange={(e) => setID(e.target.value)}
+                      value={formik.values.id}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.id && Boolean(formik.errors.id)}
+                      helperText={formik.touched.id && formik.errors.id}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -169,8 +137,6 @@ const EditProduct = () => {
                       label="Quantity"
                       fullWidth
                       size="small"
-                      value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
                     />
                   </Grid>
                   <Grid item md={12}>
@@ -180,8 +146,13 @@ const EditProduct = () => {
                       fullWidth
                       size="small"
                       required
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={formik.values.title}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.title && Boolean(formik.errors.title)
+                      }
+                      helperText={formik.touched.title && formik.errors.title}
                     />
                   </Grid>
 
@@ -191,8 +162,6 @@ const EditProduct = () => {
                       label="Color"
                       fullWidth
                       size="small"
-                      value={color}
-                      onChange={(e) => setColor(e.target.value)}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -201,8 +170,11 @@ const EditProduct = () => {
                       label="Tag"
                       fullWidth
                       size="small"
-                      value={tag}
-                      onChange={(e) => setTag(e.target.value)}
+                      value={values.tag}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.tag && Boolean(errors.tag)}
+                      helperText={touched.tag && errors.tag}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -212,8 +184,6 @@ const EditProduct = () => {
                       fullWidth
                       size="small"
                       required
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -222,8 +192,6 @@ const EditProduct = () => {
                       select
                       label="Status"
                       id="status"
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
                       fullWidth
                       size="small"
                       required
@@ -237,9 +205,14 @@ const EditProduct = () => {
                   <Grid item md={6}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DatePicker
-                        // value={date}
-                        value={date ? parseISO(date) : null}
-                        onChange={(e) => setDate(e.target.value)}
+                        // value={date ? parseISO(date) : null}
+                        // onChange={(e) => setDate(e.target.value)}
+                        value={values.date}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.date && Boolean(errors.date)}
+                        helperText={touched.date && errors.date}
+                        InputLabelProps={{ shrink: true }}
                         sx={{
                           width: "100%",
                           marginTop: 1,
@@ -262,22 +235,23 @@ const EditProduct = () => {
                   multiline
                   rows={7}
                   required
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.description &&
+                    Boolean(formik.errors.description)
+                  }
+                  helperText={touched.description && errors.description}
                 />
+              
+                {formik.touched.description && formik.errors.description}
               </Paper>
             </Grid>
             <Grid item md={12}>
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <Typography color="textSecondary">Images</Typography>
-                <TextField
-                  margin="dense"
-                  label="URL"
-                  fullWidth
-                  size="small"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                />
+                <TextField margin="dense" label="URL" fullWidth size="small" />
               </Paper>
             </Grid>
           </Grid>
@@ -287,13 +261,17 @@ const EditProduct = () => {
                 <FormControl required>
                   <FormLabel>Category</FormLabel>
                   <FormGroup
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                  // value={category}
+                  // onChange={(e) => setCategory(e.target.value)}
                   >
                     {categories.map((category) => (
                       <FormControlLabel
                         key={category}
-                        value={category}
+                        value={values.category}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.category && Boolean(errors.category)}
+                        helperText={touched.category && errors.category}
                         control={
                           <Checkbox
                             size="small"
@@ -318,8 +296,8 @@ const EditProduct = () => {
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <FormLabel>Sub Category</FormLabel>
                 <FormGroup
-                  value={subcategory}
-                  onChange={(e) => setSubCategory(e.target.value)}
+                // value={subcategory}
+                // onChange={(e) => setSubCategory(e.target.value)}
                 >
                   {subcategories.map((subcategory, index) => (
                     <FormControlLabel
@@ -330,8 +308,8 @@ const EditProduct = () => {
                           size="small"
                           disableRipple={true}
                           sx={{ color: "#757575" }}
-                          checked={checkedItems[subcategory.value] || false}
-                          onChange={handleChange}
+                          // checked={checkedItems[subcategory.value] || false}
+                          // onChange={handleChange}
                         />
                       }
                       label={
@@ -348,7 +326,7 @@ const EditProduct = () => {
           </Grid>
         </Grid>
       </Box>
-    </Box>
+    </form>
   );
 };
 
