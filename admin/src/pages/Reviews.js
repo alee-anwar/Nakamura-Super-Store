@@ -9,20 +9,20 @@ import DotsMenuBtn from "../components/DotsMenuBtn";
 const Reviews = () => {
   const theme = useTheme();
   // const navigate = useNavigate();
-  const [orders, setOrders] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:3000/reviewList/viewReviews")
       .then((res) => res.json())
-      .then((data) => setOrders(data));
+      .then((data) => setReviews(data));
   }, []);
 
   const handleDelete = async (id) => {
     await fetch("http://localhost:3000/reviewList/viewReviews" + id, {
       method: "DELETE",
     });
-    const newOrders = orders.filter((order) => order.id !== id);
-    setOrders(newOrders);
+    const newReviews = reviews.filter((review) => review.id !== id);
+    setReviews(newReviews);
   };
 
   const columns = [
@@ -42,7 +42,7 @@ const Reviews = () => {
     },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
-  const rows = orders.map((row) => ({
+  const rows = reviews.map((row) => ({
     id: row.id,
     sku: row.sku,
     product: row.product,
@@ -67,7 +67,7 @@ const Reviews = () => {
           rows={rows}
           columns={columns}
           initialState={{
-            ...orders.initialState,
+            ...reviews.initialState,
             pagination: { paginationModel: { pageSize: 9 } },
           }}
           pageSizeOptions={[9, 18, 36]}
