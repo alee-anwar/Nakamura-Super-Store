@@ -10,43 +10,46 @@ const Orders = () => {
   const theme = useTheme();
   // const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+  const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/products")
+    fetch("http://localhost:3000/orderList/viewOrders")
       .then((res) => res.json())
       .then((data) => setOrders(data));
-  }, []);
+  }, [deleted]);
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:8000/products/" + id, {
+    await fetch("http://localhost:3000/orderList/deleteOrder/" + id, {
       method: "DELETE",
     });
     const newOrders = orders.filter((order) => order.id !== id);
     setOrders(newOrders);
+    setDeleted(true)
   };
 
   const columns = [
     { field: "id", headerName: "OID", width: 100 },
-    { field: "name", headerName: "Name", width: 250 },
-    { field: "phone", headerName: "Phone#", width: 150 },
-    { field: "total", headerName: "Total", width: 150 },
+    { field: "customerName", headerName: "Name", width: 250 },
+    { field: "phoneNo", headerName: "Phone#", width: 150 },
+    { field: "totalPrice", headerName: "Total", width: 150 },
     { field: "status", headerName: "Status", width: 150 },
     { field: "date", headerName: "Date", width: 150 },
     {
       field: "action",
       headerName: "Action",
       renderCell: (params) => (
-        <DotsMenuBtn product={params.id} handleDelete={handleDelete}/>
+        // <DotsMenuBtn product={params.id} handleDelete={handleDelete}/>
+        <DotsMenuBtn product={params.row} handleDelete={handleDelete}/>
       ),
       width: 150,
     },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = orders.map((row) => ({
-    id: row.id,
-    name: row.name,
-    phone: row.phone,
-    total: row.total,
+    id: row.orderId,
+    customerName: row.customerName,
+    phoneNo: row.phoneNo,
+    totalPrice: row.totalPrice,
     status: row.status,
     date: row.date,
   }));
