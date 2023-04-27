@@ -12,6 +12,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <Box sx={{ height: "auto", background: "#262626", pb: 3, pt: 5, px: 5 }}>
@@ -74,9 +75,11 @@ const Footer = () => {
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   Home
                 </Typography>
+                <Link to='/catalogue'>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   Shop Now
                 </Typography>
+                </Link>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   Cart
                 </Typography>
