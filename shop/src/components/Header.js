@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Badge,
   Box,
   Divider,
   Drawer,
@@ -20,34 +21,9 @@ import Logo from "../assets/nakamura.png";
 import { categories } from "./allCategories";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import { Link } from "react-router-dom";
 
-// import { makeStyles } from "@mui/styles";
-
-
-// const categories = [
-//   "Groceries",
-//   "Household items",
-//   "Pet supplies",
-//   "Health & wellness",
-//   "Electronics",
-//   "Office & school supplies",
-//   "Clothing & accessories",
-//   "Kitchen & dining",
-//   "Automotive",
-//   "Home decor",
-// ];
-
-// const useStyles = makeStyles((theme) => ({
-//   active: {
-//     background: "#eaeffd",
-//     color: theme.palette.primary.main,
-//     "& .MuiListItemIcon-root": {
-//       color: theme.palette.primary.main,
-//     },
-//   }
-// }));
-const Header = () => {
-
+const Header = ({ cart, wishlist }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
@@ -60,10 +36,15 @@ const Header = () => {
     setIsDrawerOpen(false);
   };
 
-  // const handleClick = (item) => {
-  //   setSelectedItem(item.id);
-  //   navigate(item.route);
-  // };
+  function notificationsLabel(count) {
+    if (count === 0) {
+      return "no notifications";
+    }
+    if (count > 99) {
+      return "more than 99 notifications";
+    }
+    return `${count} notifications`;
+  }
 
   return (
     <AppBar elevation={1}>
@@ -76,16 +57,31 @@ const Header = () => {
           <MenuIcon color="primary" />
         </IconButton>
         <Box sx={{ flexGrow: 1 }}>
-          <Box component="img" sx={{ height: 50 }} alt="shop logo" src={Logo} />
+          <Link to="/">
+            <Box
+              component="img"
+              sx={{ height: 50 }}
+              alt="shop logo"
+              src={Logo}
+            />
+          </Link>
         </Box>
-        <SearchBar/>
+        <SearchBar />
         <Box>
           <IconButton disableRipple>
+            <Link to='/wishlist'>
+          <Badge badgeContent={"1"} color="primary">
             <FavoriteBorderRoundedIcon color="primary" />
+            </Badge>
+            </Link>
           </IconButton>
-          <IconButton disableRipple>
-            <ShoppingCartRoundedIcon color="primary" />
+
+          <IconButton disableRipple aria-label={notificationsLabel("100")}>
+            <Badge badgeContent={"1"} color="primary">
+              <ShoppingCartRoundedIcon color="primary" />
+            </Badge>
           </IconButton>
+
           <IconButton disableRipple>
             <PersonRoundedIcon color="primary" />
           </IconButton>
@@ -97,7 +93,7 @@ const Header = () => {
           color="primary"
         >
           {categories.map((category) => (
-            <List disablePadding>
+            <List disablePadding key={category.id}>
               <ListItemButton
                 disableRipple
                 disableGutters
@@ -128,11 +124,7 @@ const Header = () => {
         <Divider />
         <List>
           {categories.map((category) => (
-            <ListItem
-              key={category.id}
-              onClick={handleDrawerClose}
-              // className={item.id === selectedItem ? classes.active : null}
-            >
+            <ListItem key={category.id} onClick={handleDrawerClose}>
               <ListItemText primary={category.label} />
             </ListItem>
           ))}
