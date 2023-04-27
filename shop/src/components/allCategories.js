@@ -25,27 +25,27 @@ export const categories = [
         route: 'electronics',
     },
     {
-        id: 4,
+        id: 5,
         label: 'Office & School Supplies',
         route: 'office&schoolsupplies',
     },
     {
-        id: 4,
+        id: 6,
         label: 'Clothing & accessories',
         route: 'clothing&accessories',
     },
     {
-        id: 4,
+        id: 7,
         label: 'Kitchen & dining',
         route: 'kitchen&dining',
     },
     {
-        id: 4,
+        id: 8,
         label: 'Automotive',
         route: 'automotive',
     },
     {
-        id: 4,
+        id: 9,
         label: 'Home Decor',
         route: 'homedecor',
     },
