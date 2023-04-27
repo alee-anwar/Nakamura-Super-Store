@@ -1,11 +1,31 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import Banner from '../components/Banner'
+import React from "react";
+import Banner from "../components/Banner";
+import FeaturedItemsComponent from "../components/FeaturedItems";
+import { Container } from "@mui/material";
+import ShopByCategories from "../components/ShopByCategories";
+import FreshItems from "../components/FreshItems";
 
-const Home = () => {
+const Home = ({ cart, setCart, wishlist, setWishlist }) => {
   return (
-    <Banner/>
-  )
-}
+    <>
+      <Banner />
+      <Container maxWidth= 'lg'>
+        <ShopByCategories />
+        <FeaturedItemsComponent
+          cart={cart}
+          setCart={setCart}
+          wishlist={wishlist}
+          setWishlist={setWishlist}
+        />
+         <FreshItems
+          cart={cart}
+          setCart={setCart}
+          wishlist={wishlist}
+          setWishlist={setWishlist}
+        />
+      </Container>
+    </>
+  );
+};
 
-export default Home
+export default Home;
