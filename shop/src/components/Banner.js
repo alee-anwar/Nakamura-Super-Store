@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import MyButton from "./MyButton";
+import MyButton from "./reuseableComponents/MyButton";
 
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
@@ -15,15 +15,14 @@ import img5 from "../assets/img/woman-holding-grocery-shopping-bag-full.jpg";
 
 const images = [
   {
-    url: img3,
-    alt: "man caring grocery bag",
-    heading: "Looking for Good Quality Ingridient?",
-  },
-
-  {
     url: img2,
     alt: "paper-bag-and-different-food-isolated",
     heading: "Grocery shopping has never been this fun!",
+  },
+  {
+    url: img3,
+    alt: "man caring grocery bag",
+    heading: "Looking for Good Quality Ingridient?",
   },
 
   {
@@ -66,11 +65,6 @@ const GradientOverlay = styled.div`
   height: 100%;
   z-index: 1;
 `;
-// const HeroContainer = styled.div`
-//   white-space: nowrap;
-//   transition: transform 0.3s;
-//   transform: translateX(-100%);
-// `;
 const HeroItem = styled.div`
   width: 100%;
   height: 100%;
@@ -85,20 +79,14 @@ const TextContainer = styled.div`
   width: 512px;
   color: #fff;
   font-size: 25px;
-  height: 154px;
-  top: 180px;
+  height: 160px;
+  top: 200px;
   left: 150px;
   row-gap: 3rem;
   z-index: 2;
   & h1 {
     font-weight: 700;
-    // line-height: 76.8px;
-    // color: var(--light-text-color);
-    margin-bottom: 3.5rem;
-  }
-  & a {
-    // color: var(--light-text-color);
-    // font-size: var(--normal-size);
+    margin-bottom: 2rem;
   }
 `;
 const Right = styled.div`
@@ -152,16 +140,16 @@ const Left = styled.div`
   }
 `;
 
-const Slider = styled.section`
-  top: 100px;
-  overflow: hidden;
-  position: relative;
-  height: 796px;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Slider = styled.section`
+//   top: 100px;
+//   overflow: hidden;
+//   position: relative;
+//   height: 796px;
+//   width: 100vw;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const slider = {
   opacity: "1",
@@ -240,8 +228,8 @@ const Banner = () => {
                       {image.heading}
                     </motion.h1>
                     <Link to="/catalogue">
-                      <MyButton onClick={() => alert("Button clicked!")}>
-                        <a>Find Products</a>
+                      <MyButton>
+                        Find Products
                       </MyButton>
                     </Link>
                   </TextContainer>
