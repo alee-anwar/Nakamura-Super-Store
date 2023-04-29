@@ -36,7 +36,7 @@ const FilterSidebar = () => {
   };
 
   return (
-    <Paper  elevation={2} width='256px' style={{ padding: '16px', width:'auto' }}>
+    <Paper  elevation={2} style={{ padding: '16px', width:'auto', height:'auto'}}>
     <FormControl component="fieldset" p={2}>
       <Typography variant="h6">Departments</Typography>
       <FormGroup>
