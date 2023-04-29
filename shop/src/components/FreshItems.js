@@ -26,12 +26,16 @@ const Vegetables = [
   {
     id: 98162,
     title: "Birds Eye Mixed Vegetables, 16 oz",
+    price: 1000,
+    qty: "250g",
     image: "https://spoonacular.com/productImages/98162-312x231.jpeg",
     imageType: "jpeg",
   },
   {
     id: 13333,
     title: "Del Monte Mixed Vegetables, 8.25 oz",
+    price: 1000,
+    qty: "250g",
     image: "https://spoonacular.com/productImages/13333-312x231.jpeg",
     imageType: "jpeg",
   },
@@ -40,6 +44,8 @@ const Vegetables = [
     title: "Del Monte Mixed Vegetables With Potatoes, 29 Oz",
     image: "https://spoonacular.com/productImages/76119-312x231.jpeg",
     imageType: "jpeg",
+    price: 1000,
+    qty: "250g",
   },
   {
     id: 197185,
@@ -98,6 +104,8 @@ const Vegetables = [
     title: "(6 Pack) Great Value Mixed Vegetables, 15 Oz",
     image: "https://spoonacular.com/productImages/639565-312x231.jpeg",
     imageType: "jpeg",
+    price: 1000,
+    qty: "250g",
   },
 ];
 
@@ -120,7 +128,7 @@ const responsive = {
   },
 };
 
-const FreshItems = ({ Cart, setCart, wishlist, setWishlist }) => {
+const FreshItems = ({ cart, setCart, wishlist, setWishlist }) => {
   return (
     <Box py={2}>
       <Box display="flex">
@@ -162,7 +170,7 @@ const FreshItems = ({ Cart, setCart, wishlist, setWishlist }) => {
               price={item.price}
               qty={item.qty}
               title={item.title}
-              Cart={Cart}
+              cart={cart}
               setCart={setCart}
               wishlist={wishlist}
               setWishlist={setWishlist}
