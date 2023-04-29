@@ -1,20 +1,29 @@
 import React from "react";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import FilterSidebar from "../components/FilterSidebar";
+import PaginatedItems from "../components/PaginatedItems";
 
-
-const Catalogue = () => {
+const Catalogue = ({ cart, setCart, wishlist, setWishlist }) => {
   return (
-    <Box pt={5}>
-      <Container maxWidth="lg">
-        <BreadcrumbsComponent name={"Catalogue"} path={"/catalogue"} />
-        <Box sx={{display: 'flex', mt: 3}}>
+    <Container maxWidth="lg" disableGutters sx={{ pt: 5 }}>
+      <BreadcrumbsComponent name={"Catalogue"} path={"/catalogue"} />
+      <Grid container columns={14} spacing={2} mt={2}>
+        <Grid item xs={14} md={3}>
           <FilterSidebar />
-          <Box m={2}>Catalogue</Box>
-        </Box>
-      </Container>
-    </Box>
+        </Grid>
+        <Grid item xs={14} md={11}>
+          <PaginatedItems
+            cart={cart}
+            setCart={setCart}
+            wishlist={wishlist}
+            setWishlist={setWishlist}
+            text={"Explore our Catalogue"}
+            sx={{ flex: "1 1 auto" }}
+          />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
