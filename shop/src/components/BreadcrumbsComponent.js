@@ -37,13 +37,12 @@ export default function BreadcrumbsComponent({ name, path }) {
       <Breadcrumbs aria-label="breadcrumb">
         <Link to="/">
           <StyledBreadcrumb
-            component="a"
             label="Home"
             icon={<HomeIcon color="primary" fontSize="small" />}
           />
         </Link>
         <Link to={path}>
-          <StyledBreadcrumb component="a" label={name} />
+          <StyledBreadcrumb label={name} />
         </Link>
       </Breadcrumbs>
     </div>
