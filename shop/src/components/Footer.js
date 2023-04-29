@@ -23,7 +23,7 @@ const Footer = () => {
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
                 Customer Service
               </Typography>
-              <Stack spacing={0.1}>
+              <Stack spacing={0.5}>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   My Account
                 </Typography>
@@ -47,7 +47,7 @@ const Footer = () => {
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
                 Help & Information
               </Typography>
-              <Stack spacing={0.1}>
+              <Stack spacing={0.5}>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   About Us
                 </Typography>
@@ -71,7 +71,7 @@ const Footer = () => {
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
                 Quick Links
               </Typography>
-              <Stack spacing={0.1}>
+              <Stack spacing={0.5}>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   Home
                 </Typography>
@@ -92,8 +92,8 @@ const Footer = () => {
         </Grid>
       </Container>
       <Divider sx={{ bgcolor: '#fff' }} flexItem/>
-      <Grid container pt={3}>
-        <Grid item md={6} sm={12}  xs={12}>
+      <Grid container pt={3} >
+        <Grid item md={6} sm={6}  xs={12}>
           <Box
             component="img"
             sx={{ height: 72, justifyContent: "center", alignItems: "center" }}
@@ -101,7 +101,7 @@ const Footer = () => {
             src={Logo}
           />
         </Grid>
-        <Grid item md={6} sm={12}  xs={12}>
+        <Grid item md={6} sm={6}  xs={12}>
           <Stack height='100%' alignItems='center' color="#fff" direction="row-reverse" spacing={1} pt={1}>
             <PinterestIcon />
             <InstagramIcon />
