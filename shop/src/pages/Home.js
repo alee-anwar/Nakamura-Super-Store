@@ -18,9 +18,7 @@ const Home = ({ cart, setCart, wishlist, setWishlist }) => {
           setWishlist={setWishlist}
         />
          <FreshItems
-          cart={cart}
           setCart={setCart}
-          wishlist={wishlist}
           setWishlist={setWishlist}
         />
       </Container>
