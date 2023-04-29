@@ -69,10 +69,10 @@ const Header = ({ cart, wishlist }) => {
         <SearchBar />
         <Box>
           <IconButton disableRipple>
-            <Link to='/wishlist'>
-          <Badge badgeContent={"1"} color="primary">
-            <FavoriteBorderRoundedIcon color="primary" />
-            </Badge>
+            <Link to="/wishlist">
+              <Badge badgeContent={wishlist.length} color="primary">
+                <FavoriteBorderRoundedIcon color="primary" />
+              </Badge>
             </Link>
           </IconButton>
 
