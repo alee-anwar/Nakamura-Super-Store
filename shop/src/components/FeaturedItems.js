@@ -10,6 +10,7 @@ const bestSellers = [
   {
       "id": 152500,
       "title": "Fusion Gourmet Balis Best  Tea Candy, 42 ea",
+      "qty": '250g',
       "image": "https://spoonacular.com/productImages/152500-312x231.jpeg",
       "imageType": "jpeg"
   },
@@ -82,7 +83,7 @@ const responsive = {
   },
 };
 
-const FeaturedItems = ({ Cart, setCart, wishlist, setWishlist }) => {
+const FeaturedItems = ({ cart, setCart, wishlist, setWishlist }) => {
   return (
     <Box py={2}>
       <Box display="flex">
@@ -119,12 +120,7 @@ const FeaturedItems = ({ Cart, setCart, wishlist, setWishlist }) => {
         {bestSellers.map((item) => {
           return (
             <ProductCard
-              key={item.id}
-              image={item.image}
-              price={item.price}
-              qty={item.qty}
-              title={item.title}
-              Cart={Cart}
+              cart={cart}
               setCart={setCart}
               wishlist={wishlist}
               setWishlist={setWishlist}
