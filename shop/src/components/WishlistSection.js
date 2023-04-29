@@ -4,9 +4,9 @@ import { Container, Grid, Typography } from "@mui/material";
 
 const WishlistSection = ({ wishlist, setWishlist, setCart }) => {
   // Remove item from wishlist
-  const removeFromWishlist = (item) => {
-    setWishlist((prev) => prev.filter((element) => element.id !== item.id));
-  };
+  // const removeFromWishlist = (item) => {
+  //   setWishlist((prev) => prev.filter((element) => element.id !== item.id));
+  // };
 
   return (
     <>
@@ -22,7 +22,7 @@ const WishlistSection = ({ wishlist, setWishlist, setCart }) => {
                 setCart={setCart}
                 setWishlist={setWishlist}
                 wishlist={wishlist}
-                removeFromWishlist={removeFromWishlist}
+                // removeFromWishlist={removeFromWishlist}
                 showRemoveButton={true}
               />
             </Grid>
