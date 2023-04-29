@@ -5,24 +5,28 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { Stack } from "@mui/material";
-import Checkbox from '@mui/material/Checkbox';
+import { Skeleton, Stack } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+
 const ProductCard = (props) => {
-  const { image, price, qty, title, setWishlist, item, setCart } = props;
+  // const imageurl = 'https://spoonacular.com/productImages/214795-312x231.jpeg'
+  const { setWishlist, item, setCart } = props;
+
   const [inCart, setInCart] = useState(true);
+
   const [quantity, setQuantity] = useState(1);
 
-  const handleQuantityChange = (event) => {
-    setQuantity(parseInt(event.target.value));
-  };
+  // const handleQuantityChange = (event) => {
+  //   setQuantity(parseInt(event.target.value));
+  // };
 
-  const handleAddToCartClick = () => {
-    // Add the product to the cart
-  };
+  // const handleAddToCartClick = () => {
+  //   // Add the product to the cart
+  // };
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -33,12 +37,12 @@ const ProductCard = (props) => {
           onClick={(e) => handleWishlistClick(e)}
           className="wishlist--icon"
           {...label}
-          icon={<FavoriteBorderRoundedIcon color="primary"/>}
+          icon={<FavoriteBorderRoundedIcon color="primary" />}
           checkedIcon={<FavoriteRoundedIcon />}
           disableRipple
           sx={{
-            display: 'flex',
-            justifyContent: 'flex-end' 
+            display: "flex",
+            justifyContent: "flex-end",
             // "&.Mui-checked": {
             //   color: "green",
             // },
@@ -48,51 +52,55 @@ const ProductCard = (props) => {
     );
   }
 
+  //  ============= Remove from wishlist  ==================
   const handleWishlistClick = (e) => {
     if (e.target.checked) {
-      setWishlist(prev => [...prev, prev.id === item.id ? null : item])
+      setWishlist((prev) => [...prev, prev.id === item.id ? null : item]);
     } else {
-      setWishlist(prev => prev.filter(element => element.id !== item.id))
+      setWishlist((prev) => prev.filter((element) => element.id !== item.id));
     }
-  }
+  };
 
   const addToCart = () => {
-    setCart(prev => {
+    setCart((prev) => {
       // check if item is already in cart
       if (prev.includes(item)) {
         return prev;
       } else {
-        return [...prev, item]
+        return [...prev, item];
       }
     });
     setInCart(() => !inCart);
-  }
+  };
 
   const removeFromCart = () => {
-    setCart(prev => prev.filter(element => element.id !== item.id));
+    setCart((prev) => prev.filter((element) => element.id !== item.SKU));
     setInCart(() => !inCart);
-  }
+  };
 
   return (
-    <Card sx={{ maxWidth: 216, p: 2 }}>
-     
+    <Card sx={{ maxWidth: 200, p: 2 }}>
       <CardMedia
         sx={{ py: 1 }}
         component="img"
         height="auto"
-        alt={title}
-        image={image}
+        alt={item.productTitle}
+        image={item.image}
         p={15}
       />
-       <Box> {wishlistIcon() }</Box>
+      <Box> {wishlistIcon()}</Box>
       <CardContent sx={{ p: 0 }}>
         <Stack direction="row" justifyContent="space-between" sx={{ py: 2 }}>
           <Typography variant="subtitle">
-            {typeof price === "number" ? `Rs ${price.toFixed(2)}` : "NAN"}
+            {typeof item.price === "number"
+              ? `Rs ${item.price.toFixed(2)}`
+              : <Skeleton width={60} height={30} />}
           </Typography>
-          <Typography variant="subtitle">{qty}</Typography>
+          <Typography variant="subtitle">
+            {item.quantity === "string" ? item.quantity : <Skeleton width={60} height={30} />}
+          </Typography>
         </Stack>
-        <Box display="flex" sx={{ alignContent: "flex-start" }}>
+        <Box  sx={{ display:"flex", alignContent: "flex-start", justifyContent: "space-between" }}>
           <Typography
             lineHeight={1.1}
             noWrap={false}
@@ -109,7 +117,7 @@ const ProductCard = (props) => {
               fontWeight: "500",
             }}
           >
-            {title}
+            {item.productTitle === "string" ? item.productTitle : <Skeleton width={100} height={30} />}
           </Typography>
           <Button
             variant="contained"
@@ -130,7 +138,9 @@ const ProductCard = (props) => {
               },
             }}
           >
-            <Box className="add" sx={{fontWeight: 500}}>Add</Box>
+            <Box className="add" sx={{ fontWeight: 500 }}>
+              Add
+            </Box>
             <ShoppingCartCheckoutRoundedIcon
               className="cart"
               sx={{
@@ -139,7 +149,7 @@ const ProductCard = (props) => {
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 opacity: 0,
-                transition: "opacity 0.9s ease-in-out",
+                transition: "opacity 0.2s ease-in-out",
               }}
             />
           </Button>
