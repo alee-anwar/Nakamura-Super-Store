@@ -17,6 +17,7 @@ const ProductCard = (props) => {
   const { setWishlist, item, setCart } = props;
 
   const [inCart, setInCart] = useState(true);
+  const [inWishlist, setInWishlist] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
 
@@ -39,13 +40,11 @@ const ProductCard = (props) => {
           {...label}
           icon={<FavoriteBorderRoundedIcon color="primary" />}
           checkedIcon={<FavoriteRoundedIcon />}
+          // checked={inWishlist}
           disableRipple
           sx={{
             display: "flex",
             justifyContent: "flex-end",
-            // "&.Mui-checked": {
-            //   color: "green",
-            // },
           }}
         />
       </div>
@@ -55,11 +54,23 @@ const ProductCard = (props) => {
   //  ============= Remove from wishlist  ==================
   const handleWishlistClick = (e) => {
     if (e.target.checked) {
-      setWishlist((prev) => [...prev, prev.id === item.id ? null : item]);
+      setWishlist((prev) => [...prev, prev.id === item._id ? null : item]);
     } else {
-      setWishlist((prev) => prev.filter((element) => element.id !== item.id));
+      setWishlist((prev) => prev.filter((element) => element._id !== item._id));
     }
   };
+
+  // const handleWishlistClick = (e) => {
+  //   const checked = e.target.checked;
+
+  //   if (checked) {
+  //     setWishlist((prev) => [...prev, item]);
+  //   } else {
+  //     setWishlist((prev) => prev.filter((element) => element._id !== item._id));
+  //   }
+
+  //   setInWishlist(checked);
+  // };
 
   const addToCart = () => {
     setCart((prev) => {
@@ -74,7 +85,7 @@ const ProductCard = (props) => {
   };
 
   const removeFromCart = () => {
-    setCart((prev) => prev.filter((element) => element.id !== item.SKU));
+    setCart((prev) => prev.filter((element) => element._id !== item._id));
     setInCart(() => !inCart);
   };
 
@@ -97,7 +108,7 @@ const ProductCard = (props) => {
               : <Skeleton width={60} height={30} />}
           </Typography>
           <Typography variant="subtitle">
-            {item.quantity === "string" ? item.quantity : <Skeleton width={60} height={30} />}
+            {item.quantity === "" ? <Skeleton width={60} height={30} /> : item.quantity }
           </Typography>
         </Stack>
         <Box  sx={{ display:"flex", alignContent: "flex-start", justifyContent: "space-between" }}>
@@ -117,7 +128,7 @@ const ProductCard = (props) => {
               fontWeight: "500",
             }}
           >
-            {item.productTitle === "string" ? item.productTitle : <Skeleton width={100} height={30} />}
+            {item.productTitle === "" ? <Skeleton width={100} height={30} /> : item.productTitle}
           </Typography>
           <Button
             variant="contained"
