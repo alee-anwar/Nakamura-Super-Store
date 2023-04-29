@@ -140,17 +140,6 @@ const Left = styled.div`
   }
 `;
 
-// const Slider = styled.section`
-//   top: 100px;
-//   overflow: hidden;
-//   position: relative;
-//   height: 796px;
-//   width: 100vw;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
 const slider = {
   opacity: "1",
   transition: "all 0s ease",
@@ -184,12 +173,12 @@ const Banner = () => {
     <Hero>
       {/* Right and left Arrows */}
       <Left onClick={prevSlide}>
-        {" "}
-        <ArrowBackIosNewRoundedIcon />{" "}
+      
+        <ArrowBackIosNewRoundedIcon />
       </Left>
       <Right onClick={nextSlide}>
-        {" "}
-        <ArrowForwardIosRoundedIcon />{" "}
+        
+        <ArrowForwardIosRoundedIcon />
       </Right>
 
       <GradientOverlay></GradientOverlay>
