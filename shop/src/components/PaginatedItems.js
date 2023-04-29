@@ -179,7 +179,7 @@ function PaginatedItems({ text, cart, setCart, wishlist, setWishlist }) {
     <div>
       <Grid container columns={12} spacing={1}>
         {products.map((item) => (
-          <Grid item xs={6} sm={4} md={4} lg={3} key={item.id}>
+          <Grid item xs={6} sm={4} md={4} lg={3} key={item._id}>
             <ProductCard
               cart={cart}
               setCart={setCart}
