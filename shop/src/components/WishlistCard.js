@@ -11,55 +11,69 @@ import {
   IconButton,
 } from "@mui/material";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-const WishlistCard = ({ setCart, setWishlist, wishlist, item }) => {
-  const [inCart, setInCart] = useState(false);
+const WishlistCard = ({
+  setWishlist,
+  item,
+  cartItems,
+  setCartItems,
+  setTotalCost,
+}) => {
+  const isItemInCart = cartItems?.some((cartItem) => cartItem._id === item._id);
+
+  const btnText = isItemInCart ? "Remove" : "Add";
 
   // Remove item from wishlist
   const removeFromWishlist = () => {
-    setWishlist((prev) => prev.filter((element) => element.id !== item.id));
+    setWishlist((prev) => prev.filter((element) => element._id !== item._id));
   };
 
   // Add to cart
-  const addToCart = () => {
-    setCart((prev) => {
-      if (prev.includes(item)) {
-        return prev;
-      } else {
-        return [...prev, item];
-      }
-    });
-    setInCart((prev) => !prev);
+  const handleAddToCart = () => {
+    setCartItems((prevCartItems) => [...prevCartItems, item]);
+    setTotalCost((prevTotalCost) => prevTotalCost + item.price);
+  };
+
+  const handleRemoveFromCart = () => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.filter((cartItem) => cartItem._id !== item._id)
+    );
+    setTotalCost((prevTotalCost) => prevTotalCost - item.price);
   };
 
   return (
-    <Card sx={{ maxWidth: 200 }}>
-      <Box  sx={{display: 'flex', justifyContent: 'flex-end'}}>
-      <IconButton disableRipple onClick={removeFromWishlist} aria-label="delete">
-        <CloseRoundedIcon fontSize='small' color="error"/>
-      </IconButton>
+    <Card sx={{ maxWidth: 180, px: 2, mb: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <IconButton
+          disableRipple
+          onClick={removeFromWishlist}
+          aria-label="delete"
+        >
+          <CloseRoundedIcon fontSize="small" />
+        </IconButton>
       </Box>
       <CardMedia
         component="img"
-        height="auto"
+        height="180px"
         image={item.image}
         alt={item.title}
+        style={{ objectFit: "fill" }}
       />
-      <CardContent>
+      <CardContent sx={{ p: 0 }}>
         <Stack direction="row" justifyContent="space-between" sx={{ py: 2 }}>
           <Typography variant="subtitle">
             {typeof item.price === "number" ? (
-              `Rs ${item.price.toFixed(2)}`
+              `Rs ${item.price?.toFixed(2)}`
             ) : (
               <Skeleton width={60} height={30} />
             )}
           </Typography>
           <Typography variant="subtitle">
-            {item.quantity === "string" ? (
-              item.quantity
-            ) : (
+            {item.quantity === "" ? (
               <Skeleton width={60} height={30} />
+            ) : (
+              item.size
             )}
           </Typography>
         </Stack>
@@ -86,17 +100,16 @@ const WishlistCard = ({ setCart, setWishlist, wishlist, item }) => {
               fontWeight: "500",
             }}
           >
-            {item.productTitle === "string" ? (
-              item.productTitle
-            ) : (
+            {item.productTitle === "" ? (
               <Skeleton width={100} height={30} />
+            ) : (
+              item.productTitle
             )}
           </Typography>
           <Button
             variant="contained"
-            onClick={addToCart}
-            color={inCart ? "success" : "primary"}
-            disabled={inCart}
+            onClick={isItemInCart ? handleRemoveFromCart : handleAddToCart}
+            aria-label={isItemInCart ? "Remove from cart" : "Add to cart"}
             ml={1}
             sx={{
               height: 32,
@@ -114,9 +127,13 @@ const WishlistCard = ({ setCart, setWishlist, wishlist, item }) => {
               },
             }}
           >
-            <Box className="add" sx={{ fontWeight: 500 }}>
-              Add
-            </Box>
+            <Typography
+              variant="body2"
+              className="add"
+              sx={{ fontWeight: 500 }}
+            >
+              {btnText}
+            </Typography>
             <ShoppingCartCheckoutRoundedIcon
               className="cart"
               sx={{
@@ -130,7 +147,6 @@ const WishlistCard = ({ setCart, setWishlist, wishlist, item }) => {
             />
           </Button>
         </Box>
-        {/* {inCart ? "Added to Cart" : "Add to Cart"} */}
       </CardContent>
     </Card>
   );
