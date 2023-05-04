@@ -11,107 +11,94 @@ import Checkbox from "@mui/material/Checkbox";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import { Link } from "react-router-dom";
+import AddToCartBtn from "./AddToCartBtn";
+import WishlistBtn from "./WishlistBtn";
 
 const ProductCard = (props) => {
-  // const imageurl = 'https://spoonacular.com/productImages/214795-312x231.jpeg'
-  const { setWishlist, item, setCart } = props;
+  const { wishlist, setWishlist, item, cartItems, setCartItems, setTotalCost } =
+    props;
+  console.log("ProductCard");
 
-  const [inCart, setInCart] = useState(true);
-  const [inWishlist, setInWishlist] = useState(false);
+  // const isItemInCart = cartItems?.some((cartItem) => cartItem._id === item._id);
+  // const isItemInWishlist = wishlist.some(
+  //   (wishlistItem) => wishlistItem._id === item._id
+  // );
 
-  const [quantity, setQuantity] = useState(1);
+  // const btnText = isItemInCart ? "Remove" : "add";
 
-  // const handleQuantityChange = (event) => {
-  //   setQuantity(parseInt(event.target.value));
+  // const handleAddToCart = () => {
+  //   setCartItems((prevCartItems) => [...prevCartItems, item]);
+  //   setTotalCost((prevTotalCost) => prevTotalCost + item.price);
   // };
 
-  // const handleAddToCartClick = () => {
-  //   // Add the product to the cart
+  // const handleRemoveFromCart = () => {
+  //   setCartItems((prevCartItems) =>
+  //     prevCartItems.filter((cartItem) => cartItem._id !== item._id)
+  //   );
+  //   setTotalCost((prevTotalCost) => prevTotalCost - item.price);
   // };
 
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-  function wishlistIcon() {
-    return (
-      <div>
-        <Checkbox
-          onClick={(e) => handleWishlistClick(e)}
-          className="wishlist--icon"
-          {...label}
-          icon={<FavoriteBorderRoundedIcon color="primary" />}
-          checkedIcon={<FavoriteRoundedIcon />}
-          // checked={inWishlist}
-          disableRipple
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        />
-      </div>
-    );
-  }
-
-  //  ============= Remove from wishlist  ==================
-  const handleWishlistClick = (e) => {
-    if (e.target.checked) {
-      setWishlist((prev) => [...prev, prev.id === item._id ? null : item]);
-    } else {
-      setWishlist((prev) => prev.filter((element) => element._id !== item._id));
-    }
-  };
-
-  // const handleWishlistClick = (e) => {
-  //   const checked = e.target.checked;
-
-  //   if (checked) {
-  //     setWishlist((prev) => [...prev, item]);
+  // const handleToggleWishlist = () => {
+  //   const isInWishlist = wishlist.some(
+  //     (wishlistItem) => wishlistItem._id === item._id
+  //   );
+  //   if (isInWishlist) {
+  //     setWishlist((prevWishlist) =>
+  //       prevWishlist.filter((wishlistItem) => wishlistItem._id !== item._id)
+  //     );
   //   } else {
-  //     setWishlist((prev) => prev.filter((element) => element._id !== item._id));
+  //     setWishlist((prevWishlist) => [...prevWishlist, item]);
   //   }
-
-  //   setInWishlist(checked);
   // };
-
-  const addToCart = () => {
-    setCart((prev) => {
-      // check if item is already in cart
-      if (prev.includes(item)) {
-        return prev;
-      } else {
-        return [...prev, item];
-      }
-    });
-    setInCart(() => !inCart);
-  };
-
-  const removeFromCart = () => {
-    setCart((prev) => prev.filter((element) => element._id !== item._id));
-    setInCart(() => !inCart);
-  };
 
   return (
-    <Card sx={{ maxWidth: 200, p: 2 }}>
-      <CardMedia
-        sx={{ py: 1 }}
-        component="img"
-        height="auto"
-        alt={item.productTitle}
-        image={item.image}
-        p={15}
-      />
-      <Box> {wishlistIcon()}</Box>
+    <Card sx={{ maxWidth: 180, px: 2, pt: 2 }}>
+      <Link to={`/productdetails/${item._id}`}>
+        <CardMedia
+          component="img"
+          height="180px"
+          alt={item.productTitle}
+          image={item.image}
+          style={{ objectFit: "fill" }}
+        />
+      </Link>
+      <WishlistBtn wishlist={wishlist} setWishlist={setWishlist} item={item}/>
+      {/* <Box display="flex" justifyContent="flex-end">
+        <Checkbox
+          className="wishlist--icon"
+          icon={<FavoriteBorderRoundedIcon color="primary" />}
+          checkedIcon={<FavoriteRoundedIcon color="primary" />}
+          checked={isItemInWishlist}
+          onChange={handleToggleWishlist}
+        />
+      </Box> */}
       <CardContent sx={{ p: 0 }}>
-        <Stack direction="row" justifyContent="space-between" sx={{ py: 2 }}>
+        <Stack direction="row" justifyContent="space-between" sx={{ pb: 2 }}>
           <Typography variant="subtitle">
-            {typeof item.price === "number"
-              ? `Rs ${item.price.toFixed(2)}`
-              : <Skeleton width={60} height={30} />}
+            {typeof item.price === "number" ? (
+              `Rs ${item.price?.toFixed(2)}`
+            ) : (
+              <Skeleton width={60} height={30} />
+            )}
           </Typography>
           <Typography variant="subtitle">
-            {item.quantity === "" ? <Skeleton width={60} height={30} /> : item.quantity }
+            {item.quantity === "" ? (
+              <Skeleton width={60} height={30} />
+            ) : (
+              item.size
+            )}
           </Typography>
         </Stack>
-        <Box  sx={{ display:"flex", alignContent: "flex-start", justifyContent: "space-between" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignContent: "flex-start",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography
             lineHeight={1.1}
             noWrap={false}
@@ -128,10 +115,24 @@ const ProductCard = (props) => {
               fontWeight: "500",
             }}
           >
-            {item.productTitle === "" ? <Skeleton width={100} height={30} /> : item.productTitle}
+            {typeof item.productTitle === "string" ? (
+              item.productTitle
+            ) : (
+              <Skeleton width={100} height={30} />
+            )}
           </Typography>
-          <Button
+          <AddToCartBtn
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+            setTotalCost={setTotalCost}
+            item={item}
+            isFullWidth={false}
+          />
+          {/* <Button
             variant="contained"
+            // onClick={() => addToCart(item)}
+            onClick={isItemInCart ? handleRemoveFromCart : handleAddToCart}
+            aria-label={isItemInCart ? "Remove from cart" : "Add to cart"}
             ml={1}
             sx={{
               height: 32,
@@ -149,9 +150,13 @@ const ProductCard = (props) => {
               },
             }}
           >
-            <Box className="add" sx={{ fontWeight: 500 }}>
-              Add
-            </Box>
+            <Typography
+              variant="body2"
+              className="add"
+              sx={{ fontWeight: 500 }}
+            >
+              {btnText}
+            </Typography>
             <ShoppingCartCheckoutRoundedIcon
               className="cart"
               sx={{
@@ -163,7 +168,7 @@ const ProductCard = (props) => {
                 transition: "opacity 0.2s ease-in-out",
               }}
             />
-          </Button>
+          </Button> */}
         </Box>
       </CardContent>
     </Card>
