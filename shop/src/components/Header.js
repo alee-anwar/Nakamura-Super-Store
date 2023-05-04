@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 
-const Header = ({ cart, wishlist }) => {
+const Header = ({ cartItems, wishlist }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const Header = ({ cart, wishlist }) => {
           </Link>
         </Box>
         <SearchBar />
-        <Box>
+        <Box display="flex" alignItems="center">
           <IconButton disableRipple>
             <Link to="/wishlist">
               <Badge badgeContent={wishlist.length} color="primary">
@@ -77,13 +77,19 @@ const Header = ({ cart, wishlist }) => {
           </IconButton>
 
           <IconButton disableRipple aria-label={notificationsLabel("100")}>
-            <Badge badgeContent={"1"} color="primary">
-              <ShoppingCartRoundedIcon color="primary" />
-            </Badge>
+            <Link to="/cart">
+              <Badge badgeContent={cartItems.length} color="primary">
+                <ShoppingCartRoundedIcon color="primary" />
+              </Badge>
+            </Link>
           </IconButton>
 
           <IconButton disableRipple>
-            <PersonRoundedIcon color="primary" />
+            <Link to="/account">
+              <Badge color="primary">
+                <PersonRoundedIcon color="primary" />
+              </Badge>
+            </Link>
           </IconButton>
         </Box>
       </Toolbar>
