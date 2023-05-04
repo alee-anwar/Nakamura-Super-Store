@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -149,21 +149,25 @@ const active = {
   transitionDuration: "0s",
   transform: "scale(0.9)",
 };
+
 const Banner = () => {
-  // state of current index
   const [current, setCurrent] = useState(0);
-  // length of image array.
   const length = images.length;
 
-  // checks if index is equal to 0 if true, set index to array's length else decrement
   const prevSlide = () => {
     setCurrent(current === 0 ? length - 1 : current - 1);
   };
 
-  // checks if index equal the last item in array. If true, reset else increment
   const nextSlide = () => {
     setCurrent(current === length - 1 ? 0 : current + 1);
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [current]);
 
   if (!Array.isArray(images) || images.length <= 0) {
     return null;
@@ -173,11 +177,9 @@ const Banner = () => {
     <Hero>
       {/* Right and left Arrows */}
       <Left onClick={prevSlide}>
-      
         <ArrowBackIosNewRoundedIcon />
       </Left>
       <Right onClick={nextSlide}>
-        
         <ArrowForwardIosRoundedIcon />
       </Right>
 
@@ -217,9 +219,7 @@ const Banner = () => {
                       {image.heading}
                     </motion.h1>
                     <Link to="/catalogue">
-                      <MyButton>
-                        Find Products
-                      </MyButton>
+                      <MyButton>Find Products</MyButton>
                     </Link>
                   </TextContainer>
                 </HeroItem>
