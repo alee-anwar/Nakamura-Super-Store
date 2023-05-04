@@ -5,21 +5,31 @@ import { Container } from "@mui/material";
 import ShopByCategories from "../components/ShopByCategories";
 import FreshItems from "../components/FreshItems";
 
-const Home = ({ cart, setCart, wishlist, setWishlist }) => {
+const Home = ({
+  cartItems,
+  setCartItems,
+  wishlist,
+  setWishlist,
+  setTotalCost,
+}) => {
   return (
     <>
       <Banner />
-      <Container maxWidth= 'lg'>
+      <Container maxWidth="lg">
         <ShopByCategories />
         <FeaturedItemsComponent
-          cart={cart}
-          setCart={setCart}
+          cartItems={cartItems}
+          setCartItems={setCartItems}
           wishlist={wishlist}
           setWishlist={setWishlist}
+          setTotalCost={setTotalCost}
         />
-         <FreshItems
-          setCart={setCart}
+        <FreshItems
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          wishlist={wishlist}
           setWishlist={setWishlist}
+          setTotalCost={setTotalCost}
         />
       </Container>
     </>
