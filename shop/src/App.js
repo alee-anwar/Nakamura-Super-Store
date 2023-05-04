@@ -8,6 +8,11 @@ import Header from "./components/Header";
 import { Box } from "@mui/material";
 import Catalogue from "./pages/Catalogue";
 import Wishlist from "./pages/Wishlist";
+import Cart from "./pages/Cart";
+import ProductDetails from "./pages/ProductDetails";
+import MyAccount from "./pages/MyAccount";
+import Checkout from "./pages/Checkout";
+import PageNotFound from "./pages/PageNotFound";
 
 const theme = createTheme({
   palette: {
@@ -28,13 +33,15 @@ const theme = createTheme({
 
 function App() {
   const [wishlist, setWishlist] = useState([]);
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [totalCost, setTotalCost] = useState(0);
 
   const themeSpace = useTheme();
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Header wishlist={wishlist} />
+        <Header wishlist={wishlist} cartItems={cartItems} />
         <Box mt={11.5} />
         <Routes>
           <Route path="/" element={<Navigate to="home" />} />
@@ -42,10 +49,11 @@ function App() {
             path="home"
             element={
               <Home
-                cart={cart}
-                setCart={setCart}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
                 wishlist={wishlist}
                 setWishlist={setWishlist}
+                setTotalCost={setTotalCost}
               />
             }
           />
@@ -53,10 +61,14 @@ function App() {
             path="catalogue"
             element={
               <Catalogue
-                cart={cart}
-                setCart={setCart}
+                // cart={cart}
+                // setCart={setCart}
                 wishlist={wishlist}
                 setWishlist={setWishlist}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                totalCost={totalCost}
+                setTotalCost={setTotalCost}
               />
             }
           />
@@ -64,18 +76,44 @@ function App() {
             path="wishlist"
             element={
               <Wishlist
-                setCart={setCart}
                 wishlist={wishlist}
                 setWishlist={setWishlist}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                totalCost={totalCost}
+                setTotalCost={setTotalCost}
               />
             }
           />
           <Route
+            path="cart"
+            element={
+              <Cart
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                totalCost={totalCost}
+                setTotalCost={setTotalCost}
+              />
+            }
+          />
+          <Route
+            path="productdetails/:id"
+            element={
+              <ProductDetails
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                wishlist={wishlist}
+                setWishlist={setWishlist}
+                setTotalCost={setTotalCost}
+              />
+            }
+          />
+          <Route path="account" element={<MyAccount />} />
+          <Route path="checkout" element={<Checkout cartItems={cartItems} totalCost={totalCost}/>} />
+          <Route
             path="*"
             element={
-              <div>
-                <h1>404 Page Not Found</h1>
-              </div>
+              <PageNotFound/>
             }
           />
         </Routes>
