@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -17,12 +13,8 @@ import {
   Box,
   Container,
   Divider,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Paper,
   Stack,
-  TextField,
   Tooltip,
 } from "@mui/material";
 import { AddShoppingCart, Favorite } from "@mui/icons-material";
@@ -78,7 +70,6 @@ const ProductDetails = ({
   const [expanded, setExpanded] = useState(false);
 
   const params = useParams();
-  console.log(params.id);
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -101,8 +92,6 @@ const ProductDetails = ({
   if (!product) {
     return <div>Loading...</div>;
   }
-
-  console.log(product);
 
   //   const handleQuantityChange = (event) => {
   //     setProduct({ ...product, quantity: event.target.value });
