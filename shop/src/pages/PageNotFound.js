@@ -13,11 +13,11 @@ const PageNotFound = () => {
       }}
     >
       
-      <Box component="img" src={Logo} sx={{ height: '30vh', width: 'auto' }} />
+      <Box component="img" src={Logo} sx={{ height: '23vh', width: 'auto' }} />
       <Typography variant="h1" color="primary">
         404
       </Typography>
-      <Typography variant="h5" color="textSecondary">
+      <Typography variant="h6" color="textSecondary">
         Page not found
       </Typography>
     </Box>
