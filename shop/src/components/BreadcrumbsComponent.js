@@ -26,14 +26,9 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   };
 }); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
 
-function handleClick(event) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
-
 export default function BreadcrumbsComponent({ name, path }) {
   return (
-    <div role="presentation" onClick={handleClick}>
+    <div role="presentation">
       <Breadcrumbs aria-label="breadcrumb">
         <Link to="/">
           <StyledBreadcrumb
@@ -41,6 +36,15 @@ export default function BreadcrumbsComponent({ name, path }) {
             icon={<HomeIcon color="primary" fontSize="small" />}
           />
         </Link>
+        {
+          (name === "Checkout" && (
+            <Link to="/cart">
+              <StyledBreadcrumb
+                label="Cart"
+              />
+            </Link>
+          ))
+        }
         <Link to={path}>
           <StyledBreadcrumb label={name} />
         </Link>
@@ -48,26 +52,3 @@ export default function BreadcrumbsComponent({ name, path }) {
     </div>
   );
 }
-
-// import React from "react";
-// import Typography from "@mui/material/Typography";
-// import Breadcrumbs from "@mui/material/Breadcrumbs";
-// import { Link } from "react-router-dom";
-// import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
-// const BreadcrumbsComponent = ({ name, path }) => {
-//   return (
-//     <div role="presentation">
-//       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-//         <Link to="/" underline="hover" color="inherit">
-//           Home
-//         </Link>
-//         <Link to={path} underline="hover" color="inherit">
-//           {name}
-//         </Link>
-//       </Breadcrumbs>
-//     </div>
-//   );
-// };
-
-// export default BreadcrumbsComponent;
