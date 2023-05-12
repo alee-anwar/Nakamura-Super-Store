@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  Box,
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
   Paper,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 const FilterSidebar = () => {
   const [selectedDepartments, setSelectedDepartments] = useState([]);
@@ -17,7 +16,9 @@ const FilterSidebar = () => {
     const { name } = event.target;
     setSelectedDepartments((prevSelectedDepartments) => {
       if (prevSelectedDepartments.includes(name)) {
-        return prevSelectedDepartments.filter((department) => department !== name);
+        return prevSelectedDepartments.filter(
+          (department) => department !== name
+        );
       } else {
         return [...prevSelectedDepartments, name];
       }
@@ -36,31 +37,58 @@ const FilterSidebar = () => {
   };
 
   return (
-    <Paper  elevation={2} style={{ padding: '16px', width:'auto', height:'auto'}}>
-    <FormControl component="fieldset" p={2}>
-      <Typography variant="h6">Departments</Typography>
-      <FormGroup>
-        <FormControlLabel
-          control={<Checkbox checked={selectedDepartments.includes('Fruits & Vegetables')} onChange={handleDepartmentChange} name="Fruits & Vegetables" />}
-          label="Fruits & Vegetables"
-        />
-        <FormControlLabel
-          control={<Checkbox checked={selectedDepartments.includes('Pantry')} onChange={handleDepartmentChange} name="Pantry" />}
-          label="Pantry"
-        />
-      </FormGroup>
-      <Typography variant="h6">Brands</Typography>
-      <FormGroup>
-        <FormControlLabel
-          control={<Checkbox checked={selectedBrands.includes('Bare')} onChange={handleBrandChange} name="Bare" />}
-          label="Bare"
-        />
-        <FormControlLabel
-          control={<Checkbox checked={selectedBrands.includes('Bake')} onChange={handleBrandChange} name="Bake" />}
-          label="Bake"
-        />
-      </FormGroup>
-    </FormControl>
+    <Paper
+      elevation={2}
+      style={{ padding: "16px", width: "auto", height: "auto" }}
+    >
+      <FormControl component="fieldset" p={2}>
+        <Typography variant="h6">Prices</Typography>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectedBrands.includes("Bare")}
+                onChange={handleBrandChange}
+                name="Low to High"
+              />
+            }
+            label="Low to High"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectedBrands.includes("Bake")}
+                onChange={handleBrandChange}
+                name="Hign to Low"
+              />
+            }
+            label="High to Low"
+          />
+        </FormGroup>
+        <Typography variant="h6">Categories</Typography>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectedDepartments.includes("Fruits & Vegetables")}
+                onChange={handleDepartmentChange}
+                name="Fruits & Vegetables"
+              />
+            }
+            label="Fruits & Vegetables"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectedDepartments.includes("Pantry")}
+                onChange={handleDepartmentChange}
+                name="Pantry"
+              />
+            }
+            label="Pantry"
+          />
+        </FormGroup>
+      </FormControl>
     </Paper>
   );
 };
