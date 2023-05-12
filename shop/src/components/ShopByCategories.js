@@ -2,17 +2,14 @@ import {
   Avatar,
   Box,
   Button,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
   Skeleton,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useMemo } from "react";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Carousel from "react-multi-carousel";
+import PropTypes from "prop-types";
 
 const CategoryData = [
   {
@@ -76,15 +73,13 @@ const responsive = {
   },
   tablet: {
     breakpoint: { max: 900, min: 600 },
-    items: 3,
+    items: 4,
   },
   mobile: {
     breakpoint: { max: 600, min: 0 },
     items: 2,
   },
 };
-
-const categoryNames = CategoryData.map((category) => category.name);
 
 const ShopByCategories = () => {
   return (
@@ -107,24 +102,25 @@ const ShopByCategories = () => {
           View All
         </Button>
       </Box>
-      <Carousel responsive={responsive}   showArrows={false}>
+      <Carousel responsive={responsive} showArrows={false}>
         {CategoryData.map((category) => (
-          <ListItem key={category.id}>
-            <Box>
+          <Box key={category.id}>
+            <Box display="flex" alignItems="center" justifyContent="center">
               {category.url ? (
                 <Avatar
                   alt={category.alt}
                   src={category.url}
                   sx={{
+                    border: "1px solid grey",
                     width: 150,
                     height: 150,
-                    transition: 'transform 0.5s ease',
-                    '&:active': {
-                      transform: 'scale(0.9)',
+                    transition: "transform 0.5s ease",
+                    "&:active": {
+                      transform: "scale(0.9)",
                     },
-                    '&:hover': {
-                      transform: 'scale(1.02)',
-                      boxShadow: '5px 5px 10px 1px rgba(0, 0, 0, 0.1)',
+                    "&:hover": {
+                      transform: "scale(1.02)",
+                      boxShadow: "5px 5px 10px 1px rgba(0, 0, 0, 0.1)",
                     },
                   }}
                 />
@@ -136,21 +132,90 @@ const ShopByCategories = () => {
                   height={400}
                 />
               )}
-              <ListItemText
-                primary={category.name}
-                sx={{
-                  textAlign: "center",
-                  "&:hover": {
-                    color: "#ffe033",
-                  },
-                }}
-              />
             </Box>
-          </ListItem>
+            <Typography textAlign="center">{category.name}</Typography>
+          </Box>
         ))}
       </Carousel>
     </Box>
   );
 };
+
+// const ShopByCategories = () => {
+//   const renderAvatar = (category) => {
+//     const url = category?.url || "";
+//     return (
+//       <Avatar
+//         alt={category.alt}
+//         src={url}
+//         sx={{
+//           width: 150,
+//           height: 150,
+//           transition: "transform 0.5s ease",
+//           "&:active": {
+//             transform: "scale(0.9)",
+//           },
+//           "&:hover": {
+//             transform: "scale(1.02)",
+//             boxShadow: "5px 5px 10px 1px rgba(0, 0, 0, 0.1)",
+//           },
+//         }}
+//       />
+//     );
+//   };
+
+//   return (
+//     <Box mt={2}>
+//       <Box display="flex">
+//         <Typography variant="h1" my={3} flexGrow={1}>
+//           Shop By Categories
+//         </Typography>
+//         <Button
+//           sx={{
+//             fontWeight: "500",
+//             color: "#262626",
+//             "&:hover": {
+//               color: "#ffe033",
+//             },
+//           }}
+//           endIcon={<ChevronRightRoundedIcon />}
+//           disableRipple
+//         >
+//           View All
+//         </Button>
+//       </Box>
+
+//       <Carousel responsive={responsive} showArrows={false}>
+//         <List sx={{ display: 'flex', flexDirection: 'row' }}>
+//           {CategoryData.map((category) => (
+//             <ListItem key={category.id}>
+//               <Box>
+//                 {category.url ? (
+//                   renderAvatar(category)
+//                 ) : (
+//                   <Skeleton
+//                     sx={{ bgcolor: "grey.900" }}
+//                     variant="rectangular"
+//                     width={410}
+//                     height={400}
+//                   />
+//                 )}
+//                 <ListItemText
+//                   primary={category.name}
+//                   sx={{
+//                     textAlign: "center",
+//                     "&:hover": {
+//                       color: "#ffe033",
+//                     },
+//                   }}
+//                 />
+//               </Box>
+//             </ListItem>
+//           ))}
+//         </List>
+//       </Carousel>
+//     </Box>
+//   );
+// };
 
 export default ShopByCategories;
