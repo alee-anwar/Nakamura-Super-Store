@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,45 +10,63 @@ import Logo from "../assets/blueicon.png";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import PropTypes from 'prop-types';
+import * as Yup from "yup";
+import { Grid } from "@mui/material";
 
-const validationSchema = yup.object({
-  email: yup.string().email("Invalid email address").required("Required"),
-  password: yup.string().required("Required"),
-});
+export default function SignIn() {
+  const [signinError, setSigninError] = useState(null);
+  const [signinSuccess, setSigninSuccess] = useState(false);
 
-export default function SignIn({setToken}) {
-  // const navigate = useNavigate();
-
-  const handleSignIn = async (values) => {
-   
-    try {
-      const response =  await axios.post("http://localhost:3000/authUser/login", {
-        email: values.email,
-        password: values.password,
-      });
-      // console.log("handlesignin clicked")
-      console.log(response); // log the response object
-      localStorage.setItem("token", response.data.token);
-      // setToken(response.data.token)
-      // console.log(response.data.token)
-      // navigate("/dashboard");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    validationSchema: validationSchema,
-    onSubmit: 
-    (values) => {
-      // console.log(values);
-      handleSignIn(values);
-      // navigate("/dashboard");
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string().required("Password is required"),
+    }),
+    onSubmit: (values, { setSubmitting, resetForm }) => {
+      setSubmitting(true);
+      setSigninError(null);
+      setSigninSuccess(false);
+      // Perform additional validation if required
+      // Example: Check if the email is already registered
+      // If the validation passes, send the form data to the backend API
+      axios
+        .post("http://localhost:3000/authUser/login", values, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          // store session information in local storage
+          localStorage.setItem("token", response.data.token);
+          // localStorage.setItem("user", JSON.stringify(response.data.user));
+
+          window.location.href = "/dashboard";
+        })
+        .catch((error) => {
+          // Handle error case
+          // console.error("Signup error:", error);
+          if (error.response) {
+            // Request was made and server responded with a non-2xx status code
+            setSigninError(error.response.data.message);
+          } else if (error.request) {
+            // Request was made but no response was received
+            setSigninError("Network error. Please try again later.");
+          } else {
+            // Something else happened in making the request
+            setSigninError("An error occurred. Please try again.");
+          }
+        })
+        .finally(() => {
+          setSubmitting(false);
+        });
     },
   });
 
@@ -75,51 +93,61 @@ export default function SignIn({setToken}) {
         <Box component="img" src={Logo} sx={{ height: 50, mb: 1 }} />
 
         <Typography variant="h1">Sign in</Typography>
-        <Box component="form" onSubmit={formik.handleSubmit} noValidate autoComplete="off" sx={{ mt: 1 }}>
-          <TextField
-            size="small"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            size="small"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            // autoComplete="current-password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-        </Box>
+        <form onSubmit={formik.handleSubmit}>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                label="Email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && formik.errors.email}
+                helperText={formik.touched.email && formik.errors.email}
+                required
+                type="email"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <TextField
+               label="Password"
+               name="password"
+               value={formik.values.password}
+               onChange={formik.handleChange}
+               onBlur={formik.handleBlur}
+               error={formik.touched.password && formik.errors.password}
+               helperText={formik.touched.password && formik.errors.password}
+               required
+               type="password"
+               fullWidth
+               size="small"
+              />
+            </Grid>
+            <Grid item xs={12} my={2}>
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={formik.isSubmitting}
+              >
+                {formik.isSubmitting ? "Signing In..." : "Sign In"}
+              </Button>
+              {signinError && (
+                <Typography variant="body2" color="error">
+                  {signinError}
+                </Typography>
+              )}
+              {signinSuccess && (
+                <Typography variant="body2" color="success">
+                  Signup successful!
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
+        </form>
       </Box>
     </Container>
   );
-}
-
-SignIn.propTypes = {
-  setToken: PropTypes.func.isRequired
 }
