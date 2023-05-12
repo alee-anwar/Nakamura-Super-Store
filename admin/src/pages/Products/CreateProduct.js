@@ -24,18 +24,19 @@ const CreateProduct = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [productTitle, setProductTitle] = useState("");
-  const [SKU, setSKU] = useState("");
-  const [description, setDescription] = useState("");
-  const [color, setColor] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
-  const [status, setStatus] = useState("");
-  const [date, setDate] = useState("");
-  const [tag, setTag] = useState("");
-  const [testImage, setTestImage] = useState("");
   const [category, setCategory] = useState("");
+  const [color, setColor] = useState("");
+  const [date, setDate] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setTestImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [productTitle, setProductTitle] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [size, setSize] = useState("");
+  const [sku, setSKU] = useState("");
+  const [status, setStatus] = useState("");
   const [subcategory, setSubCategory] = useState("");
+  const [tag, setTag] = useState("");
 
   const [titleError, setTitleError] = useState(false);
   const [idError, setIDError] = useState(false);
@@ -60,7 +61,7 @@ const CreateProduct = () => {
 
   const body = {
     productTitle,
-    SKU,
+    sku,
     description,
     category,
     price,
@@ -69,10 +70,11 @@ const CreateProduct = () => {
     subcategory,
     color,
     tag,
-    testImage,
+    image,
     quantity,
+    size
   };
-  console.log(testImage)
+  console.log(image)
   const handleSubmit = (e) => {
     e.preventDefault();
     setTitleError(false);
@@ -84,7 +86,7 @@ const CreateProduct = () => {
     if (productTitle === "") {
       setTitleError(true);
     }
-    if (SKU === "") {
+    if (sku === "") {
       setIDError(true);
     }
     if (description === "") {
@@ -287,13 +289,22 @@ const CreateProduct = () => {
             <Grid item md={12}>
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <Typography color="textSecondary">Images</Typography>
-                <TextField
+                {/* <TextField
                   type='file'
                   margin="dense"
                   label="URL"
                   fullWidth
                   size="small"
                   onChange={(e) => setTestImage(e.target.files[0])}
+                /> */}
+                <TextField
+                   margin="dense"
+                   label="URL"
+                   fullWidth
+                   size="small"
+                   required
+                  //  error={idError}
+                   onChange={(e) => setTestImage(e.target.value)}
                 />
               </Paper>
             </Grid>
