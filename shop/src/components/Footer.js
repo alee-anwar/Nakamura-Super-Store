@@ -75,7 +75,7 @@ const Footer = () => {
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   Home
                 </Typography>
-                <Link to='/catalogue'>
+                <Link to='/catalogue' style={{textDecoration: "none", color: "white"}}>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   Shop Now
                 </Typography>
