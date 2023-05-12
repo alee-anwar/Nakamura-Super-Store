@@ -1,9 +1,17 @@
 import React, { useEffect } from "react";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { Container, Grid, Typography } from "@mui/material";
-import WishlistCard from "../components/WishlistCard";
+import ProductCard from "../components/ProductCard";
+import ErrorMessage from "../components/ErrorMessage";
 
-const Wishlist = ({ setCartItems, setWishlist, wishlist, setTotalCost }) => {
+const Wishlist = ({
+  cartItems,
+  setCartItems,
+  setWishlist,
+  wishlist,
+  setTotalCost,
+  totalCost,
+}) => {
 
   useEffect(() => {
     const savedWishlistItems = JSON.parse(localStorage.getItem("wishlist"));
@@ -16,27 +24,33 @@ const Wishlist = ({ setCartItems, setWishlist, wishlist, setTotalCost }) => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
 
+  console.log("Welcome to Wishlist Page")
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
       <BreadcrumbsComponent name={"Wishlist"} path={"/wishlist"} />
       <Typography variant="h1" my={2}>
         Wishlist
       </Typography>
-
       <Grid container>
         {wishlist.length === 0 ? (
-          <Typography variant="subtitle1">Your wishlist is empty.</Typography>
+          <Grid item xs={12} md={12}>
+            <ErrorMessage
+              path={"/catalogue"}
+              errorMessage={" Your Wishlist is empty"}
+              linkMsg={"Return to shopping"}
+            />
+          </Grid>
         ) : (
           wishlist.map((item) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
-              <WishlistCard
-                item={item}
+              <ProductCard
+                cartItems={cartItems}
                 setCartItems={setCartItems}
-                setWishlist={setWishlist}
                 wishlist={wishlist}
+                setWishlist={setWishlist}
+                item={item}
+                totalCost={totalCost}
                 setTotalCost={setTotalCost}
-                // removeFromWishlist={removeFromWishlist}
-                // showRemoveButton={true}
               />
             </Grid>
           ))
@@ -45,5 +59,4 @@ const Wishlist = ({ setCartItems, setWishlist, wishlist, setTotalCost }) => {
     </Container>
   );
 };
-
 export default Wishlist;
