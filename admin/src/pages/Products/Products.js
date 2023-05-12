@@ -95,7 +95,7 @@ const Products = () => {
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = products.map((row) => ({
-    id: row.SKU,
+    id: row._id,
     // image: { data: row.image.data, contentType: row.image.contentType },
     productTitle: row.productTitle,
     category: row.category,
