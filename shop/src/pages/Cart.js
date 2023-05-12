@@ -9,24 +9,25 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
-import CartItem from "../components/CartItem";
-import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
-import {
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import CartItem from "../components/CartItem";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
+import { Link, useNavigate } from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
-  console.log(cartItems);
-  console.log("Cart Component");
-
+  console.log("Welcome to Cart Page")
   const navigate = useNavigate();
-
   const [selectedOption, setSelectedOption] = useState("storePickup");
+
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -81,13 +82,22 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
   return (
     <Container maxWidth="lg" sx={{ pt: 5 }}>
       <BreadcrumbsComponent name={"Cart"} path={"/cart"} />
-      <Typography variant="h1" my={2}>
-        Shopping Cart
-      </Typography>
+      <Box display="flex" alignItems="center">
+        <Typography variant="h1" my={2} flexGrow={1}>
+          Cart
+        </Typography>
+        <Link to="#" onClick={handleGoBack} style={{ color: "#ffb800" }}>
+          Go Back
+        </Link>
+      </Box>
       <Grid container>
         {cartItems.length === 0 ? (
-          <Grid item xs={12} md={8}>
-            <Typography variant="subtitle1">Your cart is empty.</Typography>
+          <Grid item xs={12} md={12}>
+            <ErrorMessage
+              path={"/catalogue"}
+              errorMessage={" Your cart is empty"}
+              linkMsg={"Return to shopping"}
+            />
           </Grid>
         ) : (
           <>
@@ -160,7 +170,11 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
                             <div>Store Pickup</div>
                             <Typography
                               variant="caption"
-                              sx={{ color: "#EE0300", marginLeft: 1, fontWeight: 600 }}
+                              sx={{
+                                color: "#EE0300",
+                                marginLeft: 1,
+                                fontWeight: 600,
+                              }}
                             >
                               Free
                             </Typography>
