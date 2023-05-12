@@ -1,7 +1,7 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import ProductCard from "./reuseableComponents/ProductCard";
+import ProductCard from "./ProductCard";
 import { ArrowLeft, ArrowRight } from "./reuseableComponents/Arrow";
 import { Box, Button, Typography } from "@mui/material";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
@@ -171,12 +171,13 @@ const FreshItems = ({
         {Vegetables.map((item) => {
           return (
             <ProductCard
-            cartItems={cartItems}
-            setCartItems={setCartItems}
-            wishlist={wishlist}
-            setWishlist={setWishlist}
-            item={item}
-            setTotalCost={setTotalCost}
+              key={item._id}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              wishlist={wishlist}
+              setWishlist={setWishlist}
+              item={item}
+              setTotalCost={setTotalCost}
             />
           );
         })}
