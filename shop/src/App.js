@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 // import Layout from "./components/Layout";
-import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { Box } from "@mui/material";
@@ -18,7 +18,11 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#FFE033",
+      dark: "#ccb328"
     },
+    info: {
+      main: "#ffb800"
+    }
   },
   typography: {
     h1: {
@@ -33,11 +37,11 @@ const theme = createTheme({
 
 function App() {
   const [wishlist, setWishlist] = useState([]);
-  // const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
 
-  const themeSpace = useTheme();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
@@ -61,8 +65,6 @@ function App() {
             path="catalogue"
             element={
               <Catalogue
-                // cart={cart}
-                // setCart={setCart}
                 wishlist={wishlist}
                 setWishlist={setWishlist}
                 cartItems={cartItems}
@@ -108,8 +110,8 @@ function App() {
               />
             }
           />
-          <Route path="account" element={<MyAccount />} />
-          <Route path="checkout" element={<Checkout cartItems={cartItems} totalCost={totalCost}/>} />
+          <Route path="account" element={<MyAccount cartItems={cartItems} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>} />
+          <Route path="checkout" element={<Checkout cartItems={cartItems} totalCost={totalCost} isAuthenticated={isAuthenticated}/>} />
           <Route
             path="*"
             element={
