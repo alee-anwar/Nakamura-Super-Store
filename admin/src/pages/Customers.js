@@ -26,6 +26,7 @@ const Customers = () => {
     setDeleted(true)
   };
 
+  console.log(customers)
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     { field: "firstName", headerName: "First Name", width: 100 },
