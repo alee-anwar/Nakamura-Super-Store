@@ -27,6 +27,7 @@ const AppbarSign = () => {
     setClickedButton("signup");
     navigate("/signup");
   };
+
   return (
     <ThemeProvider theme={theme}>
     <AppBar color="inherit">
