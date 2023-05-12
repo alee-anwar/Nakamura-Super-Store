@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import ProductCard from "./reuseableComponents/ProductCard";
+import ProductCard from "./ProductCard";
 import { ArrowLeft, ArrowRight } from "./reuseableComponents/Arrow";
 import { Box, Button, Typography } from "@mui/material";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
@@ -159,6 +159,7 @@ const FeaturedItems = ({
         {featuredItems.map((item) => {
           return (
             <ProductCard
+              key={item._id}
               cartItems={cartItems}
               setCartItems={setCartItems}
               wishlist={wishlist}
