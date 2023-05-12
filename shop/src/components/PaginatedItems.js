@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Grid, Pagination } from "@mui/material";
-import ProductCard from "./reuseableComponents/ProductCard";
+import ProductCard from "./ProductCard";
 import axios from "axios";
 
 function PaginatedItems({
@@ -67,7 +67,7 @@ function PaginatedItems({
     setPage(value);
   };
 
-  console.log({ products });
+  // console.log({ products });
 
   return (
     <div>
