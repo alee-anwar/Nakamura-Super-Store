@@ -49,7 +49,7 @@ export default function SignUp() {
       axios
         .post("http://localhost:3000/authUser/signup", values, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         })
         .then((response) => {
@@ -191,16 +191,18 @@ export default function SignUp() {
               >
                 {formik.isSubmitting ? "Signing Up..." : "Sign Up"}
               </Button>
-              {signupError && (
-                <Typography variant="body2" color="error">
-                  {signupError}
-                </Typography>
-              )}
-              {signupSuccess && (
-                <Typography variant="body2" color="success">
-                  Signup successful!
-                </Typography>
-              )}
+              <Box py={1}>
+                {signupError && (
+                  <Typography variant="body2" color="error">
+                    {signupError}
+                  </Typography>
+                )}
+                {signupSuccess && (
+                  <Typography variant="body2" color="success">
+                    Signup successful!
+                  </Typography>
+                )}
+              </Box>
             </Grid>
           </Grid>
         </form>
