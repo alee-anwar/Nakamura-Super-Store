@@ -77,7 +77,7 @@ const ProductDetails = ({
           `http://localhost:3000/productList/product-description/${params.id}`,
           {
             headers: {
-              "Content-Type": "multipart/form-data",
+              "Content-Type": "application/json",
             },
           }
         );
