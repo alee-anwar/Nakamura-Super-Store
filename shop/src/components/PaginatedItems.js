@@ -29,15 +29,17 @@ function PaginatedItems({
         const response = await axios.get(
           "http://localhost:3000/productList/viewProducts",
           {
-            params: { page },
+            // params: { page },
             headers: {
               "Content-Type": "multipart/form-data",
             },
           }
         );
+      console.log(response);
         setProducts(response.data);
         setIsLoading(false);
       } catch (error) {
+        console.log(error);
         setError(error.message);
         setIsLoading(false);
       }
