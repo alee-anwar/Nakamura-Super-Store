@@ -46,6 +46,7 @@ const AppbarSign = () => {
         <Button
           onClick={handleLoginClick}
           variant="text"
+          // color={clickedButton === "login" ? "primary" : "neutral"}
           color={clickedButton === "login" ? "primary" : "neutral"}
         >
           LogIn
