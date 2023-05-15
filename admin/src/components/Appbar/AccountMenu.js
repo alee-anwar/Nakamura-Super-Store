@@ -19,7 +19,10 @@ export default function AccountMenu() {
   const open = Boolean(anchorEl);
 
   const handleLogout = () => {
-    navigate('/login')
+ 
+    localStorage.removeItem("token");
+    // navigate('/login')
+    window.location.href = "/login";
   }
   const handleAccount = () => {
     navigate('/myaccount')
@@ -91,6 +94,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           My Account
         </MenuItem>
+
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
