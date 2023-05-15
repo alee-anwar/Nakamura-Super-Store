@@ -39,14 +39,15 @@ export default function SignIn() {
       axios
         .post("http://localhost:3000/authUser/login", values, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         })
         .then((response) => {
-          console.log(response.data);
+          console.log(response);
           // store session information in local storage
+          // setToken(response.data.token)
           localStorage.setItem("token", response.data.token);
-          // localStorage.setItem("user", JSON.stringify(response.data.user));
+          //  localStorage.setItem("user", JSON.stringif(response.data.user));
 
           window.location.href = "/dashboard";
         })
