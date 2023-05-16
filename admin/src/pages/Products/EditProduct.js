@@ -1,56 +1,50 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+  FormHelperText,
+  FormGroup,
+  Grid,
+  MenuItem,
+  Box,
+  Stack,
+  Paper,
+  Alert,
+} from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import {
-  Alert,
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  FormLabel,
-  Grid,
-  MenuItem,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { categories, subcategories } from "./data";
-import { useNavigate, useParams } from "react-router-dom";
-import { parseISO } from "date-fns";
+
+import { useTheme } from "@mui/material/styles";
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
   sku: Yup.string().required("SKU is required"),
-  description: Yup.string().required("Description is required"),
   category: Yup.string().required("Category is required"),
+  status: Yup.string().required("Status is required"),
+  subcategory: Yup.string().required("Subcategory is required"),
+  image: Yup.string().required("Image is required"),
+  quantity: Yup.number().required("Quantity is required"),
+
+  productTitle: Yup.string().required("Title is required"),
   price: Yup.number()
     .required("Price is required")
     .positive("Price must be positive"),
-  status: Yup.string().required("Status is required"),
-  // date: Yup.date().required("Date is required"),
-  subcategory: Yup.string().required("Subcategory is required"),
-  color: Yup.string().required("Color is required"),
-  tag: Yup.string().required("Tag is required"),
-  image: Yup.string().required("Image is required"),
-  quantity: Yup.number().required("Quantity is required"),
+  // Add more validation rules for other fields as needed
 });
 
-const EditProduct = () => {
-  const theme = useTheme();
-  const navigate = useNavigate();
-  // const [signupError, setSignupError] = useState(null);
-  // const [signupSuccess, setSignupSuccess] = useState(false);
-  // const [product, setProduct] = useState([]);
+const ProductEditForm = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -67,12 +61,27 @@ const EditProduct = () => {
       image: "",
       quantity: "",
       size: "",
+      // sku: "",
+      // quantity: "",
+      // size: "",
+      // color: "",
+      // tag: "",
+      // productTitle: "",
+      // price: 0,
+      // image: "",
+      // category: "",
+
+      // Add more initial values for other fields as needed
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // setSubmitting(true);
+    onSubmit: (values, { setSubmitting, resetForm }) => {
+      setSubmitting(true);
+      setErrorMsg(null);
+      setSuccess(false);
+
+      // Update the product in the database
       console.log("PUT API called");
-      console.log("value" + values);
+      console.log("Values:", values);
       axios
         .put(`http://localhost:3000/productList/updateProduct/${id}`, values, {
           headers: {
@@ -81,14 +90,25 @@ const EditProduct = () => {
         })
         .then((response) => {
           console.log("Data updated:", response.data);
+          resetForm();
           navigate("/products");
         })
         .catch((error) => {
           console.error("Error updating data:", error);
+          if (error.response) {
+            // Request was made and server responded with a non-2xx status code
+            setErrorMsg(error.response.data.message);
+          } else if (error.request) {
+            // Request was made but no response was received
+            setErrorMsg("Network error. Please try again later.");
+          } else {
+            // Something else happened in making the request
+            setErrorMsg("An error occurred. Please try again.");
+          }
+        })
+        .finally(() => {
+          setSubmitting(false);
         });
-      // .finally(() => {
-      //   setSubmitting(false);
-      // });
     },
   });
 
@@ -103,69 +123,50 @@ const EditProduct = () => {
       })
       .then((response) => {
         // Set the fetched product data as the initial form values
-        // setProduct(response.data.productdescription);
         console.log(response.data.productdescription.productTitle);
         formik.setValues(response.data.productdescription);
       })
       .catch((error) => {
-        // Handle errors or show an error message
         console.error(error);
       });
-  }, []);
-
-  // console.log(product.status)
-
-  // useEffect(() => {
-  //   formik.setValues({
-  //     productTitle: product.productTitle || "",
-  //     sku: product.sku || "",
-  //     description: product.description || "",
-  //     category: product.category || "",
-  //     price: product.price || "",
-  //     status: product.status || "",
-  //     // date: product.date || null,
-  //     subcategory: product.subcategory || "",
-  //     color: product.color || "",
-  //     tag: product.tag || "",
-  //     image: product.image || "",
-  //     quantity: product.quantity || "",
-  //     size: product.size || "",
-  //   });
-  // }, [product]);
+  }, [id]);
 
   return (
     <Box maxWidth={"md"} ml={{ sm: 0, md: 0, lg: 20 }} mb={3}>
       <Box sx={theme.mixins.toolbar} />
-      {/* {signupError && (
+      {errorMsg && (
         <Alert severity="error">
           <Typography variant="body2" color="error">
-            {signupError}
+            {errorMsg}
           </Typography>
         </Alert>
       )}
-      {signupSuccess && (
+      {success && (
         <Alert severity="success">
           <Typography variant="body2" color="success">
             Product Create Successful!
           </Typography>
         </Alert>
-      )} */}
+      )}
       <form onSubmit={formik.handleSubmit}>
-        {/* <Box sx={{ display: "flex" }} mb={3}> */}
-          {/* <Typography sx={{ flexGrow: 1 }} variant="h1">
+        <Box sx={{ display: "flex" }} mb={3}>
+          <Typography sx={{ flexGrow: 1 }} variant="h1">
             Edit Product
-          </Typography> */}
-          <Button type="submit" variant="contained">
-            Save Changes
+          </Typography>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={formik.isSubmitting}
+          >
+            {formik.isSubmitting ? "Saving..." : " Save Changes"}
           </Button>
-        {/* </Box> */}
+        </Box>
         <Grid container spacing={2}>
           <Grid container item spacing={2} direction="row" md={8} mt={0.1}>
-            {/* <Grid item> */}
             <Stack spacing={2}>
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <Typography color="textSecondary">Producut Details</Typography>
-                <Grid container columnSpacing={2}>
+                <Grid container columnSpacing={1}>
                   <Grid item sm={12} md={6}>
                     <TextField
                       name="sku"
@@ -186,6 +187,7 @@ const EditProduct = () => {
                       }}
                     />
                   </Grid>
+
                   <Grid item sm={12} md={6}>
                     <TextField
                       name="quantity"
@@ -209,6 +211,7 @@ const EditProduct = () => {
                       }}
                     />
                   </Grid>
+
                   <Grid item sm={12} md={12}>
                     <TextField
                       margin="dense"
@@ -252,6 +255,7 @@ const EditProduct = () => {
                       }}
                     />
                   </Grid>
+
                   <Grid item sm={12} md={6}>
                     <TextField
                       margin="dense"
@@ -272,6 +276,7 @@ const EditProduct = () => {
                       }}
                     />
                   </Grid>
+
                   <Grid item sm={12} md={6}>
                     <TextField
                       margin="dense"
@@ -290,6 +295,7 @@ const EditProduct = () => {
                       }}
                     />
                   </Grid>
+
                   <Grid item sm={12} md={6}>
                     <TextField
                       name="price"
@@ -311,6 +317,7 @@ const EditProduct = () => {
                       size="small"
                     />
                   </Grid>
+
                   <Grid item sm={12} md={6}>
                     <TextField
                       margin="dense"
@@ -321,7 +328,9 @@ const EditProduct = () => {
                       value={formik.values.status || ""}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.status && Boolean(formik.errors.status)}
+                      error={
+                        formik.touched.status && Boolean(formik.errors.status)
+                      }
                       helperText={formik.touched.status && formik.errors.status}
                       required
                       fullWidth
@@ -351,7 +360,8 @@ const EditProduct = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={
-                    formik.touched.description && Boolean(formik.errors.description)
+                    formik.touched.description &&
+                    Boolean(formik.errors.description)
                   }
                   helperText={
                     formik.touched.description && formik.errors.description
@@ -384,45 +394,49 @@ const EditProduct = () => {
               </Paper>
             </Stack>
           </Grid>
+
           <Grid container item spacing={2} direction="column" md={4}>
             <Grid item>
               <Paper elevation={2} sx={{ p: 3, height: "auto" }}>
                 <FormControl required component="fieldset">
                   <FormLabel>Categories</FormLabel>
-                  {/* <FormGroup> */}
-                  {categories.map((category) => (
-                    <FormControlLabel
-                      key={category.id}
-                      control={
-                        <Checkbox
-                          size="small"
-                          disableRipple={true}
-                          sx={{ color: "#757575" }}
-                          name="category"
-                          value={category.value}
-                          // onChange={formik.handleChange}
-                          checked={formik.values.category === category.value}
-                          onChange={() => {
-                            // Update the value of subcategory field
-                            if (formik.values.category === category.value) {
-                              // If the same category is already selected, remove the value
-                              formik.setFieldValue("category", "");
-                            } else {
-                              // Set the new selected value
-                              formik.setFieldValue("category", category.value);
-                            }
-                          }}
-                        />
-                      }
-                      label={
-                        <Typography sx={{ color: "#757575" }}>
-                          {category.label}
-                        </Typography>
-                      }
-                      sx={{ mb: -1 }}
-                    />
-                  ))}
-                  {/* </FormGroup> */}
+                  <FormGroup>
+                    {categories.map((category) => (
+                      <FormControlLabel
+                        key={category.id}
+                        control={
+                          <Checkbox
+                            checked={formik.values.category === category.value}
+                            size="small"
+                            disableRipple={true}
+                            sx={{ color: "#757575" }}
+                            name="category"
+                            value={category.value}
+                            // onChange={formik.handleChange}
+                            onChange={() => {
+                              // Update the value of category field
+                              if (formik.values.category === category.value) {
+                                // If the same category is already selected, remove the value
+                                formik.setFieldValue("category", "");
+                              } else {
+                                // Set the new selected value
+                                formik.setFieldValue(
+                                  "category",
+                                  category.value
+                                );
+                              }
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography sx={{ color: "#757575" }}>
+                            {category.label}
+                          </Typography>
+                        }
+                        sx={{ mb: -1 }}
+                      />
+                    ))}
+                  </FormGroup>
                   {formik.touched.category && formik.errors.category && (
                     <FormHelperText error>
                       {formik.errors.category}
@@ -436,59 +450,47 @@ const EditProduct = () => {
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <FormControl required component="fieldset">
                   <FormLabel>Sub Categories</FormLabel>
-                  {/* <FormGroup> */}
-                  {subcategories.map((subcategory) => (
-                    <FormControlLabel
-                      key={subcategory.value}
-                      control={
-                        <Checkbox
-                          checked={
-                            formik.values.subcategory === subcategory.value
-                          }
-                          size="small"
-                          disableRipple={true}
-                          sx={{ color: "#757575" }}
-                          name="subcategory"
-                          value={subcategory.value}
-                          // onChange={formik.handleChange}
-                          onChange={() => {
-                            // Update the value of subcategory field
-                            if (
+                  <FormGroup>
+                    {subcategories.map((subcategory) => (
+                      <FormControlLabel
+                        key={subcategory.value}
+                        control={
+                          <Checkbox
+                            checked={
                               formik.values.subcategory === subcategory.value
-                            ) {
-                              // If the same subcategory is already selected, remove the value
-                              formik.setFieldValue("subcategory", "");
-                            } else {
-                              // Set the new selected value
-                              formik.setFieldValue(
-                                "subcategory",
-                                subcategory.value
-                              );
                             }
-                          }}
-                          // onChange={(e) => {
-                          //   const { value, checked } = e.target;
-                          //   let selectedSubcategories = formik.values.subcategory.split(",");
-                          //   if (checked) {
-                          //     selectedSubcategories.push(value);
-                          //   } else {
-                          //     selectedSubcategories = selectedSubcategories.filter(
-                          //       (subcat) => subcat !== value
-                          //     );
-                          //   }
-                          //   formik.setFieldValue("subcategory", selectedSubcategories.join(","));
-                          // }}
-                        />
-                      }
-                      label={
-                        <Typography sx={{ color: "#757575" }}>
-                          {subcategory.label}
-                        </Typography>
-                      }
-                      sx={{ mb: -1 }}
-                    />
-                  ))}
-                  {/* </FormGroup> */}
+                            size="small"
+                            disableRipple={true}
+                            sx={{ color: "#757575" }}
+                            name="subcategory"
+                            value={subcategory.value}
+                            // onChange={formik.handleChange}
+                            onChange={() => {
+                              // Update the value of subcategory field
+                              if (
+                                formik.values.subcategory === subcategory.value
+                              ) {
+                                // If the same subcategory is already selected, remove the value
+                                formik.setFieldValue("subcategory", "");
+                              } else {
+                                // Set the new selected value
+                                formik.setFieldValue(
+                                  "subcategory",
+                                  subcategory.value
+                                );
+                              }
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography sx={{ color: "#757575" }}>
+                            {subcategory.label}
+                          </Typography>
+                        }
+                        sx={{ mb: -1 }}
+                      />
+                    ))}
+                  </FormGroup>
                   {formik.touched.subcategory && formik.errors.subcategory && (
                     <FormHelperText error>
                       {formik.errors.subcategory}
@@ -499,9 +501,11 @@ const EditProduct = () => {
             </Grid>
           </Grid>
         </Grid>
+
+        {/* Add more fields as needed */}
       </form>
     </Box>
   );
 };
 
-export default EditProduct;
+export default ProductEditForm;
