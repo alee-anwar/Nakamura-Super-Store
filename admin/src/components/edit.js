@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, FormControl, FormLabel, FormControlLabel, Checkbox, Typography, FormHelperText, FormGroup, Grid, MenuItem } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { categories, subcategories } from "./data";
 
 const validationSchema = Yup.object().shape({
   productTitle: Yup.string().required('Title is required'),
@@ -86,10 +87,36 @@ const ProductEditForm = () => {
           helperText={formik.touched.price && formik.errors.price}
         />
       </div>
+              <Grid item sm={12} md={6}>
+                    <TextField
+                      margin="dense"
+                      select
+                      label="Status"
+                      id="status"
+                      name="status"
+                      value={formik.values.status || ""}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.status && Boolean(formik.errors.status)}
+                      helperText={formik.touched.status && formik.errors.status}
+                      required
+                      fullWidth
+                      size="small"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    >
+                      {/* Menu Items */}
+
+                       <MenuItem value="">None</MenuItem>
+                      <MenuItem value={"Active"}>Active</MenuItem>
+                      <MenuItem value={"Deactive"}>Deactive</MenuItem>
+                    </TextField>
+                  </Grid>
       <div>
       <FormControl required component="fieldset">
                   <FormLabel>Categories</FormLabel>
-                  {/* <FormGroup> */}
+                  <FormGroup>
                   {categories.map((category) => (
                     <FormControlLabel
                       key={category.id}
@@ -122,7 +149,7 @@ const ProductEditForm = () => {
                       sx={{ mb: -1 }}
                     />
                   ))}
-                  {/* </FormGroup> */}
+                  </FormGroup>
                   {formik.touched.category && formik.errors.category && (
                     <FormHelperText error>
                       {formik.errors.category}
@@ -139,3 +166,7 @@ const ProductEditForm = () => {
 };
 
 export default ProductEditForm;
+
+
+
+ 
