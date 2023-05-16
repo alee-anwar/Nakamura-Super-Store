@@ -47,7 +47,7 @@ export default function SignIn() {
           // store session information in local storage
           // setToken(response.data.token)
           localStorage.setItem("token", response.data.token);
-          //  localStorage.setItem("user", JSON.stringif(response.data.user));
+           localStorage.setItem("user", JSON.stringify(response.data.User));
 
           window.location.href = "/dashboard";
         })
