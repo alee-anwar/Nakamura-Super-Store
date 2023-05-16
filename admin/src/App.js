@@ -107,7 +107,10 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // Set isLoggedIn based on whether the token is present
+    const user = localStorage.getItem("user");
+    console.log(JSON.parse(user));
+    console.log(JSON.stringify(user));
+    setIsLoggedIn(token && user); // Set isLoggedIn based on whether the token is present
   }, []);
 
   return (
