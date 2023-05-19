@@ -8,14 +8,17 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link } from "react-router-dom";
 
 function CartItem({ item, handleRemoveItem, handleUpdateQuantity }) {
-  const { image, productTitle, quantity, size, price } = item;
+  const { _id, image, productTitle, quantity, size, price } = item;
   return (
     <>
       <Grid container>
         <Grid item xs={4} sm={3} md={3} lg={2} p={1}>
+        <Link to={`/productdetails/${_id}`}>
           <img src={image} width={100} height={100} alt={productTitle} />
+          </Link>
         </Grid>
         <Grid item xs={4} sm={4} md={4} lg={4}>
           {/* <Typography variant="subtitle1" fontWeight="bold" pt={1}>

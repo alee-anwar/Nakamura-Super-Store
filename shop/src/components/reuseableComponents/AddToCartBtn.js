@@ -9,7 +9,6 @@ const AddToCartBtn = ({
   item,
   isFullWidth,
 }) => {
-  console.log("AddToCartBtn in Clicked")
   const isItemInCart = cartItems?.some((cartItem) => cartItem._id === item._id);
   const btnText = isItemInCart ? "Remove" : "Add";
 

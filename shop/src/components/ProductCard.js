@@ -12,7 +12,7 @@ import WishlistBtn from "./reuseableComponents/WishlistBtn";
 const ProductCard = (props) => {
   const { wishlist, setWishlist, item, cartItems, setCartItems, setTotalCost } = props;
 
-  console.log("Welcome to the Product Card")
+  // console.log("Welcome to the Product Card")
   return (
     <Card sx={{ maxWidth: 180, px: 2, pt: 2 }}>
       <Link to={`/productdetails/${item._id}`}>

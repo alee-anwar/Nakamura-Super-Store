@@ -48,6 +48,10 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
   }, [cartItems, totalCost]);
 
   const handleUpdateQuantity = (itemId, newQuantity) => {
+    if (newQuantity <= 0) {
+      newQuantity = 1; // Set the new quantity to 0 if it's less than 0
+    }
+  
     const updatedItems = cartItems.map((item) => {
       if (item._id === itemId) {
         item.quantity = newQuantity;
@@ -55,13 +59,14 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
       return item;
     });
     setCartItems(updatedItems);
-    setTotalCost(
-      updatedItems.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      )
+  
+    const totalCost = updatedItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
     );
+    setTotalCost(totalCost);
   };
+  
 
   const handleRemoveItem = (itemId) => {
     const updatedItems = cartItems.filter((item) => item._id !== itemId);
@@ -94,7 +99,7 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
         {cartItems.length === 0 ? (
           <Grid item xs={12} md={12}>
             <ErrorMessage
-              path={"/catalogue"}
+              path={"/shop"}
               errorMessage={" Your cart is empty"}
               linkMsg={"Return to shopping"}
             />

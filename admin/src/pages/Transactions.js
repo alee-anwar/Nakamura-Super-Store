@@ -5,8 +5,9 @@ import { Box } from "@mui/system";
 // import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../components/DotsMenuBtn";
+import { TapasTwoTone } from "@mui/icons-material";
 
-const Transactions = () => {
+const Transactions = ({setTotalSales, totalSales}) => {
   const theme = useTheme();
   // const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
@@ -15,7 +16,13 @@ const Transactions = () => {
     fetch("http://localhost:3000/transactionList/viewTransaction")
       .then((res) => res.json())
       .then((data) => setTransactions(data));
-  }, []);
+  }, [totalSales]);
+
+  // if(transactions) {
+  //   const totalAmount = 0;
+  //   totalAmount += totalSales;
+  //   setTotalSales(totalAmount)
+  // }
 
   const handleDelete = async (id) => {
     await fetch("http://localhost:3000/transactionList/deleteTransaction/" + id, {
@@ -43,7 +50,7 @@ const Transactions = () => {
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = transactions.map((row) => ({
-    id: row.transactionID,
+    id: row._id,
     status: row.status,
     oid: row.OID,
     name: row.customerName,

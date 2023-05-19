@@ -7,11 +7,11 @@ import MyButton from "./reuseableComponents/MyButton";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
-import img1 from "../assets/img/hero-img-1.jpg";
-import img2 from "../assets/img/paper-bag-and-different-food-isolated.jpg";
-import img3 from "../assets/img/paper-bag-with-green-vegetables.jpg";
-import img4 from "../assets/img/retail-grocery-shopping-and-delivery.jpg";
-import img5 from "../assets/img/woman-holding-grocery-shopping-bag-full.jpg";
+import img1 from "../assets/Banner/store.jpg";
+import img2 from "../assets/Banner/paper-bag-and-different-food-isolated.jpg";
+import img3 from "../assets/Banner/paper-bag-with-green-vegetables.jpg";
+import img4 from "../assets/Banner/multiple.jpg";
+import img5 from "../assets/Banner/bike.jpg";
 
 const images = [
   {
@@ -39,7 +39,7 @@ const images = [
 
   {
     url: img5,
-    alt: "woman-holding-grocery-shopping-bag-full",
+    alt: "holding-grocery-shopping-bag-full",
     heading: "Serving fresh ingredients your way everyday!",
   },
 ];
@@ -218,7 +218,7 @@ const Banner = () => {
                     >
                       {image.heading}
                     </motion.h1>
-                    <Link to="/catalogue">
+                    <Link to="/shop">
                       <MyButton>Find Products</MyButton>
                     </Link>
                   </TextContainer>

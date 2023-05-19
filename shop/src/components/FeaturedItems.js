@@ -129,7 +129,11 @@ const FeaturedItems = ({
         <Typography variant="h1" my={3} flexGrow={1}>
           Featured Items
         </Typography>
-        <Button
+        <Typography variant="h1" my={3}>
+          ځانګړي توکي
+        </Typography>
+
+        {/* <Button
           sx={{
             fontWeight: "500",
             color: "#262626",
@@ -141,7 +145,7 @@ const FeaturedItems = ({
           disableRipple
         >
           View All
-        </Button>
+        </Button> */}
       </Box>
 
       <Carousel

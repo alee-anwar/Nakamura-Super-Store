@@ -1,37 +1,44 @@
-import React from "react";
-import styled from "styled-components";
-// import { motion } from "framer-motion";
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-
-const NavSearchBar = styled.div`
-  position: relative;
-  width: 200px;
-  height: 36px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex: 1;
-  transition: all 1s ease;
-  &:active {
-    transform: scale(0.95);
-  }
-`;
-
-const SearchInput = styled.input`
-  position: relative;
-  height: 100%;
-  width: 90%;
-  border: none;
-  font-size: var(--text-font);
-  padding-left: 14px;
-`;
+import { Box, IconButton, InputBase, Paper } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(search);
+  }, [search]);
+
+  const SearchChange = (event) => {
+    setSearch(event.target.value);
+  };
   return (
-      <NavSearchBar>
-        <SearchRoundedIcon/>
-        <SearchInput placeholder="Search food..." />
-      </NavSearchBar>
+    <Paper
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        borderBottom: "1px solid lightgrey",
+        borderRadius: "15px",
+        pl: 2,
+      }}
+      variant="outlined"
+    >
+      <InputBase
+        placeholder="Search..."
+        value={search}
+        onChange={SearchChange}
+      />
+
+      <IconButton
+        aria-label="search"
+        onClick={() => {
+          navigate("/search", { state: { Data: search } });
+        }}
+      >
+        <SearchIcon color="primary" fontSize="medium" />
+      </IconButton>
+    </Paper>
   );
 };
 

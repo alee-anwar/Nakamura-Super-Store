@@ -16,10 +16,10 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <Box sx={{ height: "auto", background: "#262626", pb: 3, pt: 5, px: 5 }}>
-      <Container maxWidth="md" sx={{pb: 3}}>
+      <Container maxWidth="md" sx={{ pb: 3 }}>
         <Grid container>
           <Grid item md={4} sm={12} xs={12}>
-            <Box sx={{ color: "#fff"}} textAlign='center' pt={1}>
+            <Box sx={{ color: "#fff" }} textAlign="center" pt={1}>
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
                 Customer Service
               </Typography>
@@ -36,14 +36,11 @@ const Footer = () => {
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
                   Contact Us
                 </Typography>
-                <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Store Address
-                </Typography>
               </Stack>
             </Box>
           </Grid>
-          <Grid item md={4} sm={12}  xs={12}>
-            <Box sx={{ color: "#fff" }}  textAlign='center' pt={1}> 
+          <Grid item md={4} sm={12} xs={12}>
+            <Box sx={{ color: "#fff" }} textAlign="center" pt={1}>
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
                 Help & Information
               </Typography>
@@ -66,34 +63,52 @@ const Footer = () => {
               </Stack>
             </Box>
           </Grid>
-          <Grid item md={4} sm={12}  xs={12}>
-            <Box sx={{ color: "#fff" }}  textAlign='center' pt={1}>
+          <Grid item md={4} sm={12} xs={12}>
+            <Box sx={{ color: "#fff" }} textAlign="center" pt={1}>
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
                 Quick Links
               </Typography>
               <Stack spacing={0.5}>
-                <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Home
-                </Typography>
-                <Link to='/catalogue' style={{textDecoration: "none", color: "white"}}>
-                <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Shop Now
-                </Typography>
+                <Link
+                  to="/home"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  <Typography variant="body2" sx={{ fontSize: 13 }}>
+                    Home
+                  </Typography>
                 </Link>
-                <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Cart
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Wishlist
-                </Typography>
+                <Link
+                  to="/shop"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  <Typography variant="body2" sx={{ fontSize: 13 }}>
+                    Shop Now
+                  </Typography>
+                </Link>
+                <Link
+                  to="/cart"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  <Typography variant="body2" sx={{ fontSize: 13 }}>
+                    Cart
+                  </Typography>
+                </Link>
+                <Link
+                  to="/wishlist"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  <Typography variant="body2" sx={{ fontSize: 13 }}>
+                    Wishlist
+                  </Typography>
+                </Link>
               </Stack>
             </Box>
           </Grid>
         </Grid>
       </Container>
-      <Divider sx={{ bgcolor: '#fff' }} flexItem/>
-      <Grid container pt={3} >
-        <Grid item md={6} sm={6}  xs={12}>
+      <Divider sx={{ bgcolor: "#fff" }} flexItem />
+      <Grid container pt={3}>
+        <Grid item md={6} sm={6} xs={12}>
           <Box
             component="img"
             sx={{ height: 72, justifyContent: "center", alignItems: "center" }}
@@ -101,8 +116,15 @@ const Footer = () => {
             src={Logo}
           />
         </Grid>
-        <Grid item md={6} sm={6}  xs={12}>
-          <Stack height='100%' alignItems='center' color="#fff" direction="row-reverse" spacing={1} pt={1}>
+        <Grid item md={6} sm={6} xs={12}>
+          <Stack
+            height="100%"
+            alignItems="center"
+            color="#fff"
+            direction="row-reverse"
+            spacing={1}
+            pt={1}
+          >
             <PinterestIcon />
             <InstagramIcon />
             <FacebookIcon />

@@ -7,13 +7,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../../components/DotsMenuBtn";
 import axios from "axios";
 import moment from "moment";
-const Products = () => {
+const Products = ({setTotalProducts, totalProducts}) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [deleted, setDeleted] = useState(false);
 
-  console.log(products);
+  // console.log(products);
   useEffect(() => {
     axios
       .get("http://localhost:3000/productList/viewProducts", {
@@ -23,8 +23,12 @@ const Products = () => {
       })
       .then((res) => setProducts(res.data))
       .catch((err) => console.log(err.message));
-  }, [deleted]);
-  // console.log(products);
+  }, [deleted, totalProducts]);
+
+  if(products) {
+    setTotalProducts(products.length)
+  }
+
 
   const handleDelete = async (id) => {
     await axios.delete(`http://localhost:3000/productList/deleteProduct/${id}`)
@@ -62,7 +66,7 @@ const Products = () => {
       field: "price",
       headerName: "Price",
       width: 90,
-      valueFormatter: ({ value }) => `Rs ${value}`,
+      valueFormatter: ({ value }) => `AFN ${value}`,
     },
     { field: "color", headerName: "Color", width: 90 },
     { field: "quantity", headerName: "Quantity", width: 80 },

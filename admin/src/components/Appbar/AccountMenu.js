@@ -7,17 +7,17 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import Avatar from "@mui/material/Avatar";
-import admin from "../../json/admin.json";
 import { deepOrange } from "@mui/material/colors";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import { useNavigate } from "react-router-dom";
 
-export default function AccountMenu() {
+export default function AccountMenu({user}) {
   const navigate= useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
+  const firstName = user[0]?.firstName;
+  const firstLetter = firstName ? firstName.charAt(0).toUpperCase() : '';
   const handleLogout = () => {
  
     localStorage.removeItem("token");
@@ -48,7 +48,7 @@ export default function AccountMenu() {
             disableRipple
           >
             <Avatar sx={{ bgcolor: deepOrange[700], width: 34, height: 34 }}>
-              {admin[0].name[0].toUpperCase()}
+              {firstLetter}
             </Avatar>
             <ExpandMoreRoundedIcon />
           </IconButton>

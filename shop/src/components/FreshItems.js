@@ -141,7 +141,11 @@ const FreshItems = ({
         <Typography variant="h1" my={3} flexGrow={1}>
           Healthy Food
         </Typography>
-        <Button
+        <Typography variant="h1" my={3}>
+          صحي خواړه{" "}
+        </Typography>
+
+        {/* <Button
           sx={{
             fontWeight: "500",
             color: "#262626",
@@ -153,7 +157,7 @@ const FreshItems = ({
           disableRipple
         >
           View All
-        </Button>
+        </Button> */}
       </Box>
 
       <Carousel

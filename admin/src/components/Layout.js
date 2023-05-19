@@ -4,11 +4,11 @@ import Appbar from "./Appbar/Appbar";
 import Navbar from "./Navbar/Navbar";
 import { Box } from "@mui/material";
 
-export default function Layout({ children }) {
+export default function Layout({ children, user }) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Appbar />
+      <Appbar user={user}/>
       <Navbar />
       <Box component="main" mx={5} flexGrow={1} mt={3}>
           {children}

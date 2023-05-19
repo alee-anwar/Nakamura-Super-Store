@@ -14,14 +14,17 @@ import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const MyAccount = () => {
+const MyAccount = ({user}) => {
   const [accountDetails, setAccountDetails] = useState({});
   const theme = useTheme();
   const navigate = useNavigate();
   const handleLogout = () => {
-    navigate("/login");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    // navigate('/login')
+    window.location.href = "/login";
   };
-
+  console.log("account"+user[0].firstName)
   // useEffect(() => {
   //   axios.get('http://localhost:8000/admin')
   //     .then(response => setAccountDetails(response.data))
@@ -31,7 +34,6 @@ const MyAccount = () => {
   // const handleChange = (event) => {
   //   setAccountDetails({ ...accountDetails, [event.target.firstname]: event.target.value });
   // };
-  console.log(accountDetails.firstName);
   return (
     <Box>
       <Box sx={theme.mixins.toolbar} />
@@ -49,7 +51,10 @@ const MyAccount = () => {
                       size="small"
                       label="First Name"
                       fullWidth
-                      value={accountDetails.firstName}
+                      value={user[0]?.firstName}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       // onChange={handleChange}
                     ></TextField>
                   </Grid>
@@ -58,7 +63,10 @@ const MyAccount = () => {
                       size="small"
                       label="Last Name"
                       fullWidth
-                      value={accountDetails.lastName}
+                      value={user[0]?.lastName}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       // onChange={handleChange}
                       // onChange={(e) => setQuantity(e.target.value)}
                     ></TextField>
@@ -66,8 +74,12 @@ const MyAccount = () => {
 
                   <Grid item md={6}>
                     <Stack spacing={2}>
-                      <TextField size="small" label="Email"  value={accountDetails.email}></TextField>
-                      <TextField size="small" label="Phone"  value={accountDetails.phone}></TextField>
+                      <TextField size="small" label="Email"  value={user[0]?.email}    InputLabelProps={{
+                        shrink: true,
+                      }}></TextField>
+                      <TextField size="small" label="Phone"  value={accountDetails.phone}    InputLabelProps={{
+                        shrink: true,
+                      }}></TextField>
                     </Stack>
                   </Grid>
                 </Grid>

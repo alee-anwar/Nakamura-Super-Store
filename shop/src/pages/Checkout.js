@@ -75,7 +75,7 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
         {cartItems.length === 0 ? (
           <Grid item xs={12} md={12}>
             <ErrorMessage
-              path={"/catalogue"}
+              path={"/shop"}
               errorMessage={" Your cart is empty"}
               linkMsg={"Return to shopping"}
             />
@@ -175,7 +175,7 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
                 ) : (
                   <Button
                     variant="contained"
-                    onClick={() => navigate("/account")}
+                    onClick={() => navigate("/account/login")}
                   >
                     Login to Place Order
                   </Button>

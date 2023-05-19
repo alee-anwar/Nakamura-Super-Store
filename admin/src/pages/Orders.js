@@ -6,7 +6,7 @@ import { Box } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../components/DotsMenuBtn";
 
-const Orders = () => {
+const Orders = ({setTotalOrders, totalOrders}) => {
   const theme = useTheme();
   // const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
@@ -16,15 +16,18 @@ const Orders = () => {
     fetch("http://localhost:3000/orderList/viewOrders")
       .then((res) => res.json())
       .then((data) => setOrders(data));
-  }, [deleted]);
+  }, [deleted, totalOrders]);
 
+  if(orders) {
+    setTotalOrders(orders.length)
+  }
   const handleDelete = async (id) => {
     await fetch("http://localhost:3000/orderList/deleteOrder/" + id, {
       method: "DELETE",
     });
     const newOrders = orders.filter((order) => order.id !== id);
     setOrders(newOrders);
-    setDeleted(true)
+    setDeleted(true);
   };
 
   const columns = [
@@ -39,7 +42,7 @@ const Orders = () => {
       headerName: "Action",
       renderCell: (params) => (
         // <DotsMenuBtn product={params.id} handleDelete={handleDelete}/>
-        <DotsMenuBtn product={params.row} handleDelete={handleDelete}/>
+        <DotsMenuBtn product={params.row} handleDelete={handleDelete} />
       ),
       width: 150,
     },
@@ -63,9 +66,7 @@ const Orders = () => {
         <Typography sx={{ flexGrow: 1 }} variant="h1">
           Orders
         </Typography>
-        <Button variant="contained">
-        Add Order
-        </Button>
+        <Button variant="contained">Add Order</Button>
       </Box>
 
       <div style={{ height: "78vh", width: "100%" }}>

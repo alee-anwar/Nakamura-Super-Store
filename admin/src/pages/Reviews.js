@@ -5,51 +5,81 @@ import { Box } from "@mui/system";
 // import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../components/DotsMenuBtn";
+import axios from "axios";
+import moment from "moment";
 
 const Reviews = () => {
   const theme = useTheme();
   // const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
+  const [deleted, setDeleted] = useState(false);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/reviewList/viewReviews")
+  //     .then((res) => res.json())
+  //     .then((data) => setReviews(data));
+  // }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/reviewList/viewReviews")
-      .then((res) => res.json())
-      .then((data) => setReviews(data));
-  }, []);
+    axios
+      .get("http://localhost:3000/reviewList/viewReviews", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => setReviews(res.data))
+      .catch((err) => console.log(err.message));
+  }, [deleted]);
+
+  console.log(reviews._id)
+
+  // const handleDelete = async (id) => {
+  //   await fetch("http://localhost:3000/reviewList/viewReviews" + id, {
+  //     method: "DELETE",
+  //   });
+  //   const newReviews = reviews.filter((review) => review.id !== id);
+  //   setReviews(newReviews);
+  // };
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:3000/reviewList/viewReviews" + id, {
-      method: "DELETE",
-    });
-    const newReviews = reviews.filter((review) => review.id !== id);
+    await axios.delete(`http://localhost:3000/reviewList/viewReviews/${id}`)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err.message));
+    const newReviews = reviews.filter((review) => review._id !== id)
     setReviews(newReviews);
+    setDeleted(true);
   };
 
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
-    { field: "sku", headerName: "SKU", width: 100 },
-    { field: "product", headerName: "Product", width: 250 },
-    { field: "name", headerName: "Name", width: 150 },
-    { field: "rating", headerName: "Rating", width: 150 },
-    { field: "date", headerName: "Date", width: 150 },
+    { field: "product", headerName: "Product", width: 150 },
+    { field: "customer", headerName: "Customer", width: 180 },
+    { field: "email", headerName: "Email", width: 150 },
+    { field: "rating", headerName: "Rating", width: 100 },
+    { field: "title", headerName: "Title", width: 150 },
+    { field: "message", headerName: "Message", width: 180 },
+    { field: "date", headerName: "Date", width: 100 },
     {
       field: "action",
       headerName: "Action",
       renderCell: (params) => (
         <DotsMenuBtn product={params.id} handleDelete={handleDelete}/>
       ),
-      width: 150,
+      width: 100,
     },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = reviews.map((row) => ({
-    id: row.id,
-    sku: row.sku,
-    product: row.product,
-    name: row.name,
+    id: row._id,
+    product: row.productName,
+    customer: row.customerName,
+    email: row.email,
     rating: row.rating,
-    date: row.date,
+    title: row.reviewTitle,
+    message: row.reviewMessage,
+    date: moment(row.date).format("DD/MM/YYYY"),
   }));
+  
 
   // console.log(products);
 
@@ -66,6 +96,7 @@ const Reviews = () => {
         <DataGrid
           rows={rows}
           columns={columns}
+          getRowId={(row) => row.date}
           initialState={{
             ...reviews.initialState,
             pagination: { paginationModel: { pageSize: 9 } },

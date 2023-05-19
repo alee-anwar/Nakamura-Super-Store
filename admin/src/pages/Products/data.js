@@ -6,53 +6,55 @@ export const categories = [
   },
   {
     id: 1,
-    value: "Fresh Produce",
-    label: "Fresh Produce",
-  },
-  {
-    id: 2,
-    value: "Meat and Seafood",
-    label: "Meat and Seafood",
-  },
-  {
-    id: 3,
-    value: "Dairy and Eggs",
-    label: "Dairy and Eggs",
-  },
-  {
-    id: 4,
-    value: "Frozen Foods:",
-    label: "Frozen Foods:",
-  },
-  {
-    id: 5,
     value: "Bakery",
     label: "Bakery",
   },
   {
+    id: 2,
+    value: "Meat & Seafood",
+    label: "Meat & Seafood",
+  },
+  {
+    id: 3,
+    value: "Dairy & Eggs",
+    label: "Dairy & Eggs",
+  },
+  {
+    id: 4,
+    value: "Health & Care",
+    label: "Health & Care",
+  },
+
+  {
+    id: 5,
+    value: "Household Items",
+    label: "Household Items",
+  },
+
+  {
     id: 6,
-    value: "Deli and Prepared Foods",
-    label: "Deli and Prepared Foods",
+    value: "Home & Kitchen",
+    label: "Home & Kitchen",
   },
   {
     id: 7,
-    value: "Personal Care and Health",
-    label: "Personal Care and Health",
+    value: "Electronics",
+    label: "Electronics",
   },
   {
     id: 8,
-    value: "Household Supplies",
-    label: "Household Supplies",
+    value: "Stationary",
+    label: "Stationary",
   },
   {
     id: 9,
-    value: "Baby and Child Care",
-    label: "Baby and Child Care",
+    value: "Snaks & Baverages",
+    label: "Snaks & Baverages",
   },
   {
     id: 10,
-    value: "Home and Kitchen",
-    label: "Home and Kitchen",
+    value: "Pulses & Legumes",
+    label: "Pulses & Legumes",
   },
 ];
 
@@ -63,16 +65,16 @@ export const subcategories = [
   { value: "Beverages", label: "Beverages" },
   { value: "Vegetables", label: "Vegetables" },
   {
-    value: "Frozen Fruits and Vegetables",
-    label: "Frozen Fruits and Vegetables",
+    value: "Fruits",
+    label: "Fruits",
   },
-  { value: "Frozen Itmes", label: "Frozen Meals" },
-  { value: "Bath and Body Products", label: "Bath and Body Products" },
-  { value: " Care Products", label: "Hair Care" },
+  { value: "Meat", label: "Meat" },
+  { value: "Fish", label: "Fish" },
+  { value: "Men Care", label: "Men Care" },
+  { value: "Women Care", label: "Women Care" },
+  { value: "Baby Care", label: "Baby Care" },
   { value: "Cleaning Supplies", label: "Cleaning Supplies" },
   { value: "Laundry Detergent", label: "Laundry Detergent" },
-  { value: "Stationary", label: "Paper Products" },
-  { value: "Baby Care Products", label: "Baby Care Products" },
 ];
 
 //   Sure! Here are a few important categories you typically find in a supermarket or a superstore, along with some subcategories:

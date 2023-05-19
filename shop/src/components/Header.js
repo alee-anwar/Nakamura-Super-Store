@@ -18,12 +18,12 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import Logo from "../assets/nakamura.png";
-import { categories } from "./allCategories";
+import { categories } from "./reuseableComponents/allCategories";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 
-const Header = ({ cartItems, wishlist }) => {
+const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
@@ -66,7 +66,9 @@ const Header = ({ cartItems, wishlist }) => {
             />
           </Link>
         </Box>
-        <SearchBar />
+        <Box marginRight={4}>
+          <SearchBar />
+        </Box>
         <Box display="flex" alignItems="center">
           <IconButton disableRipple>
             <Link to="/wishlist">
@@ -103,7 +105,15 @@ const Header = ({ cartItems, wishlist }) => {
               <ListItemButton
                 disableRipple
                 disableGutters
-                sx={{ paddingTop: 0 }}
+                sx={{
+                  paddingTop: 0,
+                  "&:hover": {
+                    color: "#ffe033",
+                    textDecoration: "underline",
+                    bgcolor: "transparent", // Remove the background color on hover
+                  },
+                }}
+                onClick={() => navigate(`/shop/${category.value}`)}
               >
                 <ListItem disablePadding>
                   <Typography variant="body2">{category.label}</Typography>
@@ -131,7 +141,11 @@ const Header = ({ cartItems, wishlist }) => {
         <List>
           {categories.map((category) => (
             <ListItem key={category.id} onClick={handleDrawerClose}>
-              <ListItemText primary={category.label} />
+              <ListItemButton
+                onClick={() => navigate(`/shop/${category.value}`)}
+              >
+                <ListItemText primary={category.label} />
+              </ListItemButton>
             </ListItem>
           ))}
         </List>

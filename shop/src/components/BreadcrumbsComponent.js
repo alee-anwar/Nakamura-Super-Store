@@ -36,15 +36,22 @@ export default function BreadcrumbsComponent({ name, path }) {
             icon={<HomeIcon color="primary" fontSize="small" />}
           />
         </Link>
-        {
-          (name === "Checkout" && (
-            <Link to="/cart">
-              <StyledBreadcrumb
-                label="Cart"
-              />
-            </Link>
-          ))
-        }
+        {name === "Checkout" && (
+          <Link to="/cart">
+            <StyledBreadcrumb label="Cart" />
+          </Link>
+        )}
+        {name === "Login" && (
+          <Link to="/account">
+            <StyledBreadcrumb label="Account" />
+          </Link>
+        )}
+        {name === "Sign Up" && (
+          <Link to="/account">
+            <StyledBreadcrumb label="Account" />
+          </Link>
+        )}
+
         <Link to={path}>
           <StyledBreadcrumb label={name} />
         </Link>

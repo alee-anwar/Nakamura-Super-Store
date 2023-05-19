@@ -10,7 +10,7 @@ const drawerWidth = 225;
 //       flexGrow: 1,
 //     },
 //   };
-const Appbar = () => {
+const Appbar = ({user}) => {
  
   return (
     <AppBar color="inherit" elevation={0} position="fixed" sx={{width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
@@ -19,7 +19,7 @@ const Appbar = () => {
           Today date is {format(new Date(), "do MMMM Y")}
         </Typography> */}
         <NotificationBell iconColor="primary" />
-        <AccountMenu />
+        <AccountMenu user={user}/>
       </Toolbar>
     </AppBar>
   );

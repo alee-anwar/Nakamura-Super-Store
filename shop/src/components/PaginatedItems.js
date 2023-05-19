@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Pagination } from "@mui/material";
 import ProductCard from "./ProductCard";
 import axios from "axios";
@@ -10,50 +10,46 @@ function PaginatedItems({
   setWishlist,
   totalCost,
   setTotalCost,
+  filteredProducts, // Update the products prop
 }) {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(filteredProducts);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(2);
+  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const PRODUCTS_PER_PAGE = 8; // Number of products to display per page
-
-  const startIndex = (page - 1) * PRODUCTS_PER_PAGE;
-  const endIndex = startIndex + PRODUCTS_PER_PAGE;
+  const PRODUCTS_PER_PAGE = 12; // Number of products to display per page
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:3000/productList/viewProducts",
-          {
-            // params: { page },
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          "http://localhost:3000/productList/viewProducts"
         );
-      console.log(response);
         setProducts(response.data);
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
         setError(error.message);
         setIsLoading(false);
       }
     };
+
     fetchData();
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     setTotalPages(Math.ceil(products.length / PRODUCTS_PER_PAGE));
-  }, [products, setTotalPages]);
+  }, [products]);
 
-  const displayedProducts = useMemo(() => {
-    return products.slice(startIndex, endIndex);
-  }, [products, startIndex, endIndex]);
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const startIndex = (page - 1) * PRODUCTS_PER_PAGE;
+  const endIndex = page * PRODUCTS_PER_PAGE;
+
+  const displayedProducts = products.slice(startIndex, endIndex);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -63,18 +59,10 @@ function PaginatedItems({
     return <div>{error}</div>;
   }
 
-  const handlePageChange = (event, value) => {
-    // const pageNumber = parseInt(event.target.textContent);
-    // setPage(pageNumber);
-    setPage(value);
-  };
-
-  // console.log({ products });
-
   return (
     <div>
       <Grid container columns={12} spacing={1}>
-        {products.map((item) => (
+        {displayedProducts.map((item) => (
           <Grid item xs={6} sm={4} md={4} lg={3} key={item._id}>
             <ProductCard
               cartItems={cartItems}
@@ -84,8 +72,6 @@ function PaginatedItems({
               item={item}
               totalCost={totalCost}
               setTotalCost={setTotalCost}
-              startIndex={startIndex}
-              endIndex={endIndex}
             />
           </Grid>
         ))}
@@ -102,3 +88,15 @@ function PaginatedItems({
 }
 
 export default PaginatedItems;
+
+{
+  /* <PaginatedItems
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+            wishlist={wishlist}
+            setWishlist={setWishlist}
+            totalCost={totalCost}
+            setTotalCost={setTotalCost}
+            filteredProducts={filteredProducts} // Pass the filtered products to PaginatedItems component
+          /> */
+}

@@ -1,19 +1,34 @@
-import React from 'react';
-import {  Box, Checkbox } from '@mui/material';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import React from "react";
+import { Box, Checkbox } from "@mui/material";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 
 const WishlistBtn = ({ wishlist, setWishlist, item }) => {
-  const isItemInWishlist = wishlist.some((wishlistItem) => wishlistItem._id === item._id);
+  const isItemInWishlist =
+  Array.isArray(wishlist) && wishlist.some((wishlistItem) => wishlistItem._id === item._id);
+
+  // const handleToggleWishlist = () => {
+  //   // Add or remove item from the wishlist based on its current presence
+  //   if (isItemInWishlist) {
+  //     setWishlist((prevWishlist) =>
+  //       prevWishlist.filter((wishlistItem) => wishlistItem._id !== item._id)
+  //     );
+  //   } else {
+  //     setWishlist((prevWishlist) => [...prevWishlist, item]);
+  //   }
+  // };
+  // console.log("WishlistBtn Clicked");
 
   const handleToggleWishlist = () => {
+    // Add or remove item from the wishlist based on its current presence
     if (isItemInWishlist) {
-      setWishlist((prevWishlist) => prevWishlist.filter((wishlistItem) => wishlistItem._id !== item._id));
+      const updatedWishlist = wishlist.filter((wishlistItem) => wishlistItem._id !== item._id);
+      setWishlist(updatedWishlist);
     } else {
-      setWishlist((prevWishlist) => [...prevWishlist, item]);
+      const updatedWishlist = [...wishlist, item];
+      setWishlist(updatedWishlist);
     }
   };
-  console.log("WishlistBtn Clicked")
 
   return (
     <Box display="flex" justifyContent="flex-end">
@@ -29,42 +44,3 @@ const WishlistBtn = ({ wishlist, setWishlist, item }) => {
 };
 
 export default WishlistBtn;
-
-// import React from 'react'
-// import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
-// import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-// import { Box, Checkbox } from '@mui/material';
-
-// const WishlistBtn = ({wishlist, setWishlist, item}) => {
-//     const isItemInWishlist = wishlist.some(
-//         (wishlistItem) => wishlistItem._id === item._id
-//       );
-
-//       const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-//       const handleToggleWishlist = () => {
-//         const isInWishlist = wishlist.some(
-//           (wishlistItem) => wishlistItem._id === item._id
-//         );
-//         if (isInWishlist) {
-//           setWishlist((prevWishlist) =>
-//             prevWishlist.filter((wishlistItem) => wishlistItem._id !== item._id)
-//           );
-//         } else {
-//           setWishlist((prevWishlist) => [...prevWishlist, item]);
-//         }
-//       };
-//   return (
-//     <Box display="flex" justifyContent="flex-end">
-//     <Checkbox
-//       className="wishlist--icon"
-//       icon={<FavoriteBorderRoundedIcon color="primary" />}
-//       checkedIcon={<FavoriteRoundedIcon color="primary" />}
-//       checked={isItemInWishlist}
-//       onChange={handleToggleWishlist}
-//     />
-//   </Box>
-//   )
-// }
-
-// export default WishlistBtn

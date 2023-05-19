@@ -1,96 +1,104 @@
-import React, { useState } from "react";
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Paper,
-  Typography,
-} from "@mui/material";
+// import React, { useState } from "react";
+// import {
+//   Paper,
+//   FormControl,
+//   FormGroup,
+//   FormControlLabel,
+//   Checkbox,
+//   Button,
+//   Typography,
+//   Box,
+// } from "@mui/material";
+// import axios from "axios";
+// import { categories } from "./reuseableComponents/allCategories";
 
-const FilterSidebar = () => {
-  const [selectedDepartments, setSelectedDepartments] = useState([]);
-  const [selectedBrands, setSelectedBrands] = useState([]);
+// const FilterSidebar = ({ setFilteredProducts }) => {
+//   const [selectedCategories, setSelectedCategories] = useState([]);
+//   const [selectedPrice, setSelectedPrice] = useState("");
 
-  const handleDepartmentChange = (event) => {
-    const { name } = event.target;
-    setSelectedDepartments((prevSelectedDepartments) => {
-      if (prevSelectedDepartments.includes(name)) {
-        return prevSelectedDepartments.filter(
-          (department) => department !== name
-        );
-      } else {
-        return [...prevSelectedDepartments, name];
-      }
-    });
-  };
+//   const handleCategoryChange = (event) => {
+//     const { name } = event.target;
+//     setSelectedCategories((prevSelectedCategories) => {
+//       if (prevSelectedCategories.includes(name)) {
+//         return prevSelectedCategories.filter((category) => category !== name);
+//       } else {
+//         return [...prevSelectedCategories, name];
+//       }
+//     });
+//   };
 
-  const handleBrandChange = (event) => {
-    const { name } = event.target;
-    setSelectedBrands((prevSelectedBrands) => {
-      if (prevSelectedBrands.includes(name)) {
-        return prevSelectedBrands.filter((brand) => brand !== name);
-      } else {
-        return [...prevSelectedBrands, name];
-      }
-    });
-  };
+//   const handlePriceChange = (event) => {
+//     setSelectedPrice(event.target.value);
+//   };
 
-  return (
-    <Paper
-      elevation={2}
-      style={{ padding: "16px", width: "auto", height: "auto" }}
-    >
-      <FormControl component="fieldset" p={2}>
-        <Typography variant="h6">Prices</Typography>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedBrands.includes("Bare")}
-                onChange={handleBrandChange}
-                name="Low to High"
-              />
-            }
-            label="Low to High"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedBrands.includes("Bake")}
-                onChange={handleBrandChange}
-                name="Hign to Low"
-              />
-            }
-            label="High to Low"
-          />
-        </FormGroup>
-        <Typography variant="h6">Categories</Typography>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedDepartments.includes("Fruits & Vegetables")}
-                onChange={handleDepartmentChange}
-                name="Fruits & Vegetables"
-              />
-            }
-            label="Fruits & Vegetables"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedDepartments.includes("Pantry")}
-                onChange={handleDepartmentChange}
-                name="Pantry"
-              />
-            }
-            label="Pantry"
-          />
-        </FormGroup>
-      </FormControl>
-    </Paper>
-  );
-};
+//   const handleFilter = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:3000/productList/filterProducts/${selectedPrice}`
+//       );
+//       console.log("response of filter is",response.data.data.sortingPrice);
+//       setFilteredProducts(response.data.data.sortingPrice
+//         );
+//     } catch (error) {
+//       console.error("Error filtering products:", error);
+//     }
+//   };
+  
 
-export default FilterSidebar;
+//   return (
+//     <Paper
+//       elevation={2}
+//       style={{ padding: "16px", width: "auto", height: "auto" }}
+//     >
+//       <FormControl component="fieldset" p={2}>
+//         <Typography variant="h6">Price</Typography>
+//         <FormGroup>
+//           <FormControlLabel
+//             control={
+//               <Checkbox
+//                 checked={selectedPrice === "highToLow"}
+//                 onChange={handlePriceChange}
+//                 value="highToLow"
+//               />
+//             }
+//             label="High to Low"
+//           />
+//           <FormControlLabel
+//             control={
+//               <Checkbox
+//                 checked={selectedPrice === "lowToHigh"}
+//                 onChange={handlePriceChange}
+//                 value="lowToHigh"
+//               />
+//             }
+//             label="Low to High"
+//           />
+//         </FormGroup>
+//         {/* <Typography variant="h6">Categories</Typography> */}
+//         {/* <FormGroup>
+         
+//           {categories.map((category) => (
+//             <FormControlLabel
+//               key={category.id}
+//               control={
+//                 <Checkbox
+//                   checked={selectedCategories.includes(category.value)}
+//                   onChange={handleCategoryChange}
+//                   name={category.value}
+//                 />
+//               }
+//               label={category.label}
+//             />
+//           ))}
+//         </FormGroup> */}
+//         <Box>
+//         <Button variant="contained"  onClick={handleFilter}>
+//           Filter
+//         </Button>
+//         </Box>
+        
+//       </FormControl>
+//     </Paper>
+//   );
+// };
+
+// export default FilterSidebar;
