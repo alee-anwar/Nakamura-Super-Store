@@ -29,7 +29,7 @@ const ProductCard = (props) => {
         <Stack direction="row" justifyContent="space-between" sx={{ pb: 2 }}>
           <Typography variant="subtitle">
             {typeof item.price === "number" ? (
-              `Rs ${item.price?.toFixed(2)}`
+              `AFN ${item.price?.toFixed(2)}`
             ) : (
               <Skeleton width={60} height={30} />
             )}
