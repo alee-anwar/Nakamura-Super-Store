@@ -52,6 +52,7 @@ const Vegetables = [
     title: "Birds Eye Mixed Vegetables, Frozen Vegetables, 80 Oz",
     image: "https://spoonacular.com/productImages/197185-312x231.jpeg",
     imageType: "jpeg",
+    price: 150,
   },
   {
     _id: 72254,
