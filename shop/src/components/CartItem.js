@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -11,13 +11,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 
 function CartItem({ item, handleRemoveItem, handleUpdateQuantity }) {
-  const { _id, image, productTitle, quantity, size, price } = item;
+  const { _id, image, productTitle, size, price } = item;
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (e) => {
+    const newQuantity = Number(e.target.value);
+    setQuantity(newQuantity);
+    handleUpdateQuantity(_id, newQuantity);
+  };
+
   return (
     <>
       <Grid container>
         <Grid item xs={4} sm={3} md={3} lg={2} p={1}>
-        <Link to={`/productdetails/${_id}`}>
-          <img src={image} width={100} height={100} alt={productTitle} />
+          <Link to={`/productdetails/${_id}`}>
+            <img src={image} width={100} height={100} alt={productTitle} />
           </Link>
         </Grid>
         <Grid item xs={4} sm={4} md={4} lg={4}>
@@ -49,12 +57,23 @@ function CartItem({ item, handleRemoveItem, handleUpdateQuantity }) {
           </Typography>
           <Box pt={3}>
             <Typography variant="subtitle2">Quantity:</Typography>
-            <OutlinedInput
+            {/* <OutlinedInput
               type="number"
               value={quantity}
               onChange={(e) =>
                 handleUpdateQuantity(item._id, Number(e.target.value))
               }
+              min="1"
+              sx={{
+                width: "70px",
+                height: "25px",
+                fontSize: "14px",
+              }}
+            /> */}
+            <OutlinedInput
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
               min="1"
               sx={{
                 width: "70px",
