@@ -29,9 +29,9 @@ const Customers = () => {
   console.log(customers)
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
-    { field: "firstName", headerName: "First Name", width: 100 },
-    { field: "lastName", headerName: "Last Name", width: 100 },
-    { field: "email", headerName: "Email", width: 150 },
+    { field: "firstName", headerName: "First Name", width: 150 },
+    { field: "lastName", headerName: "Last Name", width: 150 },
+    { field: "email", headerName: "Email", width: 250 },
     {
       field: "action",
       headerName: "Action",
