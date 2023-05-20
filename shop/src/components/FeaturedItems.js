@@ -10,6 +10,7 @@ import axios from "axios";
 const bestSellers = [
   {
     _id: 152500,
+    price: 150,
     titleTitle: "Fusion Gourmet Balis Best  Tea Candy, 42 ea",
     size: "250g",
     image: "https://spoonacular.com/productImages/152500-312x231.jpeg",
@@ -17,6 +18,7 @@ const bestSellers = [
   },
   {
     _id: 1094015,
+    price: 250,
     productTitle:
       "Neonblond My best Friend a Yonaguni Horse Mug gift for Coffee Tea lovers",
     image: "https://spoonacular.com/productImages/1094015-312x231.jpeg",
@@ -24,6 +26,7 @@ const bestSellers = [
   },
   {
     _id: 763159,
+    price: 100,
     productTitle: "Neonblond Worlds Best Ma Mug gift for Coffee Tea lovers",
     image: "https://spoonacular.com/productImages/763159-312x231.jpeg",
     imageType: "jpeg",
@@ -51,6 +54,7 @@ const bestSellers = [
   },
   {
     _id: 997713,
+
     productTitle:
       "Father?s Day Gift for Brothers What An Awesome Brother Looks Like World?s Best Bro Ever Graduation Birthday Christmas Gift from Sister Novelty Gag Gifts Idea for Sibling Ceramic Coffee Mug Tea Cup",
     image: "https://spoonacular.com/productImages/997713-312x231.jpeg",
