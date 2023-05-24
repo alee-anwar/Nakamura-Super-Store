@@ -19,11 +19,22 @@ import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 
-const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
-  console.log("Welcome to Cart Page")
+const Cart = ({
+  cartItems,
+  setCartItems,
+  totalCost,
+  setTotalCost,
+  quantity,
+  setQuantity,
+  availableStock,
+  setAvailableStock,
+  productQuantities,
+  setProductQuantities,
+}) => {
+  console.log("Welcome to Cart Page");
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState("storePickup");
-
+  const [message, setMessage] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handleGoBack = () => {
     navigate(-1);
@@ -31,6 +42,16 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+  };
+
+  const handleCheckout = () => {
+    // Pass the message and shipping method data to the /checkout page
+    navigate("/checkout", {
+      state: {
+        message: message,
+        shippingMethod: selectedOption,
+      },
+    });
   };
 
   useEffect(() => {
@@ -46,43 +67,6 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     localStorage.setItem("totalCost", JSON.stringify(totalCost));
   }, [cartItems, totalCost]);
-
-  const handleUpdateQuantity = (itemId, newQuantity) => {
-    if (newQuantity <= 0) {
-      newQuantity = 1; // Set the new quantity to 0 if it's less than 0
-    }
-  
-    const updatedItems = cartItems.map((item) => {
-      if (item._id === itemId) {
-        item.quantity = newQuantity;
-      }
-      return item;
-    });
-    setCartItems(updatedItems);
-  
-    const totalCost = updatedItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-    setTotalCost(totalCost);
-  };
-  
-
-  const handleRemoveItem = (itemId) => {
-    const updatedItems = cartItems.filter((item) => item._id !== itemId);
-    setCartItems(updatedItems);
-    setTotalCost(
-      updatedItems.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      )
-    );
-  };
-
-  // const handleCheckout = () => {
-  //   // Navigate to checkout page
-  //   console.log("Checkout button clicked");
-  // };
 
   return (
     <Container maxWidth="lg" sx={{ pt: 5 }}>
@@ -113,8 +97,16 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
                     <CartItem
                       key={item.id}
                       item={item}
-                      handleRemoveItem={handleRemoveItem}
-                      handleUpdateQuantity={handleUpdateQuantity}
+                      // handleRemoveItem={handleRemoveItem}
+                      quantity={quantity}
+                      setQuantity={setQuantity}
+                      availableStock={availableStock}
+                      setAvailableStock={setAvailableStock}
+                      productQuantities={productQuantities}
+                      setProductQuantities={setProductQuantities}
+                      cartItems={cartItems}
+                      setCartItems={setCartItems}
+                      setTotalCost={setTotalCost}
                     />
                   </Paper>
                 ))}
@@ -136,20 +128,30 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
                     Total:
                   </Typography>
                   <Typography variant="body1">
-                    Rs {totalCost?.toFixed(2)}
+                    AFN {totalCost?.toFixed(2)}
                   </Typography>
                 </Box>
+
                 <Divider />
+
                 <Box py={2}>
                   <Typography variant="body2" fontWeight={600}>
                     Additional Message
                   </Typography>
-                  <TextField fullWidth multiline rows={5} />
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={5}
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                  />
                 </Box>
+
                 <Divider />
+
                 <Box py={2}>
                   <Typography variant="body2" fontWeight={600}>
-                    Shipping Method
+                    Shipping Method *
                   </Typography>
                   <FormControl component="fieldset">
                     <RadioGroup
@@ -205,6 +207,8 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
                   </FormControl>
                 </Box>
                 <Divider />
+
+                {/* Checkout Button */}
                 <Box py={2}>
                   <Button
                     variant="contained"
@@ -212,7 +216,8 @@ const Cart = ({ cartItems, setCartItems, totalCost, setTotalCost }) => {
                     display="flex"
                     justifyContent="center"
                     fullWidth
-                    onClick={() => navigate("/checkout")}
+                    onClick={handleCheckout}
+                    disabled={!selectedOption} // Disable button if selectedOption is empty or null
                   >
                     Checkout
                   </Button>

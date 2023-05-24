@@ -43,6 +43,9 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [availableStock, setAvailableStock] = useState();
+  const [productQuantities, setProductQuantities] = useState({});
 
   // const handleCategoryClick = (category) => {
   //   navigate(`/shop/${category.value}`);
@@ -77,6 +80,7 @@ function App() {
                 setCartItems={setCartItems}
                 totalCost={totalCost}
                 setTotalCost={setTotalCost}
+                availableStock={availableStock}
               />
             }
           />
@@ -90,6 +94,8 @@ function App() {
                 setCartItems={setCartItems}
                 totalCost={totalCost}
                 setTotalCost={setTotalCost}
+                availableStock={availableStock}
+
               />
             }
           />
@@ -114,6 +120,12 @@ function App() {
                 setCartItems={setCartItems}
                 totalCost={totalCost}
                 setTotalCost={setTotalCost}
+                quantity={quantity}
+                setQuantity={setQuantity}
+                availableStock={availableStock}
+                setAvailableStock={setAvailableStock}
+                productQuantities={productQuantities} // Pass productQuantities as a prop
+                setProductQuantities={setProductQuantities} // Pass setProductQuantities as a prop
               />
             }
           />
@@ -139,6 +151,12 @@ function App() {
                 wishlist={wishlist}
                 setWishlist={setWishlist}
                 setTotalCost={setTotalCost}
+                quantity={quantity}
+                setQuantity={setQuantity}
+                availableStock={availableStock}
+                setAvailableStock={setAvailableStock}
+                productQuantities={productQuantities} // Pass productQuantities as a prop
+                setProductQuantities={setProductQuantities} // Pass setProductQuantities as a prop
               />
             }
           />
@@ -152,8 +170,11 @@ function App() {
               />
             }
           />
-          <Route path="/account/login" element={<Login   setIsAuthenticated={setIsAuthenticated}/>}/>
-          <Route path="/account/signup" element={<Signup/>}/>
+          <Route
+            path="/account/login"
+            element={<Login setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route path="/account/signup" element={<Signup />} />
           <Route
             path="checkout"
             element={
@@ -161,6 +182,7 @@ function App() {
                 cartItems={cartItems}
                 totalCost={totalCost}
                 isAuthenticated={isAuthenticated}
+                productQuantities={productQuantities} // Pass productQuantities as a prop
               />
             }
           />

@@ -23,31 +23,36 @@ const Customers = () => {
     });
     const newCustomers = customers.filter((customer) => customer.id !== id);
     setCustomers(newCustomers);
-    setDeleted(true)
+    setDeleted(true);
   };
 
-  console.log(customers)
+  console.log(customers);
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
-    { field: "email", headerName: "Email", width: 250 },
+    { field: "phoneNo", headerName: "Phone", width: 200 },
+    { field: "town", headerName: "Town", width: 150 },
+    { field: "streetNo", headerName: "Street", width: 150 },
+    { field: "houseNo", headerName: "House", width: 150 },
     {
       field: "action",
       headerName: "Action",
       renderCell: (params) => (
-        <DotsMenuBtn product={params.id} handleDelete={handleDelete}/>
+        <DotsMenuBtn product={params.id} handleDelete={handleDelete} />
       ),
       width: 150,
     },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = customers.map((row) => ({
-    id: row._id,
+    id: row._id.slice(-7), // Extract the last 6 digits of the ID
     firstName: row.firstName,
     lastName: row.lastName,
-    email: row.email,
-
+    phoneNo: row.phoneNo,
+    town: row.town,
+    streetNo: row.streetNo,
+    houseNo: row.houseNo,
   }));
 
   // console.log(products);
@@ -59,9 +64,7 @@ const Customers = () => {
         <Typography sx={{ flexGrow: 1 }} variant="h1">
           Customers
         </Typography>
-        <Button variant="contained">
-        Add Customer
-        </Button>
+        <Button variant="contained">Add Customer</Button>
       </Box>
 
       <div style={{ height: "78vh", width: "100%" }}>

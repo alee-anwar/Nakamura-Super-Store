@@ -3,14 +3,14 @@ export const categories = [
     id: 0,
     value: "Grocery",
     label: "Grocery",
-    url: "https://envato-shoebox-0.imgix.net/4610/58d3-645e-4033-ba3f-e26b964bf07d/FM8_2374_sq.jpg?auto=compress%2Cformat&fit=max&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark2.png&markalign=center%2Cmiddle&markalpha=18&w=1400&s=7699bbde755426700341f2400ed18129",
+    url: "https://images.pexels.com/photos/7263016/pexels-photo-7263016.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Female farmer holding basket with fresh vegetables, square crop",
   },
   {
     id: 1,
     value: "Bakery",
     label: "Bakery",
-    url: "https://envato-shoebox-0.imgix.net/9d85/e546-12a2-43c6-8652-650d82e986db/2020_002_1448___2020-01-05+10.21.35.jpg?auto=compress%2Cformat&fit=max&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark2.png&markalign=center%2Cmiddle&markalpha=18&w=700&s=3965ec6a55eb850f590eac87e84a8d5e",
+    url: "https://images.pexels.com/photos/192933/pexels-photo-192933.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Top view on a assortment of loose eggs on a market, short circui",
   },
   {

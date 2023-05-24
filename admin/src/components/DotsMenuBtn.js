@@ -13,9 +13,26 @@ export default function DotsMenuBtn(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleViewClick = () => {
+    if (props.viewType === "product") {
+      navigate(`/editproduct/${props.product.id}`);
+    } else if (props.viewType === "order") {
+      navigate(`/viewOrder/${props.product.id}`);
+    }
+    handleClose();
+  };
+
+  const handleDeleteClick = () => {
+    console.log(props.product.id)
+    props.handleDelete(props.product.id);
+    handleClose();
+  };
+
   return (
     <div>
       <Button
@@ -40,18 +57,13 @@ export default function DotsMenuBtn(props) {
       >
         <MenuItem
           sx={{ py: 0.2 }}
-          onClick={() => {
-            navigate(`/editproduct/${props.product.id}`);
-          }}
+          onClick={handleViewClick}
         >
           View
         </MenuItem>
         <MenuItem
           sx={{ py: 0.2 }}
-          onClick={() => {
-            props.handleDelete(props.product.id);
-            console.log(props.product.id)
-          }}
+          onClick={handleDeleteClick}
         >
           Delete
         </MenuItem>

@@ -14,6 +14,8 @@ import {
   Box,
   Button,
 } from "@mui/material";
+import axios from "axios";
+
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import ErrorMessage from "../components/ErrorMessage";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -22,26 +24,38 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CheckoutItem from "../components/CheckoutItem";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import { useLocation } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
-function Checkout({ cartItems, totalCost, isAuthenticated }) {
+function Checkout({
+  cartItems,
+  totalCost,
+  isAuthenticated,
+  productQuantities,
+}) {
   const [deliveryDate, setDeliveryDate] = React.useState("Same Day Delivery");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
-  const shipping = 150;
-  const total = totalCost + shipping;
-  const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleConfirmOrder = () => {
-    // Perform order confirmation process here
-    setShowPopup(true);
-    // handleFormSubmit();
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
+  const message = location.state?.message ?? "";
+  const shippingMethod = location.state?.shippingMethod ?? "";
+  const shippingCharges = shippingMethod === "storePickup" ? 0 : 150;
+
+  // console.log("deliveryDate: " + deliveryDate);
+  // console.log("SelectedDate: " + selectedDate);
+  // console.log("paymentMethod: " + paymentMethod);
+  console.log("cartItems: " + cartItems[0].productTitle);
+  // console.log("isAuthenticated: " + isAuthenticated);
+
+  const total = totalCost + shippingCharges;
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    // Navigate back to shopping page here using React Router
   };
 
   const handleDeliveryDate = (event) => {
@@ -53,16 +67,59 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
     setSelectedDate(date);
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    // TODO: Submit form data to backend API or server for order processing
-    console.log("Order placed:", {
-      cartItems,
-      totalCost,
-      deliveryDate,
-      selectedDate,
-    });
-    // TODO: Show confirmation message and clear cart state data
+  const handleConfirmOrder = async () => {
+    const orderId = Math.floor(Math.random() * 900000) + 100000;
+
+    const orderItems = cartItems.map((item) => ({
+      productName: item.productTitle,
+      productImage: item.image,
+      productId: item._id,
+      productQuantity: productQuantities[item._id],
+      unitPrice: item.price
+    }));
+
+    const body = {
+      orderId: orderId.toString(),
+      orderItems: orderItems,
+      totalPrice: totalCost,
+      shippingMethod: shippingMethod,
+      additionalComments: message,
+      shippingCharges: shippingCharges
+    };
+
+    // const data = {
+    //   orderId: orderId.toString(),
+    //   productName: cartItems[0].productTitle,
+    //   productId: cartItems[0]._id,
+    //   productQuantity: productQuantities[cartItems[0]._id],
+    //   // customerName: "John Doe", // Replace with the actual customer name
+    //   // phoneNo: "1234567890", // Replace with the actual customer phone number
+    //   totalPrice: totalCost,
+    //   shippingMethod: shippingMethod,
+    //   additionalComments: message,
+    // };
+
+    try {
+      // Send the POST request to the backend API endpoint
+      const response = await axios.post(
+        "http://localhost:3000/orderList/postOrder",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Handle the response
+      setSuccessMessage(response.data.message);
+      console.log("Order confirmation response:", response.data.message);
+      // TODO: Show confirmation message and clear cart state data
+      setShowPopup(true);
+    } catch (error) {
+      console.error("Error confirming order:", error);
+      // TODO: Handle error and show appropriate message to the user
+    }
   };
 
   return (
@@ -82,7 +139,7 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
           </Grid>
         ) : (
           <>
-            <Grid item xs={12} md={8} pb={2}>
+            <Grid item xs={12} md={8} pb={2} order={{ md: 1, sm: 2 }}>
               <Paper variant="outlined" sx={{ py: 2, px: 3 }}>
                 {isAuthenticated && (
                   <>
@@ -131,10 +188,15 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
                               onChange={handleDateChange}
                               sx={{ mt: 2 }}
                               inputFormat="dd/MM/yyyy"
-                              renderInput={(params) => (
-                                <TextField {...params} />
+                            >
+                              {({ inputProps, inputRef, ...other }) => (
+                                <TextField
+                                  {...inputProps}
+                                  inputRef={inputRef}
+                                  {...other}
+                                />
                               )}
-                            />
+                            </DatePicker>
                           </LocalizationProvider>
                         )}
                       </Box>
@@ -169,7 +231,7 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
                     <ConfirmationDialog
                       open={showPopup}
                       onClose={handleClosePopup}
-                      message="Your order has been confirmed"
+                      message={successMessage}
                     />
                   </>
                 ) : (
@@ -182,7 +244,7 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
                 )}
               </Box>
             </Grid>
-            <Grid item xs={12} md={4} pb={2}>
+            <Grid item xs={12} md={4} pb={2} order={{ md: 2, sm: 1 }}>
               <Paper variant="outlined" sx={{ p: 1 }}>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
@@ -193,10 +255,23 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
                   <Grid item xs={12}>
                     <Divider />
                   </Grid>
+                  {message && (
+                    <Grid item xs={12}>
+                      <Box py={2}>
+                        <Typography variant="body2" fontWeight={600}>
+                          Additional Message
+                        </Typography>
+                        <Typography variant="body2">{message}</Typography>
+                      </Box>
+                    </Grid>
+                  )}
                   <Grid item xs={12}>
                     {cartItems.map((item) => (
                       <Box key={item.id} pt={1}>
-                        <CheckoutItem item={item} />
+                        <CheckoutItem
+                          item={item}
+                          productQuantities={productQuantities}
+                        />
                         <Divider />
                       </Box>
                     ))}
@@ -204,13 +279,13 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
                       <Typography fontWeight={600}>SubTotal</Typography>
-                      <Typography>Rs {totalCost.toFixed(2)}</Typography>
+                      <Typography>AFN {totalCost.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
                       <Typography fontWeight={600}>Shipping</Typography>
-                      <Typography>Rs {shipping.toFixed(2)}</Typography>
+                      <Typography>AFN {shippingCharges.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
@@ -219,7 +294,7 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
                       <Typography fontWeight={600}>Total</Typography>
-                      <Typography>Rs {total.toFixed(2)}</Typography>
+                      <Typography>AFN: {total.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
                 </Grid>
@@ -233,41 +308,3 @@ function Checkout({ cartItems, totalCost, isAuthenticated }) {
 }
 
 export default Checkout;
-
-{
-  /* 
-    const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  
-  
-  <h1>Checkout</h1>
-      <h2>Order Summary:</h2>
-      <ul>
-        {cartItems.map((item) => (
-          <li key={item._id}>
-            {item.productTitle} x {item.quantity} - ${item.price * item.quantity}
-          </li>
-        ))}
-      </ul>
-      <p>Total Cost: ${totalCost}</p>
-      <h2>Shipping Information:</h2>
-      <form onSubmit={handleFormSubmit}>
-        <label>
-          Name:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Address:
-          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Phone Number:
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-        </label>
-        <br />
-        <button type="submit">Place Order</button>
-      </form> */
-}

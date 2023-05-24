@@ -7,6 +7,7 @@ const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {
   const navigate = useNavigate();
   const handleLogout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem("token");
     navigate("/home")
   }
   return (

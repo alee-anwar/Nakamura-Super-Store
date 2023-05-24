@@ -58,7 +58,7 @@ const CreateProduct = () => {
       color: "",
       tag: "",
       image: "",
-      quantity: "",
+      stock: "",
       size: "",
     },
     validationSchema: validationSchema,
@@ -163,14 +163,14 @@ const CreateProduct = () => {
                   <Grid item sm={12} md={6}>
                     <TextField
                       margin="dense"
-                      label="Quantity"
-                      name="quantity"
-                      value={formik.values.quantity}
+                      label="stock"
+                      name="stock"
+                      value={formik.values.stock}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.quantity && formik.errors.quantity}
+                      error={formik.touched.stock && formik.errors.stock}
                       helperText={
-                        formik.touched.quantity && formik.errors.quantity
+                        formik.touched.stock && formik.errors.stock
                       }
                       required
                       fullWidth

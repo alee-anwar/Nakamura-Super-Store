@@ -67,7 +67,7 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
     <Box>
       <Box sx={theme.mixins.toolbar} />
       <Typography variant="h1">
-        As-Salaam-Alaikum, {user[0].firstName}
+        As-Salaam-Alaikum, {user[0].userName}
       </Typography>
 
       <Container maxWidth="lg" sx={{my: 5}}>

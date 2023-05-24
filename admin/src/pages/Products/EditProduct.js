@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
   status: Yup.string().required("Status is required"),
   subcategory: Yup.string().required("Subcategory is required"),
   image: Yup.string().required("Image is required"),
-  quantity: Yup.number().required("Quantity is required"),
+  stock: Yup.number().required("Stock is required"),
 
   productTitle: Yup.string().required("Title is required"),
   price: Yup.number()
@@ -58,7 +58,7 @@ const ProductEditForm = () => {
       color: "",
       tag: "",
       image: "",
-      quantity: "",
+      stock: "",
       size: "",
     },
     validationSchema: validationSchema,
@@ -178,17 +178,17 @@ const ProductEditForm = () => {
 
                   <Grid item sm={12} md={6}>
                     <TextField
-                      name="quantity"
-                      label="Quantity"
-                      value={formik.values.quantity}
+                      name="stock"
+                      label="Stock"
+                      value={formik.values.stock}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={
-                        formik.touched.quantity &&
-                        Boolean(formik.errors.quantity)
+                        formik.touched.stock &&
+                        Boolean(formik.errors.stock)
                       }
                       helperText={
-                        formik.touched.quantity && formik.errors.quantity
+                        formik.touched.stock && formik.errors.stock
                       }
                       margin="dense"
                       required

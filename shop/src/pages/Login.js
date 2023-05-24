@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import {
   Box,
@@ -13,21 +13,16 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const validationSchemaPhone = Yup.object().shape({
   phoneNo: Yup.string()
     .matches(
-      /^7\d{0,8}$/,
-      "Phone number must start with 7 and have maximum 9 digits"
+      /^\+923\d{9}$/,
+      "Phone number must start with '+923' and have 12 digits"
     )
     .required("Phone number is required"),
 });
-
-// const validationSchemaCode = Yup.object({
-//   otp: Yup.string()
-//     .length(6, "OTP must be 6 digits")
-//     .required("OTP is required"),
-// });
 
 const validationSchemaCode = Yup.object({
   otp: Yup.string()
@@ -38,63 +33,111 @@ const validationSchemaCode = Yup.object({
 const Login = ({ cartItems, setIsAuthenticated }) => {
   const [showSmsVerification, setShowSmsVerification] = useState(false);
   const [showPhoneNoInput, setShowPhoneNoInput] = useState(true);
+  const [resMsg, setResMsg] = useState("");
   //   const [phoneNo, setPhoneNo] = useState("");
   const navigate = useNavigate();
+
+  // const formikPhone = useFormik({
+  //   initialValues: {
+  //     phoneNo: "",
+  //   },
+  //   validationSchema: validationSchemaPhone,
+  //   onSubmit: async (values) => {
+  //     setShowPhoneNoInput(false);
+
+  //     try {
+  //       const response = await axios.post(
+  //         "http://localhost:3000/authUser/customer-login",
+  //         values
+  //       );
+  //       console.log(response);
+  //       setIsAuthenticated(true);
+  //       setShowSmsVerification(true);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  // });
 
   const formikPhone = useFormik({
     initialValues: {
       phoneNo: "",
     },
     validationSchema: validationSchemaPhone,
-    onSubmit: (values) => {
-      // Perform verification process and set isAuthenticated to true upon success
-      setIsAuthenticated(true);
-      setShowSmsVerification(true);
+    onSubmit: async (values) => {
       setShowPhoneNoInput(false);
-      //   {
-      //     cartItems && cartItems.length > 0
-      //       ? navigate("/checkout")
-      //       : navigate("/account");
-      //   }
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/authUser/customer-send-otp",
+          values
+        );
+        console.log(response.data);
+        setResMsg(response.data);
+        // console.log("phone" + resMsg);
+        // setIsAuthenticated(true);
+        setShowSmsVerification(true);
+      } catch (error) {
+        console.error(error);
+      }
     },
   });
+
+  useEffect(() => {
+    if (resMsg === "Please register your account first") {
+      navigate("/account/signup");
+    }
+  }, [resMsg]);
 
   const formikCode = useFormik({
     initialValues: {
       otp: "",
     },
     validationSchema: validationSchemaCode,
-    onSubmit: (values) => {
-      // Perform OTP verification logic
-      // setIsAuthenticated(true);
-      // navigate("/checkout");
-      // handleVerifyClick
-      // if (cartItems && cartItems.length > 0) {
-      //   navigate("/checkout");
-      // } else {
-      //   navigate("/account");
-      // }
+    onSubmit: async (values) => {
+      console.log("Before Try");
+      console.log(values)
+
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/authUser/customer-login", values
+          // {
+          //   otp: formikCode.values.otp,
+          // }
+        );
+
+        console.log(response);
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        console.log("After Try");
+        // setIsAuthenticated(true)
+        // navigate("/checkout")
+        {
+          token && setIsAuthenticated(true);
+        }
+        cartItems && cartItems.length > 0
+          ? navigate("/checkout")
+          : navigate("/account");
+      } catch (error) {
+        console.error(error);
+      }
     },
   });
 
-  const handleVerifyClick = () => {
+  const handleVerifyClick = async () => {
     if (formikCode.isValid) {
-      // Perform OTP verification logic
-      setIsAuthenticated(true);
-      cartItems && cartItems.length > 0
-        ? navigate("/checkout")
-        : navigate("/account");
+      console.log("handleVerify Clicked");
+      formikCode.handleSubmit();
     }
   };
 
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
-      <BreadcrumbsComponent name={"Login"} path={"/login"} />
+      <BreadcrumbsComponent name={"Login"} path={"/account/login"} />
       <Typography variant="h1" my={2}>
         Login
       </Typography>
       <Container maxWidth="md">
-        {showPhoneNoInput && (
+        {showPhoneNoInput ? (
           <form onSubmit={formikPhone.handleSubmit}>
             <Box
               sx={{
@@ -116,14 +159,12 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
                   variant="outlined"
                 >
                   <InputBase
-                    placeholder="7********"
+                    placeholder="+923*********"
                     name="phoneNo"
                     value={formikPhone.values.phoneNo}
                     onChange={formikPhone.handleChange}
                     onBlur={formikPhone.handleBlur}
                     fullWidth
-                    // value={phoneNo}
-                    // onChange={(e) => setPhoneNo(e.target.value)}
                   />
                 </Paper>
                 {formikPhone.touched.phoneNo && formikPhone.errors.phoneNo ? (
@@ -131,15 +172,11 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
                     {formikPhone.errors.phoneNo}
                   </Typography>
                 ) : null}
-                {/* <Typography variant="caption" color="textSecondary">
-                  Phone number must be start with 7
-                </Typography> */}
               </Box>
               <Stack width="250px" mb={1}>
                 <Button
                   variant="contained"
                   sx={{ mt: 1 }}
-                  //   onClick={handleSmsVerification}
                   fullWidth
                   type="submit"
                 >
@@ -155,9 +192,7 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
               </Typography>
             </Box>
           </form>
-        )}
-
-        {showSmsVerification && (
+        ) : (
           <form onSubmit={formikCode.handleSubmit}>
             <Box
               sx={{
@@ -208,3 +243,52 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
 };
 
 export default Login;
+
+// const handleVerifyClick = () => {
+//   if (formikCode.isValid) {
+//     // Perform OTP verification logic
+//     setIsAuthenticated(true);
+//     cartItems && cartItems.length > 0
+//       ? navigate("/checkout")
+//       : navigate("/account");
+//   }
+// };
+
+// const handleVerifyClick = async () => {
+//   if (formikCode.isValid) {
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:3000/authUser/customer-login",
+//         {
+//           otp: formikCode.values.otp,
+//         }
+//       );
+//       // Handle the response or set any necessary state variables
+//       setIsAuthenticated(true);
+//       cartItems && cartItems.length > 0
+//         ? navigate("/checkout")
+//         : navigate("/account");
+//     } catch (error) {
+//       // Handle any errors
+//       console.error(error);
+//     }
+//   }
+// };
+
+// const validationSchemaPhone = Yup.object().shape({
+//   phoneNo: Yup.string()
+//     .matches(
+//       /^7\d{0,8}$/,
+//       "Phone number must start with 7 and have maximum 9 digits"
+//     )
+//     .required("Phone number is required"),
+// });
+
+// const validationSchemaPhone = Yup.object().shape({
+//   phoneNo: Yup.string()
+//     .matches(
+//       /^03\d{0,9}$/,
+//       "Phone number must start with 03 and have maximum 10 digits"
+//     )
+//     .required("Phone number is required"),
+// });

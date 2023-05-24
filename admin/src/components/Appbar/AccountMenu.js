@@ -16,7 +16,7 @@ export default function AccountMenu({user}) {
   const navigate= useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const firstName = user[0]?.firstName;
+  const firstName = user[0]?.userName;
   const firstLetter = firstName ? firstName.charAt(0).toUpperCase() : '';
   const handleLogout = () => {
  

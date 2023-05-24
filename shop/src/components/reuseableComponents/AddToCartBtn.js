@@ -8,6 +8,7 @@ const AddToCartBtn = ({
   setTotalCost,
   item,
   isFullWidth,
+  disabled
 }) => {
   const isItemInCart = cartItems?.some((cartItem) => cartItem._id === item._id);
   const btnText = isItemInCart ? "Remove" : "Add";
@@ -31,6 +32,7 @@ const AddToCartBtn = ({
       // onClick={() => addToCart(item)}
       onClick={isItemInCart ? handleRemoveFromCart : handleAddToCart}
       aria-label={isItemInCart ? "Remove from cart" : "Add to cart"}
+      disabled={disabled}
       ml={1}
       sx={{
         height: 32,

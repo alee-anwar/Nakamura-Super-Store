@@ -14,7 +14,7 @@ import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const MyAccount = ({user}) => {
+const MyAccount = ({ user }) => {
   const [accountDetails, setAccountDetails] = useState({});
   const theme = useTheme();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const MyAccount = ({user}) => {
     // navigate('/login')
     window.location.href = "/login";
   };
-  console.log("account"+user[0].firstName)
+  console.log("account" + user[0].firstName);
   // useEffect(() => {
   //   axios.get('http://localhost:8000/admin')
   //     .then(response => setAccountDetails(response.data))
@@ -46,7 +46,7 @@ const MyAccount = ({user}) => {
             <Grid item md={6}>
               <Box component="form" noValidate autoComplete="off">
                 <Grid container spacing={2}>
-                  <Grid item md={6}>
+                  {/* <Grid item md={6}>
                     <TextField
                       size="small"
                       label="First Name"
@@ -57,13 +57,13 @@ const MyAccount = ({user}) => {
                       }}
                       // onChange={handleChange}
                     ></TextField>
-                  </Grid>
+                  </Grid> */}
                   <Grid item md={6}>
                     <TextField
                       size="small"
-                      label="Last Name"
+                      label="User Name"
                       fullWidth
-                      value={user[0]?.lastName}
+                      value={user[0]?.userName}
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -73,17 +73,35 @@ const MyAccount = ({user}) => {
                   </Grid>
 
                   <Grid item md={6}>
-                    <Stack spacing={2}>
-                      <TextField size="small" label="Email"  value={user[0]?.email}    InputLabelProps={{
+                    {/* <Stack spacing={2}> */}
+                    <TextField
+                      size="small"
+                      label="Email"
+                      value={user[0]?.email}
+                      fullWidth
+                      InputLabelProps={{
                         shrink: true,
-                      }}></TextField>
-                      <TextField size="small" label="Phone"  value={accountDetails.phone}    InputLabelProps={{
+                      }}
+                    ></TextField>
+
+                    {/* </Stack> */}
+                  </Grid>
+                  <Grid item md={6}>
+                    {/* <Stack spacing={2}> */}
+                    <TextField
+                      size="small"
+                      label="Phone"
+                      value={accountDetails.phone}
+                      fullWidth
+                      InputLabelProps={{
                         shrink: true,
-                      }}></TextField>
-                    </Stack>
+                      }}
+                    ></TextField>
+
+                    {/* </Stack> */}
                   </Grid>
                 </Grid>
-                <Button type='submit' variant="contained" sx={{ mt: 5 }}>
+                <Button type="submit" variant="contained" sx={{ mt: 5 }}>
                   Save Changes
                 </Button>
               </Box>
@@ -145,8 +163,7 @@ const MyAccount = ({user}) => {
                     Remove Account
                   </Typography>
                   <Button
-                    sx={{ color: "red", py: 0.1, px: 1, borderColor:"error" }}
-                    
+                    sx={{ color: "red", py: 0.1, px: 1, borderColor: "error" }}
                   >
                     Deactivate
                   </Button>

@@ -13,6 +13,7 @@ import {
   Box,
   Container,
   Divider,
+  OutlinedInput,
   Paper,
   Stack,
   Tooltip,
@@ -29,47 +30,50 @@ import AddToCartBtn from "../components/reuseableComponents/AddToCartBtn";
 import WishlistBtn from "../components/reuseableComponents/WishlistBtn";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 
+const singleProduct = {
+  _id: 997713,
+  quantity: 1,
+  productTitle: "Father’s Day Gift for Brothers",
+  image: "https://spoonacular.com/productImages/997713-312x231.jpeg",
+  imageType: "jpeg",
+  price: "$9.99",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor sem id erat tristique pharetra. Fusce luctus, odio sit amet viverra gravida, justo nisi aliquam nunc, eu hendrerit magna elit et nisi. Quisque bibendum purus eu nunc vestibulum interdum. Nulla consequat tortor non magna volutpat, ut hendrerit lectus pulvinar. Proin finibus velit nec nunc auctor, vitae mattis neque sollicitudin.",
+  reviews: [
+    {
+      id: 1,
+      title: "Great product",
+      body: "This is a great product. I would definitely recommend it to others.",
+    },
+    {
+      id: 2,
+      title: "Not as advertised",
+      body: "The product was not as advertised. It was much smaller than I expected.",
+    },
+    {
+      id: 3,
+      title: "Good value",
+      body: "This is a good value for the price. I am very happy with my purchase.",
+    },
+  ],
+};
+
 const ProductDetails = ({
   setCartItems,
   cartItems,
   setTotalCost,
   wishlist,
   setWishlist,
+  setQuantity,
+  availableStock,
+  setAvailableStock,
+  productQuantities,
+  setProductQuantities,
 }) => {
-  const singleProduct = {
-    _id: 997713,
-    quantity: 1,
-    productTitle: "Father’s Day Gift for Brothers",
-    image: "https://spoonacular.com/productImages/997713-312x231.jpeg",
-    imageType: "jpeg",
-    price: "$9.99",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor sem id erat tristique pharetra. Fusce luctus, odio sit amet viverra gravida, justo nisi aliquam nunc, eu hendrerit magna elit et nisi. Quisque bibendum purus eu nunc vestibulum interdum. Nulla consequat tortor non magna volutpat, ut hendrerit lectus pulvinar. Proin finibus velit nec nunc auctor, vitae mattis neque sollicitudin.",
-    reviews: [
-      {
-        id: 1,
-        title: "Great product",
-        body: "This is a great product. I would definitely recommend it to others.",
-      },
-      {
-        id: 2,
-        title: "Not as advertised",
-        body: "The product was not as advertised. It was much smaller than I expected.",
-      },
-      {
-        id: 3,
-        title: "Good value",
-        body: "This is a good value for the price. I am very happy with my purchase.",
-      },
-    ],
-  };
-
-  // const [product, setProduct] = useState(singleProduct);
-  const [product, setProduct] = useState([]);
-  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState(null);
   const [expanded, setExpanded] = useState(false);
-
   const params = useParams();
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -81,7 +85,10 @@ const ProductDetails = ({
             },
           }
         );
-        setProduct(response.data.productdescription);
+
+        if (response.data.productdescription) {
+          setProduct(response.data.productdescription);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -89,20 +96,49 @@ const ProductDetails = ({
     fetchProduct();
   }, [params.id]);
 
+  useEffect(() => {
+    console.log("product.stock: " + (product ? product.stock : ""));
+    console.log("availableStock: " + availableStock);
+  }, [product, availableStock]);
+
+  const handleQuantityChange = (event) => {
+    let value = parseInt(event.target.value);
+    value = isNaN(value) ? 1 : value; // Set default value to 1 if value is NaN
+
+    // Adjust the value to be within the valid range
+    value = Math.max(1, Math.min(value, product.stock || 0));
+
+    setQuantity(value);
+
+    const updatedQuantities = {
+      ...productQuantities,
+      [product?._id]: value,
+    };
+
+    setProductQuantities(updatedQuantities);
+  };
+
+  useEffect(() => {
+    console.log("Product Quantities", productQuantities[product?._id]);
+
+    const selectedQuantity = productQuantities[product?._id] || 0;
+    const availableStock = product?.stock - selectedQuantity;
+    setAvailableStock(availableStock);
+    console.log("Available Stock:", availableStock);
+  }, [productQuantities, product]);
+
+  // useEffect(() => {
+  //   console.log("Product Quantities", productQuantities[product?._id]);
+
+  //   const selectedQuantity = productQuantities[product?._id] || 0;
+  //   const availableStock = Math.max(0, product?.stock - selectedQuantity);
+  //   setAvailableStock(availableStock);
+  //   console.log("Available Stock:", availableStock);
+  // }, [productQuantities, product]);
+
   if (!product) {
     return <div>Loading...</div>;
   }
-
-  //   const handleQuantityChange = (event) => {
-  //     setProduct({ ...product, quantity: event.target.value });
-  //   };
-  const handleQuantityChange = (event) => {
-    const value = event.target.value;
-    // Check if value is a number greater than 0
-    if (!isNaN(value) && value > 0) {
-      setQuantity(value);
-    }
-  };
 
   const handleExpand = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -139,27 +175,49 @@ const ProductDetails = ({
             </Typography>
 
             {/* Quantity selection */}
-            <Grid container alignItems="center" pt={15}>
+            <Grid container alignItems="center" pt={15} spacing={1}>
               <Grid item>
                 <Typography variant="subtitle1">Quantity:</Typography>
               </Grid>
               <Grid item>
-                <FormControl variant="outlined">
-                  <Select
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                    size="small"
-                    sx={{ width: "100px", ml: 1 }}
-                  >
-                    {[1, 2, 3, 4, 5].map((quantity) => (
-                      <MenuItem key={quantity} value={quantity}>
-                        {quantity}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <OutlinedInput
+                  type="number"
+                  // value={productQuantities[product?._id] + 1}
+                  // value={
+                  //   productQuantities[product?._id] !== undefined
+                  //     ? productQuantities[product._id]
+                  //     : 1
+                  // }
+                  value={
+                    productQuantities[product?._id] || 1
+                  }
+                  onChange={handleQuantityChange}
+                  min="1"
+                  max={product?.stock} // Set the max attribute to the stock of the product
+                  sx={{
+                    width: "70px",
+                    height: "25px",
+                    fontSize: "14px",
+                  }}
+                />
               </Grid>
             </Grid>
+
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
+              sx={{ pt: 2 }}
+            >
+              {/* {availableStock === product.stock ? availableStock-1 : availableStock} left in stock
+              {availableStock <= 0
+                ? "Out of Stock"
+                : `${availableStock} left in stock`} */}
+              {availableStock <= 0
+                ? "Out of Stock"
+                : availableStock === product.stock
+                ? availableStock - 1 + " left in stock"
+                : availableStock + " left in stock"}
+            </Typography>
 
             {/* Add to cart button */}
             <Grid container my={5} display="flex" alignItems="center">
@@ -170,6 +228,7 @@ const ProductDetails = ({
                   setTotalCost={setTotalCost}
                   item={product}
                   isFullWidth={true}
+                  disabled={availableStock <= 0}
                 />
               </Grid>
 

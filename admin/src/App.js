@@ -75,7 +75,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Customers from "./pages/Customers";
-import Orders from "./pages/Orders";
+import Orders from "./pages/Orders/Orders";
+import ViewOrder from "./pages/Orders/ViewOrder";
 import Reviews from "./pages/Reviews";
 import Transactions from "./pages/Transactions";
 import SignIn from "./pages/SignIn";
@@ -151,6 +152,7 @@ function App() {
               <Route path="products" element={<Products setTotalProducts={setTotalProducts} totalSales={totalSales}/>} />
               <Route path="customers" element={<Customers />} />
               <Route path="orders" element={<Orders setTotalOrders={setTotalOrders} totalOrders={totalOrders}/>} />
+              <Route path="viewOrder/:orderId" element={<ViewOrder/>} />
               <Route path="reviews" element={<Reviews />} />
               <Route path="transactions" element={<Transactions setTotalSales={setTotalSales} totalSales={totalSales}/>} />
               <Route path="createproduct" element={<CreateProduct />} />

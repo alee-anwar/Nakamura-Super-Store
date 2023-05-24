@@ -19,15 +19,13 @@ export default function SignUp() {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      userName: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required("First name is required"),
-      lastName: Yup.string().required("Last name is required"),
+      userName: Yup.string().required("User name is required"),
       email: Yup.string()
         .email("Invalid email address")
         .required("Email is required"),
@@ -47,7 +45,7 @@ export default function SignUp() {
       // Example: Check if the email is already registered
       // If the validation passes, send the form data to the backend API
       axios
-        .post("http://localhost:3000/authUser/signup", values, {
+        .post("http://localhost:3000/authUser/admin-signup", values, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -103,29 +101,15 @@ export default function SignUp() {
         {/* signup form */}
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <TextField
-                label="First Name"
-                name="firstName"
-                value={formik.values.firstName}
+                label="User Name"
+                name="userName"
+                value={formik.values.userName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.firstName && formik.errors.firstName}
-                helperText={formik.touched.firstName && formik.errors.firstName}
-                required
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Last Name"
-                name="lastName"
-                value={formik.values.lastName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.lastName && formik.errors.lastName}
-                helperText={formik.touched.lastName && formik.errors.lastName}
+                error={formik.touched.userName && formik.errors.userName}
+                helperText={formik.touched.userName && formik.errors.userName}
                 required
                 fullWidth
                 size="small"

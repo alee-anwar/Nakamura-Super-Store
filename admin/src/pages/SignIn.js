@@ -17,7 +17,6 @@ export default function SignIn() {
   const [signinError, setSigninError] = useState(null);
   const [signinSuccess, setSigninSuccess] = useState(false);
 
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -37,7 +36,7 @@ export default function SignIn() {
       // Example: Check if the email is already registered
       // If the validation passes, send the form data to the backend API
       axios
-        .post("http://localhost:3000/authUser/login", values, {
+        .post("http://localhost:3000/authUser/admin-login", values, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -47,7 +46,7 @@ export default function SignIn() {
           // store session information in local storage
           // setToken(response.data.token)
           localStorage.setItem("token", response.data.token);
-           localStorage.setItem("user", JSON.stringify(response.data.User));
+          localStorage.setItem("user", JSON.stringify(response.data.User));
 
           window.location.href = "/dashboard";
         })
@@ -113,21 +112,21 @@ export default function SignIn() {
             </Grid>
             <Grid item xs={12} sm={12}>
               <TextField
-               label="Password"
-               name="password"
-               value={formik.values.password}
-               onChange={formik.handleChange}
-               onBlur={formik.handleBlur}
-               error={formik.touched.password && formik.errors.password}
-               helperText={formik.touched.password && formik.errors.password}
-               required
-               type="password"
-               fullWidth
-               size="small"
+                label="Password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.password && formik.errors.password}
+                helperText={formik.touched.password && formik.errors.password}
+                required
+                type="password"
+                fullWidth
+                size="small"
               />
             </Grid>
             <Grid item xs={12} my={2}>
-            <Button
+              <Button
                 type="submit"
                 fullWidth
                 variant="contained"

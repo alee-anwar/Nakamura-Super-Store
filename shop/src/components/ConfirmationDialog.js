@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 const ConfirmationDialog = ({ open, onClose, message }) => {
     return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Confirmation</DialogTitle>
+      <DialogTitle>Message</DialogTitle>
       <DialogContent>
         <p>{message}</p>
       </DialogContent>
       <DialogActions>
-        <Link to='/home'>
+        <Link to='/shop'>
         <Button onClick={onClose}>OK</Button>
 
         </Link>

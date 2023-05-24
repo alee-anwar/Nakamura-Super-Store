@@ -10,7 +10,14 @@ import AddToCartBtn from "./reuseableComponents/AddToCartBtn";
 import WishlistBtn from "./reuseableComponents/WishlistBtn";
 
 const ProductCard = (props) => {
-  const { wishlist, setWishlist, item, cartItems, setCartItems, setTotalCost } = props;
+  const {
+    wishlist,
+    setWishlist,
+    item,
+    cartItems,
+    setCartItems,
+    setTotalCost,
+  } = props;
 
   // console.log("Welcome to the Product Card")
   return (
@@ -77,6 +84,7 @@ const ProductCard = (props) => {
             setTotalCost={setTotalCost}
             item={item}
             isFullWidth={false}
+            disabled={item.stock <= 0}
           />
         </Box>
       </CardContent>
