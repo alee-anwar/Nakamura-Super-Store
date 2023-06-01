@@ -15,10 +15,13 @@ const Products = ({ setTotalProducts, totalProducts }) => {
 
   // console.log(products);
   useEffect(() => {
+    const token=localStorage.getItem("token")
     axios
       .get("http://localhost:3000/productList/viewProducts", {
         headers: {
           "Content-Type": "application/json",
+          // Authorization:`bearer ${token}`
+          // Authorization:token
         },
       })
       .then((res) => setProducts(res.data))
