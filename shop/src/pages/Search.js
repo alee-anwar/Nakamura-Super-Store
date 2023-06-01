@@ -3,10 +3,10 @@ import { Container, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-
-import Empty from "../components/Empty";
 import ProductCard from "../components/ProductCard";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
+import Searching from "../components/Searching";
+import Loading from "../components/Loading";
 
 export default function Search({
   cartItems,
@@ -51,12 +51,10 @@ export default function Search({
             {location.state.Data !== undefined && location.state.Data}"
           </Typography>
         </Grid>
-        <Grid container>
-          {isLoading ? (
-            <Empty />
-          ) : products && products.length > 0 ? (
+        <Grid container spacing={1}>
+          { products && products.length > 0 ? (
             products.map((item) => (
-              <Grid item xs={2} sm={4} md={3} mt={2}>
+              <Grid item xs={12} sm={4} md={3} lg={2} mt={2}>
                 <ProductCard
                   cartItems={cartItems}
                   setCartItems={setCartItems}
@@ -69,7 +67,9 @@ export default function Search({
               </Grid>
             ))
           ) : (
-            <Empty message="No search results." />
+            <Grid item xs={12} md={12}>
+              <Searching />
+            </Grid>
           )}
         </Grid>
       </Grid>
