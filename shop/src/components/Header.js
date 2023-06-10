@@ -10,6 +10,7 @@ import {
   ListItemButton,
   ListItemText,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -22,11 +23,43 @@ import { categories } from "./reuseableComponents/allCategories";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
+// import i18n from "../Language/i18n"; // Import the i18n configuration file you created
+import { Button, Menu, MenuItem } from "@mui/material";
+import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
+import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
-const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
+const Header = ({ cartItems, wishlist }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLanguageMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+    setMenuOpen(true);
+  };
+
+  const handleLanguageMenuClose = () => {
+    setAnchorEl(null);
+    setMenuOpen(false);
+  };
+
+  const handleCategoryClick = (value) => {
+    navigate(`/shop/${value}`);
+  };
+
+  const handleLanguageChange = (language) => {
+    i18next.changeLanguage(language);
+    handleLanguageMenuClose();
+    setIsDrawerOpen(false);
+    console.log("language: " + language);
+    console.log("languagei18next: " + i18next.language);
+    // window.location.reload()
+  };
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -47,7 +80,7 @@ const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
   }
 
   return (
-    <AppBar elevation={1}>
+    <AppBar elevation={1} sx={{ background: "#ffffff" }}>
       <Toolbar sx={{ background: "#ffffff" }}>
         <IconButton
           aria-label="menu"
@@ -70,13 +103,16 @@ const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
           <SearchBar />
         </Box>
         <Box display="flex" alignItems="center">
-          <IconButton disableRipple>
-            <Link to="/wishlist">
-              <Badge badgeContent={wishlist.length} color="primary">
-                <FavoriteBorderRoundedIcon color="primary" />
-              </Badge>
-            </Link>
-          </IconButton>
+          <Tooltip title={t("Wishlist")}>
+            <IconButton disableRipple>
+              <Link to="/wishlist">
+                <Badge badgeContent={wishlist.length} color="primary">
+                  <FavoriteBorderRoundedIcon color="primary" />
+                </Badge>
+              </Link>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t("Cart")}>
 
           <IconButton disableRipple aria-label={notificationsLabel("100")}>
             <Link to="/cart">
@@ -85,7 +121,8 @@ const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
               </Badge>
             </Link>
           </IconButton>
-
+          </Tooltip>
+          <Tooltip title={t("Account")}>
           <IconButton disableRipple>
             <Link to="/account">
               <Badge color="primary">
@@ -93,6 +130,31 @@ const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
               </Badge>
             </Link>
           </IconButton>
+          </Tooltip>
+
+          <Box pl={1.5}>
+            <Button
+              color="inherit"
+              endIcon={menuOpen ? <ArrowDropUp /> : <ArrowDropDown />}
+              onClick={handleLanguageMenuOpen}
+              variant="outlined"
+              sx={{ p: 0 }}
+            >
+              {i18next.language === "ps" ? "پښتو" : "Eng"}
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleLanguageMenuClose}
+            >
+              <MenuItem onClick={() => handleLanguageChange("en")}>
+                Eng
+              </MenuItem>
+              <MenuItem onClick={() => handleLanguageChange("ps")}>
+                پښتو
+              </MenuItem>
+            </Menu>
+          </Box>
         </Box>
       </Toolbar>
       <Box sx={{ display: { xs: "none", md: "block", background: "#ffffff" } }}>
@@ -113,10 +175,14 @@ const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
                     bgcolor: "transparent", // Remove the background color on hover
                   },
                 }}
-                onClick={() => navigate(`/shop/${category.value}`)}
+                onClick={() => handleCategoryClick(category.value)}
               >
                 <ListItem disablePadding>
-                  <Typography variant="body2">{category.label}</Typography>
+                  <Typography
+                    variant={i18next.language === "ps" ? "body1" : "body2"}
+                  >
+                    {t(category.label)}
+                  </Typography>
                 </ListItem>
               </ListItemButton>
             </List>
@@ -142,9 +208,9 @@ const Header = ({ cartItems, wishlist, handleCategoryClick }) => {
           {categories.map((category) => (
             <ListItem key={category.id} onClick={handleDrawerClose}>
               <ListItemButton
-                onClick={() => navigate(`/shop/${category.value}`)}
+                onClick={() => handleCategoryClick(category.value)}
               >
-                <ListItemText primary={category.label} />
+                <ListItemText primary={t(category.label)} />
               </ListItemButton>
             </ListItem>
           ))}

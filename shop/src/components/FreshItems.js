@@ -6,6 +6,8 @@ import { ArrowLeft, ArrowRight } from "./reuseableComponents/Arrow";
 import { Box, Button, Typography } from "@mui/material";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import "./custom.css";
+import { useTranslation } from "react-i18next";
+
 const Vegetables = [
   {
     _id: 214795,
@@ -136,29 +138,29 @@ const FreshItems = ({
   setWishlist,
   setTotalCost,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Box py={2}>
       <Box display="flex">
         <Typography variant="h1" my={3} flexGrow={1}>
-          Healthy Food
-        </Typography>
-        <Typography variant="h1" my={3}>
-          صحي خواړه{" "}
+          {t('Healthy Food')}
         </Typography>
 
-        {/* <Button
+        <Button
           sx={{
             fontWeight: "500",
             color: "#262626",
             "&:hover": {
               color: "#ffe033",
+              textDecoration: "underline",
             },
           }}
           endIcon={<ChevronRightRoundedIcon />}
           disableRipple
         >
-          View All
-        </Button> */}
+          {t('View All')}
+        </Button>
       </Box>
 
       <Carousel

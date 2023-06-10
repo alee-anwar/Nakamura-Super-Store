@@ -10,8 +10,10 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -20,7 +22,7 @@ const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {
   };
 
   const user = {
-    name: "John Doe",
+    name: "Pathan",
     address: {
       town: "Example Town",
       street: "123 Example Street",
@@ -43,9 +45,9 @@ const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
-      <BreadcrumbsComponent name={"Account"} path={"/account"} />
+      <BreadcrumbsComponent name={t("Account")} path={"/account"} />
       <Typography variant="h1" my={2}>
-        Account
+        {t('Account')}
       </Typography>
       <Grid container>
         <Grid item md={5}>
@@ -59,28 +61,28 @@ const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {
             }}
           >
             <TextField
-              label="Name"
+              label={t("Name")}
               value={user.name}
               disabled
               sx={{ mb: 2 }}
               size="small"
             />
             <TextField
-              label="Town"
+              label={t("Town")}
               value={user.address.town}
               disabled
               sx={{ mb: 2 }}
               size="small"
             />
             <TextField
-              label="Street"
+              label={t("Street")}
               value={user.address.street}
               disabled
               sx={{ mb: 2 }}
               size="small"
             />
             <TextField
-              label="House No"
+              label={t("House No")}
               value={user.address.houseNo}
               disabled
               sx={{ mb: 2 }}
@@ -110,7 +112,7 @@ const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {
                     color="textSecondary"
                     align="center"
                   >
-                    Welcome back! You are already logged in.
+                    {t('Welcome back! You are already logged in.')}
                   </Typography>
 
                   <Button
@@ -118,28 +120,27 @@ const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {
                     sx={{ mt: 1 }}
                     onClick={handleLogout}
                   >
-                    Logout
+                    {t('Logout')}
                   </Button>
                 </>
               ) : (
                 <>
                   <Typography variant="body1" color="textSecondary">
-                    Please login to view user information.
+                    {t('Please login to view user information.')}
                   </Typography>
                   <Button
                     variant="contained"
                     sx={{ my: 1 }}
                     onClick={() => navigate("/account/login")}
                   >
-                    Login
+                    {t('Login')}
                   </Button>
                   <Typography
                     variant="body1"
                     color="textSecondary"
                     align="center"
                   >
-                    If you are a new user, you will be redirected to the signup
-                    page after verification.
+                    {t('If you are a new user, you will be redirected to the signup page after verification.')}
                   </Typography>
                 </>
               )}

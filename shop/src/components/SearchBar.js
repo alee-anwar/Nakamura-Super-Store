@@ -50,10 +50,12 @@ import { Box, IconButton, InputBase, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     console.log(search);
@@ -86,20 +88,28 @@ const SearchBar = () => {
         display: "flex",
         alignItems: "center",
         borderBottom: "2px solid #FFE033",
-        pl: 0.1
+        pl: 0.1,
       }}
     >
-      <InputBase
-        placeholder="Search..."
+      {/* <InputBase
+        placeholder={t("Search...")}
         value={search}
         onChange={handleInputChange}
+      /> */}
+      <InputBase
+        placeholder={t("Search...")}
+        value={search}
+        onChange={handleInputChange}
+        inputProps={{
+          dir: t("Search...") === "لټول..." ? "rtl" : "ltr",
+        }}
       />
 
       <IconButton
         aria-label="search"
         onClick={handleSearch}
-        sx={{p: 0}}
-        color='primary'
+        sx={{ p: 0, pl: 1}}
+        color="primary"
         disableRipple
       >
         <SearchIcon color="primary" fontSize="medium" />

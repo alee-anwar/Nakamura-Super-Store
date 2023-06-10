@@ -16,6 +16,7 @@ import ProductCard from "../components/ProductCard";
 // import FilterSidebar from "../components/FilterSidebar";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
+import { useTranslation } from "react-i18next";
 
 const Shop = ({
   cartItems,
@@ -30,6 +31,7 @@ const Shop = ({
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState(""); // State for sorting order
   const [loading, setLoading] = useState(true); // Loading state
+  const { t } = useTranslation();
 
   const location = useLocation(); // Get the current location
   const { value } = useParams(); // Get the product ID from the URL params
@@ -110,17 +112,17 @@ const Shop = ({
 
   return (
     <Container maxWidth="lg" disableGutters sx={{ pt: 5 }}>
-      <BreadcrumbsComponent name={"Shop"} path={"/shop"} />
+      <BreadcrumbsComponent name={t("Shop")} path={"/shop"} />
       {loading ? (
         <Loading />
       ) : (
         <>
           <Box display="flex" alignItems="center">
             <Typography variant="h1" my={2} flexGrow={1}>
-              Shop
+              {t('Shop')}
             </Typography>
             <Link to="#" onClick={handleGoBack} style={{ color: "#ffb800" }}>
-              Go Back
+              {t('Go Back')}
             </Link>
           </Box>
           <Grid container columns={12} spacing={2} my={2}>
@@ -130,7 +132,7 @@ const Shop = ({
                 sx={{ padding: "16px", width: "auto", height: "60vh"}}
               >
                 <FormControl component="fieldset" p={2}>
-                  <Typography variant="h6">Price</Typography>
+                  <Typography variant="h6">{t('Price')}</Typography>
 
                   <FormGroup>
                     <FormControlLabel
@@ -141,7 +143,7 @@ const Shop = ({
                           value="lowToHigh"
                         />
                       }
-                      label="Low to High"
+                      label={t("Low to High")}
                     />
                     <FormControlLabel
                       control={
@@ -151,7 +153,7 @@ const Shop = ({
                           value="highToLow"
                         />
                       }
-                      label="High to Low"
+                      label={t('High to Low')}
                     />
                   </FormGroup>
                 </FormControl>

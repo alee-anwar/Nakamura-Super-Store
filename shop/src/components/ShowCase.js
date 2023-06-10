@@ -4,26 +4,25 @@ import { Link } from "react-router-dom";
 import ShowCase2 from "../assets/ShowCase/snow.jpg";
 import ShowCase1 from "../assets/ShowCase/Car.jpg";
 import ShowCase3 from "../assets/ShowCase/save time.jpg";
+import { useTranslation } from "react-i18next";
 
 const showcaseData = [
   {
     image: ShowCase1,
     title: "Shop from the comfort of your home",
-    titleTranslation: "له خپل کور څخه واخلۍ",
   },
   {
     image: ShowCase2,
     title: "Escape the snow, shop from home",
-    titleTranslation: "، او له خپله کوره خریدارېوکړۍ",
   },
   {
     image: ShowCase3,
     title: "Shop online and save time",
-    titleTranslation: "انلاین خریدارې وکړۍ او وخت بچت کړۍ",
   },
 ];
 
 const ShowCase = () => {
+  const { t } = useTranslation();
   return (
     <Grid container spacing={1}>
       {showcaseData.map((item, index) => (
@@ -85,14 +84,11 @@ const ShowCase = () => {
               }}
             >
               <Box width='100%'>
-                <Typography variant="h6" pl={1}>{item.title}</Typography>
-                <Typography variant="h6" textAlign="end" pr={3}>
-                  {item.titleTranslation}
-                </Typography>
+                <Typography variant="h6" pl={1}>{t(item.title)}</Typography>
               </Box>
 
               <Link to="/shop">
-                <Typography pl={1}>Shop Now</Typography>
+                <Typography pl={1}>{t("Shop Now")}</Typography>
               </Link>
             </Box>
           </Box>

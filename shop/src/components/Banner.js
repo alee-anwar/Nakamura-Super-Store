@@ -3,13 +3,15 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MyButton from "./reuseableComponents/MyButton";
+import { useTranslation } from "react-i18next";
+
 
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 import img1 from "../assets/Banner/store.jpg";
-import img2 from "../assets/Banner/paper-bag-and-different-food-isolated.jpg";
-import img3 from "../assets/Banner/paper-bag-with-green-vegetables.jpg";
+import img2 from "../assets/Banner/grocery shop.jpg";
+import img3 from "../assets/Banner/Good Quality.jpg";
 import img4 from "../assets/Banner/multiple.jpg";
 import img5 from "../assets/Banner/bike.jpg";
 
@@ -151,6 +153,8 @@ const active = {
 };
 
 const Banner = () => {
+  const { t } = useTranslation();
+
   const [current, setCurrent] = useState(0);
   const length = images.length;
 
@@ -216,10 +220,10 @@ const Banner = () => {
                       }}
                       className="heading__text"
                     >
-                      {image.heading}
+                      {t(image.heading)}
                     </motion.h1>
                     <Link to="/shop">
-                      <MyButton>Find Products</MyButton>
+                      <MyButton>{t('Find Products')}</MyButton>
                     </Link>
                   </TextContainer>
                 </HeroItem>

@@ -47,10 +47,6 @@ function App() {
   const [availableStock, setAvailableStock] = useState();
   const [productQuantities, setProductQuantities] = useState({});
 
-  // const handleCategoryClick = (category) => {
-  //   navigate(`/shop/${category.value}`);
-  // };
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>

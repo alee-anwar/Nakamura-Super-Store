@@ -12,6 +12,7 @@ import {
   Grid,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First name is required"),
@@ -28,6 +29,8 @@ const validationSchema = Yup.object().shape({
 const Signup = () => {
   const [resMsg, setResMsg] = useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation(); // Initialize the useTranslation hook
+
 
   const formik = useFormik({
     initialValues: {
@@ -73,9 +76,9 @@ const Signup = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
-      <BreadcrumbsComponent name={"Sign Up"} path={"/account/signup"} />
+      <BreadcrumbsComponent name={t("Sign Up")} path={"/account/signup"} />
       <Typography variant="h1" my={2}>
-        Sign Up
+      {t("Sign Up")} {/* Translate the heading */}
       </Typography>
       <Container maxWidth="sm">
         <form onSubmit={formik.handleSubmit}>
@@ -84,7 +87,7 @@ const Signup = () => {
               <TextField
                 id="firstName"
                 name="firstName"
-                label="First Name"
+                label={t("First Name")}
                 value={formik.values.firstName}
                 onChange={formik.handleChange}
                 error={
@@ -100,7 +103,7 @@ const Signup = () => {
               <TextField
                 id="lastName"
                 name="lastName"
-                label="Last Name"
+                label={t("Last Name")}
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
                 error={
@@ -124,7 +127,7 @@ const Signup = () => {
               <TextField
                 id="phoneNo"
                 name="phoneNo"
-                label="Phone Number"
+                label={t("Phone Number")}
                 value={formik.values.phoneNo}
                 onChange={formik.handleChange}
                 error={formik.touched.phoneNo && Boolean(formik.errors.phoneNo)}
@@ -137,7 +140,7 @@ const Signup = () => {
               <TextField
                 id="town"
                 name="town"
-                label="Town"
+                label={t("Town")}
                 value={formik.values.town}
                 onChange={formik.handleChange}
                 error={formik.touched.town && Boolean(formik.errors.town)}
@@ -150,7 +153,7 @@ const Signup = () => {
               <TextField
                 id="streetNo"
                 name="streetNo"
-                label="Street Number"
+                label={t("Street Number")}
                 value={formik.values.streetNo}
                 onChange={formik.handleChange}
                 error={
@@ -165,7 +168,7 @@ const Signup = () => {
               <TextField
                 id="houseNo"
                 name="houseNo"
-                label="House Number"
+                label={t("House Number")}
                 value={formik.values.houseNo}
                 onChange={formik.handleChange}
                 error={formik.touched.houseNo && Boolean(formik.errors.houseNo)}
@@ -185,7 +188,7 @@ const Signup = () => {
           /> */}
             <Grid item sm={12} md={12} display='flex' justifyContent='center'>
               <Button type="submit" variant="contained" size='medium' sx={{width: 200, height: 40}}>
-                Sign Up
+              {t("Sign Up")} {/* Translate the button text */}
               </Button>
             </Grid>
           </Grid>

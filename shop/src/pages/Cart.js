@@ -18,6 +18,7 @@ import CartItem from "../components/CartItem";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
+import { useTranslation } from "react-i18next";
 
 const Cart = ({
   cartItems,
@@ -35,6 +36,7 @@ const Cart = ({
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  const { t } = useTranslation();
 
   const handleGoBack = () => {
     navigate(-1);
@@ -70,13 +72,13 @@ const Cart = ({
 
   return (
     <Container maxWidth="lg" sx={{ pt: 5 }}>
-      <BreadcrumbsComponent name={"Cart"} path={"/cart"} />
+      <BreadcrumbsComponent name={t("Cart")} path={"/cart"} />
       <Box display="flex" alignItems="center">
         <Typography variant="h1" my={2} flexGrow={1}>
-          Cart
+          {t('Cart')}
         </Typography>
         <Link to="#" onClick={handleGoBack} style={{ color: "#ffb800" }}>
-          Go Back
+          {t('Go Back')}
         </Link>
       </Box>
       <Grid container>
@@ -84,8 +86,8 @@ const Cart = ({
           <Grid item xs={12} md={12}>
             <ErrorMessage
               path={"/shop"}
-              errorMessage={" Your cart is empty"}
-              linkMsg={"Return to shopping"}
+              errorMessage={t("Your cart is empty")}
+              linkMsg={t("Return to shopping")}
             />
           </Grid>
         ) : (
@@ -115,7 +117,7 @@ const Cart = ({
             <Grid item xs={12} md={4} pb={2}>
               <Paper variant="outlined" sx={{ p: 1 }}>
                 <Typography textAlign="center" variant="h6" py={0}>
-                  Order Summary
+                  {t('Order Summary')}
                 </Typography>
                 <Divider />
                 <Box
@@ -125,7 +127,7 @@ const Cart = ({
                   alignItems="center"
                 >
                   <Typography variant="body2" fontWeight={600}>
-                    Total:
+                    {t('Total')}
                   </Typography>
                   <Typography variant="body1">
                     AFN {totalCost?.toFixed(2)}
@@ -136,7 +138,7 @@ const Cart = ({
 
                 <Box py={2}>
                   <Typography variant="body2" fontWeight={600}>
-                    Additional Message
+                    {t('Additional Message')}
                   </Typography>
                   <TextField
                     fullWidth
@@ -151,7 +153,7 @@ const Cart = ({
 
                 <Box py={2}>
                   <Typography variant="body2" fontWeight={600}>
-                    Shipping Method *
+                    {t('Shipping Method')} *
                   </Typography>
                   <FormControl component="fieldset">
                     <RadioGroup
@@ -174,7 +176,7 @@ const Cart = ({
                             component="div"
                             sx={{ display: "flex", alignItems: "center" }}
                           >
-                            <div>Store Pickup</div>
+                            <div>{t('Store Pickup')}</div>
                             <Typography
                               variant="caption"
                               sx={{
@@ -183,7 +185,7 @@ const Cart = ({
                                 fontWeight: 600,
                               }}
                             >
-                              Free
+                              {t('Free')}
                             </Typography>
                           </Typography>
                         }
@@ -199,7 +201,7 @@ const Cart = ({
                             sx={{ marginRight: 0 }}
                           />
                         }
-                        label="Home Delivery"
+                        label={t("Home Delivery")}
                         disableTypography
                         sx={{ marginBottom: "-10px" }}
                       />
@@ -219,7 +221,7 @@ const Cart = ({
                     onClick={handleCheckout}
                     disabled={!selectedOption} // Disable button if selectedOption is empty or null
                   >
-                    Checkout
+                    {t('Checkout')}
                   </Button>
                 </Box>
               </Paper>

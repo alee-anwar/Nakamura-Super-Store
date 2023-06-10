@@ -5,6 +5,7 @@ import Chip from "@mui/material/Chip";
 import HomeIcon from "@mui/icons-material/Home";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
@@ -27,28 +28,30 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 }); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
 
 export default function BreadcrumbsComponent({ name, path }) {
+  const { t } = useTranslation();
+
   return (
     <div role="presentation">
       <Breadcrumbs aria-label="breadcrumb">
         <Link to="/">
           <StyledBreadcrumb
-            label="Home"
+            label={t("Home")}
             icon={<HomeIcon color="primary" fontSize="small" />}
           />
         </Link>
         {name === "Checkout" && (
           <Link to="/cart">
-            <StyledBreadcrumb label="Cart" />
+            <StyledBreadcrumb label={t("Cart")} />
           </Link>
         )}
         {name === "Login" && (
           <Link to="/account">
-            <StyledBreadcrumb label="Account" />
+            <StyledBreadcrumb label={t("Account")} />
           </Link>
         )}
-        {name === "Sign Up" && (
+        {name === ("د ثبت نوم" || "Sign Up") && (
           <Link to="/account">
-            <StyledBreadcrumb label="Account" />
+            <StyledBreadcrumb label={t("Account")} />
           </Link>
         )}
 

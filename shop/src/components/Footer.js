@@ -13,7 +13,10 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <Box sx={{ height: "auto", background: "#262626", pb: 3, pt: 5, px: 5 }}>
       <Container maxWidth="md" sx={{ pb: 3 }}>
@@ -21,20 +24,20 @@ const Footer = () => {
           <Grid item md={4} sm={12} xs={12}>
             <Box sx={{ color: "#fff" }} textAlign="center" pt={1}>
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
-                Customer Service
+                {t('Customer Service')}
               </Typography>
               <Stack spacing={0.5}>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  My Account
+                  {t('My Account')}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  FAQs
+                  {t('FAQs')}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Cash On Delivery
+                  {t('Cash On Delivery')}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Contact Us
+                  {t('Contact Us')}
                 </Typography>
               </Stack>
             </Box>
@@ -42,23 +45,23 @@ const Footer = () => {
           <Grid item md={4} sm={12} xs={12}>
             <Box sx={{ color: "#fff" }} textAlign="center" pt={1}>
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
-                Help & Information
+                {t('Help & Information')}
               </Typography>
               <Stack spacing={0.5}>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  About Us
+                  {t('About Us')}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Shipping & Exchange Policy
+                  {t('Shipping & Exchange Policy')}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Terms & Conditions
+                  {t('Terms & Conditions')}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Priviacy Policy
+                  {t('Privacy Policy')}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 13 }}>
-                  Store Address
+                  {t('Store Address')}
                 </Typography>
               </Stack>
             </Box>
@@ -66,7 +69,7 @@ const Footer = () => {
           <Grid item md={4} sm={12} xs={12}>
             <Box sx={{ color: "#fff" }} textAlign="center" pt={1}>
               <Typography variant="body1" sx={{ fontWeight: "bold" }} pb={1}>
-                Quick Links
+                {t('Quick Links')}
               </Typography>
               <Stack spacing={0.5}>
                 <Link
@@ -74,7 +77,7 @@ const Footer = () => {
                   style={{ textDecoration: "none", color: "white" }}
                 >
                   <Typography variant="body2" sx={{ fontSize: 13 }}>
-                    Home
+                    {t('Home')}
                   </Typography>
                 </Link>
                 <Link
@@ -82,7 +85,7 @@ const Footer = () => {
                   style={{ textDecoration: "none", color: "white" }}
                 >
                   <Typography variant="body2" sx={{ fontSize: 13 }}>
-                    Shop Now
+                    {t('Shop Now')}
                   </Typography>
                 </Link>
                 <Link
@@ -90,7 +93,7 @@ const Footer = () => {
                   style={{ textDecoration: "none", color: "white" }}
                 >
                   <Typography variant="body2" sx={{ fontSize: 13 }}>
-                    Cart
+                    {t('Cart')}
                   </Typography>
                 </Link>
                 <Link
@@ -98,7 +101,7 @@ const Footer = () => {
                   style={{ textDecoration: "none", color: "white" }}
                 >
                   <Typography variant="body2" sx={{ fontSize: 13 }}>
-                    Wishlist
+                    {t('Wishlist')}
                   </Typography>
                 </Link>
               </Stack>

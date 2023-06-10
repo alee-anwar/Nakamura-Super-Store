@@ -13,6 +13,8 @@ import DotsMenuBtn from "../components/DotsMenuBtn";
 import React, { useEffect, useState } from "react";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
+import MicrosoftPowerBI from "../components/MicrosoftPowerBI";
+// import ReportComponent from "../components/ReportComponent";
 const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
   const theme = useTheme();
   // const navigate = useNavigate();
@@ -24,6 +26,12 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
       .then((res) => res.json())
       .then((data) => setOrders(data));
   }, [deleted, totalProducts, totalOrders, totalSales]);
+  
+//   useEffect(() => {
+//     fetch("http://localhost:3000/orderList/viewOrders")
+//       .then((res) => res.json())
+//       .then((data) => setOrders(data));
+//   }, []);
 
   const handleDelete = async (id) => {
     await fetch("http://localhost:3000/orderList/deleteOrder/" + id, {
@@ -130,6 +138,9 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
           </Grid>
         </Grid>
       </Container>
+
+      {/* <ReportComponent/> */}
+      {/* <MicrosoftPowerBI/> */}
 
       <Box>
         <Box sx={{ display: "flex" }} mb={3}>

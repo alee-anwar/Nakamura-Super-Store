@@ -7,6 +7,9 @@ import { Box, Button, Typography } from "@mui/material";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import "./custom.css";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+
+
 const bestSellers = [
   {
     _id: 152500,
@@ -104,6 +107,7 @@ const FeaturedItems = ({
 }) => {
   const [featuredItems, setFeaturedItems] = useState(bestSellers);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -131,25 +135,24 @@ const FeaturedItems = ({
     <Box py={2}>
       <Box display="flex">
         <Typography variant="h1" my={3} flexGrow={1}>
-          Featured Items
-        </Typography>
-        <Typography variant="h1" my={3}>
-          ځانګړي توکي
+          {t("Featured Items")}
         </Typography>
 
-        {/* <Button
+        <Button
           sx={{
             fontWeight: "500",
             color: "#262626",
             "&:hover": {
               color: "#ffe033",
+              textDecoration: "underline",
+
             },
           }}
           endIcon={<ChevronRightRoundedIcon />}
           disableRipple
         >
-          View All
-        </Button> */}
+          {t('View All')}
+        </Button>
       </Box>
 
       <Carousel

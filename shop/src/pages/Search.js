@@ -7,6 +7,7 @@ import ProductCard from "../components/ProductCard";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import Searching from "../components/Searching";
 import Loading from "../components/Loading";
+import { useTranslation } from "react-i18next";
 
 export default function Search({
   cartItems,
@@ -20,6 +21,8 @@ export default function Search({
   console.log(location.state.Data);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,12 +46,11 @@ export default function Search({
 
   return (
     <Container maxWidth="lg" disableGutters sx={{ py: 5 }}>
-      <BreadcrumbsComponent name={"Search"} path={"/search"} />
+      <BreadcrumbsComponent name={t("Search")} path={"/search"} />
       <Grid container mt={2}>
         <Grid>
           <Typography variant="h5">
-            Searched for "
-            {location.state.Data !== undefined && location.state.Data}"
+            {t('Searched for')} "{location.state.Data !== undefined && location.state.Data}"
           </Typography>
         </Grid>
         <Grid container spacing={1}>

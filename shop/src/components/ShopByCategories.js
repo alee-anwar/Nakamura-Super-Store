@@ -6,6 +6,7 @@ import Carousel from "react-multi-carousel";
 import PropTypes from "prop-types";
 import { categories } from "./reuseableComponents/allCategories";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const responsive = {
   superLargeDesktop: {
@@ -27,6 +28,8 @@ const responsive = {
 };
 
 const ShopByCategories = ({handleCategoryClick}) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   // const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -38,7 +41,7 @@ const ShopByCategories = ({handleCategoryClick}) => {
     <Box mt={2}>
       <Box display="flex">
         <Typography variant="h1" my={3} flexGrow={1}>
-          Shop By Categories
+          {t('Shop By Categories')}
         </Typography>
         {/* <Button
           sx={{
@@ -92,7 +95,7 @@ const ShopByCategories = ({handleCategoryClick}) => {
                 />
               )}
             </Box>
-            <Typography textAlign="center">{category.label}</Typography>
+            <Typography textAlign="center">{t(category.label)}</Typography>
           </Box>
         ))}
       </Carousel>

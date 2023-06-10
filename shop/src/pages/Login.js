@@ -14,23 +14,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-const validationSchemaPhone = Yup.object().shape({
-  phoneNo: Yup.string()
-    .matches(
-      /^\+923\d{9}$/,
-      "Phone number must start with '+923' and have 12 digits"
-    )
-    .required("Phone number is required"),
-});
-
-const validationSchemaCode = Yup.object({
-  otp: Yup.string()
-    .matches(/^\d{6}$/, "OTP must be a 6-digit number")
-    .required("OTP is required"),
-});
 
 const Login = ({ cartItems, setIsAuthenticated }) => {
+  const { t } = useTranslation();
   const [showSmsVerification, setShowSmsVerification] = useState(false);
   const [showPhoneNoInput, setShowPhoneNoInput] = useState(true);
   const [resMsg, setResMsg] = useState("");
@@ -58,6 +46,21 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
   //     }
   //   },
   // });
+
+  const validationSchemaPhone = Yup.object().shape({
+    phoneNo: Yup.string()
+      .matches(
+        /^\+923\d{9}$/,
+        t("Phone number must start with '+923' and have 12 digits")
+      )
+      .required(t("Phone number is required")),
+  });
+  
+  const validationSchemaCode = Yup.object({
+    otp: Yup.string()
+      .matches(/^\d{6}$/, t("OTP must be a 6-digit number"))
+      .required(t("OTP is required")),
+  });
 
   const formikPhone = useFormik({
     initialValues: {
@@ -132,9 +135,9 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
-      <BreadcrumbsComponent name={"Login"} path={"/account/login"} />
+      <BreadcrumbsComponent name={t("Login")} path={"/account/login"} />
       <Typography variant="h1" my={2}>
-        Login
+        {t('Login')}
       </Typography>
       <Container maxWidth="md">
         {showPhoneNoInput ? (
@@ -150,7 +153,7 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
               }}
             >
               <Typography variant="h6">
-                Hi, WE need your phone number to verify your identity
+                {t('Hi, WE need your phone number to verify your identity')}
               </Typography>
 
               <Box my={2}>
@@ -159,7 +162,7 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
                   variant="outlined"
                 >
                   <InputBase
-                    placeholder="+923*********"
+                    placeholder={t("+923*********")}
                     name="phoneNo"
                     value={formikPhone.values.phoneNo}
                     onChange={formikPhone.handleChange}
@@ -180,15 +183,14 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
                   fullWidth
                   type="submit"
                 >
-                  Use SMS
+                  {t('Use SMS')}
                 </Button>
                 <Button variant="contained" sx={{ mt: 1 }} disabled>
-                  Use Call
+                  {t('Use Call')}
                 </Button>
               </Stack>
               <Typography variant="caption" color="textSecondary">
-                *You will reveive a call/sms shortly. Existing users will log in
-                right after verifying the confirmation code
+                {t('*You will reveive a call/sms shortly. Existing users will log in right after verifying the confirmation code')}
               </Typography>
             </Box>
           </form>
@@ -205,7 +207,7 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
               }}
             >
               <Typography variant="h6" color="textSecondary" mb={2}>
-                Enter the code sent to your phone
+                {t('Enter the code sent to your phone')}
               </Typography>
               <Box my={2}>
                 <Paper
@@ -232,7 +234,7 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
                 sx={{ mt: 1 }}
                 onClick={handleVerifyClick}
               >
-                Verify
+                {t('Verify')}
               </Button>
             </Box>
           </form>

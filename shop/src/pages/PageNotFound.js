@@ -1,7 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import Logo from '../assets/oops.png';
+import { useTranslation } from "react-i18next";
 
 const PageNotFound = () => {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -14,11 +17,11 @@ const PageNotFound = () => {
     >
       
       <Box component="img" src={Logo} sx={{ height: '25vh', width: 'auto' }} />
-      <Typography variant="h1" color="primary">
-        404
+      <Typography variant="h1" color="primary" pt={1}>
+        {t('404')}
       </Typography>
       <Typography variant="h6" color="textSecondary">
-        Page not found
+        {t('Page not found')}
       </Typography>
     </Box>
   );

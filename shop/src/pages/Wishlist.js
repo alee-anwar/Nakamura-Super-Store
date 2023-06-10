@@ -4,6 +4,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import ErrorMessage from "../components/ErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Wishlist = ({
   cartItems,
@@ -14,6 +15,8 @@ const Wishlist = ({
   totalCost,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -31,13 +34,13 @@ const Wishlist = ({
   console.log("Welcome to Wishlist Page");
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
-      <BreadcrumbsComponent name={"Wishlist"} path={"/wishlist"} />
+      <BreadcrumbsComponent name={t("Wishlist")} path={"/wishlist"} />
       <Box display="flex" alignItems="center">
         <Typography variant="h1" my={2} flexGrow={1}>
-          Wishlist
+          {t('Wishlist')}
         </Typography>
         <Link to="#" onClick={handleGoBack} style={{ color: "#ffb800" }}>
-          Go Back
+          {t('Go Back')}
         </Link>
       </Box>
       <Grid container>
@@ -45,8 +48,8 @@ const Wishlist = ({
           <Grid item xs={12} md={12}>
             <ErrorMessage
               path={"/shop"}
-              errorMessage={" Your Wishlist is empty"}
-              linkMsg={"Return to shopping"}
+              errorMessage={t("Your Wishlist is empty")}
+              linkMsg={t("Return to shopping")}
             />
           </Grid>
         ) : (

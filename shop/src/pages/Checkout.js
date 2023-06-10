@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "react-i18next";
 
 function Checkout({
   cartItems,
@@ -39,6 +40,7 @@ function Checkout({
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [successMessage, setSuccessMessage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,7 +77,7 @@ function Checkout({
       productImage: item.image,
       productId: item._id,
       productQuantity: productQuantities[item._id],
-      unitPrice: item.price
+      unitPrice: item.price,
     }));
 
     const body = {
@@ -84,7 +86,7 @@ function Checkout({
       totalPrice: totalCost,
       shippingMethod: shippingMethod,
       additionalComments: message,
-      shippingCharges: shippingCharges
+      shippingCharges: shippingCharges,
     };
 
     // const data = {
@@ -124,17 +126,17 @@ function Checkout({
 
   return (
     <Container maxWidth="lg" sx={{ pt: 5 }}>
-      <BreadcrumbsComponent name={"Checkout"} path={"/checkout"} />
+      <BreadcrumbsComponent name={t("Checkout")} path={"/checkout"} />
       <Typography variant="h1" my={2}>
-        Checkout
+        {t("Checkout")}
       </Typography>
       <Grid container spacing={2}>
         {cartItems.length === 0 ? (
           <Grid item xs={12} md={12}>
             <ErrorMessage
               path={"/shop"}
-              errorMessage={" Your cart is empty"}
-              linkMsg={"Return to shopping"}
+              errorMessage={t("Your cart is empty")}
+              linkMsg={t("Return to shopping")}
             />
           </Grid>
         ) : (
@@ -143,7 +145,7 @@ function Checkout({
               <Paper variant="outlined" sx={{ py: 2, px: 3 }}>
                 {isAuthenticated && (
                   <>
-                    <Typography variant="h6">Address</Typography>
+                    <Typography variant="h6">{t('Address')}</Typography>
                     <Divider />
                     {/* TODO: Add address form here */}
                     <Skeleton />
@@ -153,7 +155,7 @@ function Checkout({
                 )}
 
                 <Box pb={1}>
-                  <Typography variant="h6">Delivery Date/Time</Typography>
+                  <Typography variant="h6">{t('Delivery Date/Time')}</Typography>
                   <FormControl component="fieldset" sx={{ px: 2 }}>
                     <RadioGroup
                       aria-label="delivery date"
@@ -164,26 +166,26 @@ function Checkout({
                       <FormControlLabel
                         value="Same Day Delivery"
                         control={<Radio size="small" />}
-                        label="Same Day Delivery"
+                        label={t("Same Day Delivery")}
                         sx={{ marginBottom: "-10px" }}
                       />
                       <FormControlLabel
                         value="Next Day Delivery"
                         control={<Radio size="small" />}
-                        label="Next Day Delivery"
+                        label={t("Next Day Delivery")}
                         sx={{ marginBottom: "-10px" }}
                       />
                       <FormControlLabel
                         value="Delivery On Date"
                         control={<Radio size="small" />}
-                        label="Delivery On Date"
+                        label={t("Delivery On Date")}
                         sx={{ marginBottom: "-10px" }}
                       />
                       <Box pl={3.5}>
                         {showCalendar && (
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
-                              label="Select delivery date"
+                              label={t("Select delivery date")}
                               value={selectedDate}
                               onChange={handleDateChange}
                               sx={{ mt: 2 }}
@@ -205,7 +207,7 @@ function Checkout({
                 </Box>
                 <Divider />
                 <Box pb={1}>
-                  <Typography variant="h6">Payment Method</Typography>
+                  <Typography variant="h6">{t('Payment Method')}</Typography>
                   <FormControl component="fieldset" sx={{ px: 2 }}>
                     <RadioGroup
                       aria-label="delivery date"
@@ -215,7 +217,7 @@ function Checkout({
                       <FormControlLabel
                         value="Cash on Delivery"
                         control={<Radio size="small" />}
-                        label="Cash on Delivery"
+                        label={t("Cash on Delivery")}
                         sx={{ marginBottom: "-10px" }}
                       />
                     </RadioGroup>
@@ -226,7 +228,7 @@ function Checkout({
                 {isAuthenticated ? (
                   <>
                     <Button variant="contained" onClick={handleConfirmOrder}>
-                      Confirm Order
+                      {t('Confirm Order')}
                     </Button>
                     <ConfirmationDialog
                       open={showPopup}
@@ -239,7 +241,7 @@ function Checkout({
                     variant="contained"
                     onClick={() => navigate("/account/login")}
                   >
-                    Login to Place Order
+                    {t('Login to Place Order')}
                   </Button>
                 )}
               </Box>
@@ -249,7 +251,7 @@ function Checkout({
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <Typography textAlign="center" variant="h6">
-                      Order Summary
+                      {t("Order Summary")}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
@@ -259,7 +261,7 @@ function Checkout({
                     <Grid item xs={12}>
                       <Box py={2}>
                         <Typography variant="body2" fontWeight={600}>
-                          Additional Message
+                          {t('Additional Message')}
                         </Typography>
                         <Typography variant="body2">{message}</Typography>
                       </Box>
@@ -278,13 +280,13 @@ function Checkout({
                   </Grid>
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
-                      <Typography fontWeight={600}>SubTotal</Typography>
+                      <Typography fontWeight={600}>{t('Subtotal')}</Typography>
                       <Typography>AFN {totalCost.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
-                      <Typography fontWeight={600}>Shipping</Typography>
+                      <Typography fontWeight={600}>{t('Shipping')}</Typography>
                       <Typography>AFN {shippingCharges.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
@@ -293,7 +295,7 @@ function Checkout({
                   </Grid>
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
-                      <Typography fontWeight={600}>Total</Typography>
+                      <Typography fontWeight={600}>{t('Total')}</Typography>
                       <Typography>AFN: {total.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
