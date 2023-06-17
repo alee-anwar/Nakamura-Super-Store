@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MyButton from "./reuseableComponents/MyButton";
 import { useTranslation } from "react-i18next";
-
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
@@ -26,7 +27,6 @@ const images = [
     alt: "man caring grocery bag",
     heading: "Looking for Good Quality Ingridient?",
   },
-
   {
     url: img1,
     alt: "paper-bag-with-green-vegetables",
@@ -48,12 +48,12 @@ const images = [
 
 // ============  STYLED COMPONENTS  ===========
 const Hero = styled.section`
-  grid-area: hero;
+  // grid-area: hero;
   overflow: hidden;
   position: relative;
   height: 720px;
   width: 100%;
-  //   top: 104px;
+  // top: 104px;
 `;
 const GradientOverlay = styled.div`
   background: linear-gradient(
@@ -64,12 +64,8 @@ const GradientOverlay = styled.div`
   );
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: auto;
   z-index: 1;
-`;
-const HeroItem = styled.div`
-  width: 100%;
-  height: 100%;
 `;
 const Image = styled(motion.img)`
   position: relative;
@@ -207,7 +203,7 @@ const Banner = () => {
                   src={image.url}
                   alt={image.alt}
                 ></Image>
-                <HeroItem>
+                <div>
                   <TextContainer>
                     <motion.h1
                       initial={{ y: 200, opacity: 0 }}
@@ -223,10 +219,10 @@ const Banner = () => {
                       {t(image.heading)}
                     </motion.h1>
                     <Link to="/shop">
-                      <MyButton>{t('Find Products')}</MyButton>
+                      <MyButton>{t("Find Products")}</MyButton>
                     </Link>
                   </TextContainer>
-                </HeroItem>
+                </div>
               </>
             )}
           </div>
@@ -237,3 +233,8 @@ const Banner = () => {
 };
 
 export default Banner;
+
+// const HeroItem = styled.div`
+//   width: 100%;
+//   height: 100%;
+// `;

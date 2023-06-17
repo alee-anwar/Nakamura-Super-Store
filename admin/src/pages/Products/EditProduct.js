@@ -157,6 +157,21 @@ const ProductEditForm = () => {
                 <Grid container columnSpacing={1}>
                   <Grid item sm={12} md={6}>
                     <TextField
+                      name="id"
+                      label="ID"
+                      value={id}
+                      onBlur={formik.handleBlur}
+                      margin="dense"
+                      fullWidth
+                      size="small"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={6}>
+                    <TextField
                       name="sku"
                       label="SKU"
                       value={formik.values.sku}
@@ -165,30 +180,6 @@ const ProductEditForm = () => {
                       error={formik.touched.sku && Boolean(formik.errors.sku)}
                       helperText={
                         formik.touched.firstName && formik.errors.firstName
-                      }
-                      margin="dense"
-                      required
-                      fullWidth
-                      size="small"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid item sm={12} md={6}>
-                    <TextField
-                      name="stock"
-                      label="Stock"
-                      value={formik.values.stock}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.stock &&
-                        Boolean(formik.errors.stock)
-                      }
-                      helperText={
-                        formik.touched.stock && formik.errors.stock
                       }
                       margin="dense"
                       required
@@ -216,6 +207,27 @@ const ProductEditForm = () => {
                         formik.touched.productTitle &&
                         formik.errors.productTitle
                       }
+                      required
+                      fullWidth
+                      size="small"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item sm={12} md={6}>
+                    <TextField
+                      name="stock"
+                      label="Stock"
+                      value={formik.values.stock}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.stock && Boolean(formik.errors.stock)
+                      }
+                      helperText={formik.touched.stock && formik.errors.stock}
+                      margin="dense"
                       required
                       fullWidth
                       size="small"

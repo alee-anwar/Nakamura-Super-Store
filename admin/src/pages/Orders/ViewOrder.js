@@ -59,6 +59,7 @@ const ViewOrder = () => {
         const data = response.data;
         setOrder(data);
         setIsLoading(false);
+        setUpdatedOrderStatus(data.status); // Set initial order status
       } catch (error) {
         console.log(error.message);
         setIsLoading(false);
@@ -108,15 +109,15 @@ const ViewOrder = () => {
                 <Select
                   size="small"
                   // label="Status"
-                  value={order.status}
+                  value={updatedOrderStatus}
                   onChange={handleChange}
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
                   style={{ minWidth: order.status ? "auto" : "150px" }}
                 >
-                  <MenuItem value="">
+                  {/* <MenuItem value="">
                     <em>None</em>
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem value="pending">Pending</MenuItem>
                   <MenuItem value="delivered">Delivered</MenuItem>
                   <MenuItem value="rejected">Rejected</MenuItem>

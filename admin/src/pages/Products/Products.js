@@ -7,6 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../../components/DotsMenuBtn";
 import axios from "axios";
 import moment from "moment";
+
 const Products = ({ setTotalProducts, totalProducts }) => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -92,7 +93,8 @@ const Products = ({ setTotalProducts, totalProducts }) => {
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = products.map((row) => ({
-    id: row._id.slice(-7), // Extract the last 6 digits of the ID
+    // id: row._id.slice(-7), // Extract the last 6 digits of the ID
+    id: row._id, // Extract the last 6 digits of the ID
     sku: row.sku,
     image: row.image,
     productTitle: row.productTitle,

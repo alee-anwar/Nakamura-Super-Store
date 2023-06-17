@@ -18,11 +18,11 @@ import {
 } from "@mui/material";
 import { Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
-import { parseISO } from "date-fns";
+// import { parseISO } from "date-fns";
 import { categories, subcategories } from "./data";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -53,7 +53,7 @@ const CreateProduct = () => {
       category: "",
       price: "",
       status: "",
-      date: "",
+      // date: "",
       subcategory: "",
       color: "",
       tag: "",
@@ -209,7 +209,6 @@ const CreateProduct = () => {
                       onBlur={formik.handleBlur}
                       error={formik.touched.size && formik.errors.size}
                       helperText={formik.touched.size && formik.errors.size}
-                      required
                       fullWidth
                       size="small"
                     />
@@ -224,7 +223,6 @@ const CreateProduct = () => {
                       onBlur={formik.handleBlur}
                       error={formik.touched.color && formik.errors.color}
                       helperText={formik.touched.color && formik.errors.color}
-                      required
                       fullWidth
                       size="small"
                     />
@@ -281,7 +279,7 @@ const CreateProduct = () => {
                     </TextField>
                   </Grid>
 
-                  <Grid item sm={12} md={6}>
+                  {/* <Grid item sm={12} md={6}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DatePicker
                         label="Date"
@@ -301,7 +299,7 @@ const CreateProduct = () => {
                         }}
                       />
                     </LocalizationProvider>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Paper>
             {/* </Grid> */}

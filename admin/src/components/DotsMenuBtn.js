@@ -59,7 +59,7 @@ export default function DotsMenuBtn(props) {
           sx={{ py: 0.2 }}
           onClick={handleViewClick}
         >
-          View
+          Edit
         </MenuItem>
         <MenuItem
           sx={{ py: 0.2 }}
