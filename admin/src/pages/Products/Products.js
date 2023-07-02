@@ -7,31 +7,17 @@ import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../../components/DotsMenuBtn";
 import axios from "axios";
 import moment from "moment";
+import PDFFile from "../../components/PDFFile";
 
-const Products = ({ setTotalProducts, totalProducts }) => {
+const Products = ({ fetchProducts, products, setProducts }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
   const [deleted, setDeleted] = useState(false);
 
-  // console.log(products);
   useEffect(() => {
-    const token=localStorage.getItem("token")
-    axios
-      .get("http://localhost:3000/productList/viewProducts", {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization:`bearer ${token}`
-          // Authorization:token
-        },
-      })
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.log(err.message));
-  }, [deleted, totalProducts]);
-
-  if (products) {
-    setTotalProducts(products.length);
-  }
+    fetchProducts();
+    console.log("useEffect with Fetch prduct from product")
+  }, []);
 
   const handleDelete = async (id) => {
     await axios
@@ -52,7 +38,6 @@ const Products = ({ setTotalProducts, totalProducts }) => {
       width: 70,
       renderCell: (params) => {
         return (
-          // console.log(params.row.image)
           <img
             src={params.row.image}
             alt={params.row.productTitle}
@@ -73,7 +58,6 @@ const Products = ({ setTotalProducts, totalProducts }) => {
       valueFormatter: ({ value }) => `AFN ${value}`,
     },
     { field: "color", headerName: "Color", width: 80 },
-    // { field: "quantity", headerName: "Quantity", width: 80 },
     { field: "stock", headerName: "Stock", width: 70 },
     { field: "tag", headerName: "Tag", width: 100 },
     { field: "status", headerName: "Status", width: 100 },
@@ -91,7 +75,7 @@ const Products = ({ setTotalProducts, totalProducts }) => {
       width: 100,
     },
   ];
-  // const threedots = <MoreHorizRoundedIcon/>;
+
   const rows = products.map((row) => ({
     // id: row._id.slice(-7), // Extract the last 6 digits of the ID
     id: row._id, // Extract the last 6 digits of the ID
@@ -108,8 +92,6 @@ const Products = ({ setTotalProducts, totalProducts }) => {
     date: moment(row.date).format("DD/MM/YYYY"),
   }));
 
-  // console.log(products);
-
   return (
     <Box>
       <Box sx={theme.mixins.toolbar} />
@@ -122,13 +104,10 @@ const Products = ({ setTotalProducts, totalProducts }) => {
         </Button>
       </Box>
 
+      <PDFFile/>
+
       <div style={{ height: "78vh", width: "100%" }}>
         <DataGrid
-          // rows={rows}
-          // columns={columns}
-          // pageSize={9}
-          // pagination
-          // rowsPerPageOptions={[9, 18, 36]}
           rows={rows}
           columns={columns}
           initialState={{

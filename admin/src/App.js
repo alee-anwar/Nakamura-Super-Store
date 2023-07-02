@@ -1,74 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import { BrowserRouter , Routes, Route, Navigate } from "react-router-dom";
-// import Layout from "./components/Layout";
-// import Dashboard from "./pages/Dashboard";
-// import Customers from "./pages/Customers";
-// import Orders from "./pages/Orders";
-// import Reviews from "./pages/Reviews";
-// import Transactions from "./pages/Transactions";
-// import SignIn from "./pages/SignIn";
-// import SignUp from "./pages/Signup";
-// import CreateProduct from "./pages/Products/CreateProduct";
-// import LayoutSign from "./components/LayoutSign";
-// import MyAccount from "./pages/MyAccount";
-// import Products from "./pages/Products/Products";
-// import EditProduct from "./pages/Products/EditProduct";
-
-// const theme = createTheme({
-//   typography: {
-//     fontFamily: "Nunito",
-//     fontWeightLight: 400,
-//     fontWeightRegular: 500,
-//     fontWeightMedium: 600,
-//     fontWeightBold: 700,
-//     h1: {
-//       fontWeight: 700,
-//       letterSpacing: 0.5,
-//       fontSize: "1.6rem",
-//       textTransform: "capitalize",
-//     },
-//   },
-// });
-
-// function App() {
-//   const currentPath = window.location.pathname;
-//   const isLoginPage = currentPath === "/login";
-//   const isSignupPage = currentPath === "/signup";
-
-//   return (
-//     <ThemeProvider theme={theme}>
-//       <BrowserRouter>
-//         {isLoginPage || isSignupPage ? ( // render the new layout for login and signup pages
-//           <LayoutSign>
-//             <Routes>
-//               <Route path="login" element={<SignIn />} />
-//               <Route path="signup" element={<SignUp />} />
-//             </Routes>
-//           </LayoutSign>
-//         ) : (
-//         <Layout>
-//           <Routes>
-//             <Route path="/" element={<Navigate to="dashboard" />} />
-//             <Route path="dashboard" element={<Dashboard />} />
-//             <Route path="products" element={<Products />} />
-//             <Route path="customers" element={<Customers />} />
-//             <Route path="orders" element={<Orders />} />
-//             <Route path="reviews" element={<Reviews />} />
-//             <Route path="transactions" element={<Transactions />} />
-//             <Route path="createproduct" element={<CreateProduct />} />
-//             <Route path="myaccount" element={<MyAccount />} />
-//             <Route path="editproduct" element={<EditProduct />} />
-//           </Routes>
-//         </Layout>
-//          )}
-//       </BrowserRouter>
-//     </ThemeProvider>
-//   );
-// }
-
-// export default App;
-
 import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -82,10 +11,11 @@ import Transactions from "./pages/Transactions";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Signup";
 import CreateProduct from "./pages/Products/CreateProduct";
-import LayoutSign from "./components/LayoutSign";
+import AuthLayout from "./components/AuthLayout";
 import MyAccount from "./pages/MyAccount";
 import Products from "./pages/Products/Products";
 import EditProduct from "./pages/Products/EditProduct";
+import axios from "axios";
 
 const theme = createTheme({
   typography: {
@@ -106,27 +36,90 @@ const theme = createTheme({
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState([]);
-  // const [totalSales, setTotalSales] = useState('');
-  // const [totalOrders, setTotalOrders] = useState('');
-  // const [totalProducts, setTotalProducts] = useState('');
 
   const [totalSales, setTotalSales] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
 
+  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+
+  // Declare the method and implementing its functionality
+  const fetchProducts = () => {
+    // const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:3000/productList/viewProducts", {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `bearer ${token}`
+          // Authorization: token
+        },
+      })
+      .then((res) => {
+        setProducts(res.data);
+        setTotalProducts(res.data.length);
+      })
+      .catch((error) => console.log(error.message));
+  };
+
+  useEffect(() => {
+    fetchProducts(); // Fetch products when the App component mounts
+  }, [totalProducts]);
+
+  const fetchOrders = () => {
+    axios
+      .get("http://localhost:3000/orderList/viewOrders", {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `bearer ${token}`
+          // Authorization: token
+        },
+      })
+      .then((res) => {
+        setOrders(res.data);
+        setTotalOrders(res.data.length);
+      })
+      .catch((error) => console.log(error.message));
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, [totalOrders]);
+
+  const fetchSales = () => {
+    axios
+      .get("http://localhost:3000/transactionList/viewTransaction")
+      .then((res) => {
+        const data = res.data;
+        setTransactions(data);
+
+        // Calculate total amount
+        const totalAmount = data.reduce(
+          (acc, transaction) => acc + transaction.amount,
+          0
+        );
+        setTotalSales(totalAmount);
+        console.log("Amount: " + totalAmount);
+      })
+      .catch((error) => console.log(error.message));
+  };
+
+  useEffect(() => {
+    fetchSales();
+  }, [totalSales]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // setUser(localStorage.getItem("user"));
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
+    const user = localStorage.getItem("user");
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      // console.log("user" + user);
+      // console.log("userpasrse" + parsedUser);
       setUser(parsedUser);
     }
     setIsLoggedIn(token && user); // Set isLoggedIn based on whether the token is present
   }, []);
-
-  console.log("user" + user);
-  console.log("account", user[0]?.firstName);
 
   return (
     <ThemeProvider theme={theme}>
@@ -134,7 +127,10 @@ function App() {
         {isLoggedIn ? ( // Render the layout and protected routes if the user is logged in
           <Layout user={user}>
             <Routes>
-              <Route path="/" element={<Navigate to="dashboard" />} />
+              <Route
+                path="/"
+                element={<Navigate to={isLoggedIn ? "dashboard" : "login"} />}
+              />
               <Route
                 path="dashboard"
                 element={
@@ -146,15 +142,50 @@ function App() {
                     setTotalOrders={setTotalOrders}
                     setTotalProducts={setTotalProducts}
                     setTotalSales={setTotalSales}
+                    fetchProducts={fetchProducts}
+                    fetchOrders={fetchOrders}
                   />
                 }
               />
-              <Route path="products" element={<Products setTotalProducts={setTotalProducts} totalSales={totalSales}/>} />
+              <Route
+                path="products"
+                element={
+                  <Products
+                    setTotalProducts={setTotalProducts}
+                    totalSales={totalSales}
+                    fetchProducts={fetchProducts}
+                    products={products}
+                    setProducts={setProducts}
+                  />
+                }
+              />
               <Route path="customers" element={<Customers />} />
-              <Route path="orders" element={<Orders setTotalOrders={setTotalOrders} totalOrders={totalOrders}/>} />
-              <Route path="viewOrder/:orderId" element={<ViewOrder/>} />
+              <Route
+                path="orders"
+                element={
+                  <Orders
+                    setTotalOrders={setTotalOrders}
+                    totalOrders={totalOrders}
+                    fetchOrders={fetchOrders}
+                    orders={orders}
+                    setOrders={setOrders}
+                  />
+                }
+              />
+              <Route path="viewOrder/:orderId" element={<ViewOrder />} />
               <Route path="reviews" element={<Reviews />} />
-              <Route path="transactions" element={<Transactions setTotalSales={setTotalSales} totalSales={totalSales}/>} />
+              <Route
+                path="transactions"
+                element={
+                  <Transactions
+                    setTotalSales={setTotalSales}
+                    totalSales={totalSales}
+                    fetchSales={fetchSales}
+                    transactions={transactions}
+                    setTransactions={setTransactions}
+                  />
+                }
+              />
               <Route path="createproduct" element={<CreateProduct />} />
               <Route path="myaccount" element={<MyAccount user={user} />} />
               <Route path="editproduct/:id" element={<EditProduct />} />
@@ -162,12 +193,17 @@ function App() {
           </Layout>
         ) : (
           <>
-            <LayoutSign>
+            <AuthLayout>
               <Routes>
+                {/* <Route path="/" element={<Navigate to="/login" />} /> */}
+                {/* <Route
+                  path="/"
+                  element={<Navigate to={isLoggedIn ? "dashboard" : "login"} />}
+                /> */}
                 <Route path="login" element={<SignIn />} />
                 <Route path="signup" element={<SignUp />} />
               </Routes>
-            </LayoutSign>
+            </AuthLayout>
           </>
         )}
       </BrowserRouter>

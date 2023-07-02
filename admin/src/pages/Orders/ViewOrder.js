@@ -87,6 +87,7 @@ const ViewOrder = () => {
     streetNo,
     houseNo,
     orderItems,
+    additionalComments,
   } = order;
 
   return (
@@ -103,7 +104,20 @@ const ViewOrder = () => {
           <Grid container spacing={2}>
             <Grid item md={12} display="flex">
               <Box flexGrow={1}>
-                <Typography>Date</Typography>
+                <Box display="flex">
+                  <Typography fontWeight={600}>Order Date:</Typography>
+                  <Typography pl={1} color="textSecondary">
+                    6/17/2023
+                  </Typography>
+                  <Typography pl={3} fontWeight={600}>
+                    Delivery Date:
+                  </Typography>
+                  <Typography pl={1} color="textSecondary">
+                    Same Day Delivery
+                  </Typography>
+                  {/* <Typography>Order Date: {date}</Typography>
+                  <Typography>Delivery Date: {deliveryDate || selectedDate}</Typography> */}
+                </Box>
               </Box>
               <Stack direction="row" spacing={2}>
                 <Select
@@ -187,18 +201,37 @@ const ViewOrder = () => {
                 </TableContainer>
                 <Grid
                   item
+                  container
                   md={12}
                   display="flex"
                   justifyContent="flex-end"
                   pt={2}
+                  spacing={1.5}
                 >
-                  <Stack pr={3}>
-                    <Typography variant="body2">Subtotal: AFN 100</Typography>
-                    <Typography variant="body2">
-                      Shipping Cost: AFN 0
+                  {/* <Stack pr={3}> */}
+
+                  <Grid item>
+                    <Typography variant="body1" align="right">
+                      Subtotal:
                     </Typography>
-                    <Typography variant="body2">Total: AFN 100</Typography>
-                  </Stack>
+
+                    <Typography variant="body1" align="right">
+                      Shipping Cost:
+                    </Typography>
+
+                    <Typography variant="body1" align="right">
+                      Total:
+                    </Typography>
+                  </Grid>
+                  <Grid item color="textSecondary">
+                      <Typography variant="body1" color='textSecondary'>AFN 100</Typography>
+
+                      <Typography variant="body1" color='textSecondary'>AFN 0</Typography>
+
+                      <Typography variant="body1" color='textSecondary'>AFN 100</Typography>
+                  </Grid>
+
+                  {/* </Stack> */}
                 </Grid>
               </Grid>
               <Grid item md={4}>
@@ -210,7 +243,7 @@ const ViewOrder = () => {
                     fullWidth
                     multiline
                     rows={5}
-                    // value={value}
+                    value={additionalComments}
                     onChange={(event) => event.target.value}
                   />
                 </Box>

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import AppbarSign from "./Appbar/AppbarSign";
 import { useTheme } from "@mui/material/styles";
 
-function LayoutSign(props) {
+function AuthLayout(props) {
   const theme = useTheme();
 
   // useEffect(() => {
@@ -20,6 +20,7 @@ function LayoutSign(props) {
       <Box>{props.children}</Box>
     </Box>
   );
+  
 }
 
-export default LayoutSign;
+export default AuthLayout;

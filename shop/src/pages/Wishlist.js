@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
-import ErrorMessage from "../components/ErrorMessage";
+import EmptyMessage from "../components/EmptyMessage";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -46,7 +46,7 @@ const Wishlist = ({
       <Grid container>
         {wishlist.length === 0 ? (
           <Grid item xs={12} md={12}>
-            <ErrorMessage
+            <EmptyMessage
               path={"/shop"}
               errorMessage={t("Your Wishlist is empty")}
               linkMsg={t("Return to shopping")}

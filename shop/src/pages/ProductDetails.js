@@ -34,7 +34,6 @@ import WishlistBtn from "../components/reuseableComponents/WishlistBtn";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import ReviewForm from "../components/ReviewForm";
 import Loading from "../components/Loading";
-import ErrorMessage from "../components/ErrorMessage";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const ProductDetails = ({
@@ -217,6 +216,7 @@ const ProductDetails = ({
               <ReviewForm
                 description={product.description}
                 productId={product._id}
+                productTitle={product.productTitle}
               />
 
               <Grid item xs={6} display="flex" pt={2} alignItems="center">

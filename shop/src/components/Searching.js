@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./custom.css";
 import { Box, Stack, Typography } from "@mui/material";
 import Logo from "../assets/bottle.gif";
-import ErrorMessage from "./ErrorMessage";
+import EmptyMessage from "./EmptyMessage";
 import { useTranslation } from "react-i18next";
 
 const Searching = () => {
@@ -38,7 +38,7 @@ const Searching = () => {
       >
         {showNotFound ? (
           <Box pt={20}>
-            <ErrorMessage
+            <EmptyMessage
               path={"/shop"}
               errorMessage={t("Product Not Found")}
               linkMsg={t("Return to shopping")}

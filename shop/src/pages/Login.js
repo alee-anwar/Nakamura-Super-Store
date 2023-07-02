@@ -71,7 +71,7 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
       setShowPhoneNoInput(false);
       try {
         const response = await axios.post(
-          "http://localhost:3000/authUser/customer-send-otp",
+          "http://localhost:3000/authUser/customer-login",
           values
         );
         console.log(response.data);
@@ -102,7 +102,7 @@ const Login = ({ cartItems, setIsAuthenticated }) => {
 
       try {
         const response = await axios.post(
-          "http://localhost:3000/authUser/customer-login", values
+          "http://localhost:3000/authUser/customer-send-otp", values
           // {
           //   otp: formikCode.values.otp,
           // }

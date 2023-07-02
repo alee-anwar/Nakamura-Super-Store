@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
@@ -32,11 +32,17 @@ import { useTranslation } from "react-i18next";
 const Header = ({ cartItems, wishlist }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [clickedButton, setClickedButton] = useState(null);
+  const [currentURL, setCurrentURL] = useState(window.location.pathname);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setCurrentURL(window.location.pathname);
+    setClickedButton(null); // Reset the clickedButton state on page change
+  }, [setCurrentURL]);  
 
   const handleLanguageMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,6 +56,7 @@ const Header = ({ cartItems, wishlist }) => {
 
   const handleCategoryClick = (value) => {
     navigate(`/shop/${value}`);
+    setClickedButton(value);
   };
 
   const handleLanguageChange = (language) => {
@@ -180,6 +187,10 @@ const Header = ({ cartItems, wishlist }) => {
                 <ListItem disablePadding>
                   <Typography
                     variant={i18next.language === "ps" ? "body1" : "body2"}
+                    color={clickedButton === category.value && currentURL.includes("/shop") ? "primary" : "neutral"}
+                    sx={{
+                      textDecoration: clickedButton === category.value && currentURL.includes("/shop") ? "underline" : "none"
+                    }}
                   >
                     {t(category.label)}
                   </Typography>

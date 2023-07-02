@@ -17,7 +17,7 @@ import {
 import axios from "axios";
 
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
-import ErrorMessage from "../components/ErrorMessage";
+import EmptyMessage from "../components/EmptyMessage";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -46,7 +46,7 @@ function Checkout({
   const location = useLocation();
   const message = location.state?.message ?? "";
   const shippingMethod = location.state?.shippingMethod ?? "";
-  const shippingCharges = shippingMethod === "storePickup" ? 0 : 150;
+  const shippingCharges = shippingMethod === "Store Pickup" ? 0 : 150;
 
   // console.log("deliveryDate: " + deliveryDate);
   // console.log("SelectedDate: " + selectedDate);
@@ -87,6 +87,7 @@ function Checkout({
       shippingMethod: shippingMethod,
       additionalComments: message,
       shippingCharges: shippingCharges,
+      additionalComments: message,
     };
 
     // const data = {
@@ -133,7 +134,7 @@ function Checkout({
       <Grid container spacing={2}>
         {cartItems.length === 0 ? (
           <Grid item xs={12} md={12}>
-            <ErrorMessage
+            <EmptyMessage
               path={"/shop"}
               errorMessage={t("Your cart is empty")}
               linkMsg={t("Return to shopping")}
@@ -145,7 +146,7 @@ function Checkout({
               <Paper variant="outlined" sx={{ py: 2, px: 3 }}>
                 {isAuthenticated && (
                   <>
-                    <Typography variant="h6">{t('Address')}</Typography>
+                    <Typography variant="h6">{t("Address")}</Typography>
                     <Divider />
                     {/* TODO: Add address form here */}
                     <Skeleton />
@@ -155,7 +156,7 @@ function Checkout({
                 )}
 
                 <Box pb={1}>
-                  <Typography variant="h6">{t('Delivery Date/Time')}</Typography>
+                  <Typography variant="h6">{t("Delivery Date")}</Typography>
                   <FormControl component="fieldset" sx={{ px: 2 }}>
                     <RadioGroup
                       aria-label="delivery date"
@@ -207,7 +208,7 @@ function Checkout({
                 </Box>
                 <Divider />
                 <Box pb={1}>
-                  <Typography variant="h6">{t('Payment Method')}</Typography>
+                  <Typography variant="h6">{t("Payment Method")}</Typography>
                   <FormControl component="fieldset" sx={{ px: 2 }}>
                     <RadioGroup
                       aria-label="delivery date"
@@ -228,7 +229,7 @@ function Checkout({
                 {isAuthenticated ? (
                   <>
                     <Button variant="contained" onClick={handleConfirmOrder}>
-                      {t('Confirm Order')}
+                      {t("Confirm Order")}
                     </Button>
                     <ConfirmationDialog
                       open={showPopup}
@@ -241,7 +242,7 @@ function Checkout({
                     variant="contained"
                     onClick={() => navigate("/account/login")}
                   >
-                    {t('Login to Place Order')}
+                    {t("Login to Place Order")}
                   </Button>
                 )}
               </Box>
@@ -261,7 +262,7 @@ function Checkout({
                     <Grid item xs={12}>
                       <Box py={2}>
                         <Typography variant="body2" fontWeight={600}>
-                          {t('Additional Message')}
+                          {t("Additional Message")}
                         </Typography>
                         <Typography variant="body2">{message}</Typography>
                       </Box>
@@ -280,13 +281,13 @@ function Checkout({
                   </Grid>
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
-                      <Typography fontWeight={600}>{t('Subtotal')}</Typography>
+                      <Typography fontWeight={600}>{t("Subtotal")}</Typography>
                       <Typography>AFN {totalCost.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
-                      <Typography fontWeight={600}>{t('Shipping')}</Typography>
+                      <Typography fontWeight={600}>{t("Shipping")}</Typography>
                       <Typography>AFN {shippingCharges.toFixed(2)}</Typography>
                     </Box>
                   </Grid>
@@ -295,7 +296,7 @@ function Checkout({
                   </Grid>
                   <Grid item xs={12}>
                     <Box display="flex" justifyContent="space-between">
-                      <Typography fontWeight={600}>{t('Total')}</Typography>
+                      <Typography fontWeight={600}>{t("Total")}</Typography>
                       <Typography>AFN: {total.toFixed(2)}</Typography>
                     </Box>
                   </Grid>

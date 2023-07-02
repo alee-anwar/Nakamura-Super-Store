@@ -9,29 +9,30 @@ import { ConstructionOutlined, TapasTwoTone } from "@mui/icons-material";
 import moment from "moment";
 import axios from "axios";
 
-const Transactions = ({ setTotalSales, totalSales }) => {
+const Transactions = ({ fetchSales, transactions, setTransactions }) => {
   const theme = useTheme();
   // const navigate = useNavigate();
-  const [transactions, setTransactions] = useState([]);
   const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/transactionList/viewTransaction")
-      .then((res) => res.json())
-      .then((data) => setTransactions(data));
-  }, [totalSales, deleted]);
+    fetchSales();
+  }, [deleted])
 
-  console.log(transactions.status);
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/transactionList/viewTransaction")
+  //     .then((res) => res.json())
+  //     .then((data) => setTransactions(data));
+  // }, [totalSales, deleted]);
 
-  useEffect(() => {
-    // Calculate total amount
-    const totalAmount = transactions.reduce(
-      (acc, transaction) => acc + transaction.amount,
-      0
-    );
-    setTotalSales(totalAmount);
-    console.log("Amount " + totalAmount);
-  }, [transactions, setTotalSales, deleted]);
+  // useEffect(() => {
+  //   // Calculate total amount
+  //   const totalAmount = transactions.reduce(
+  //     (acc, transaction) => acc + transaction.amount,
+  //     0
+  //   );
+  //   setTotalSales(totalAmount);
+  //   console.log("Amount " + totalAmount);
+  // }, [transactions, setTotalSales, deleted]);
 
   // const handleDelete = async (id) => {
   //   await fetch(

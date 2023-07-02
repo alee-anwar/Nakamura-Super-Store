@@ -8,23 +8,14 @@ import DotsMenuBtn from "../../components/DotsMenuBtn";
 import axios from "axios";
 import moment from "moment";
 
-const Orders = ({ setTotalOrders, totalOrders }) => {
+const Orders = ({ fetchOrders, orders, setOrders }) => {
   const theme = useTheme();
   // const navigate = useNavigate();
-  const [orders, setOrders] = useState([]);
   const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/orderList/viewOrders")
-      .then((res) => res.json())
-      .then((data) => setOrders(data));
-  }, [deleted, totalOrders]);
-
-  console.log("productName" + JSON.stringify(orders));
-
-  if (orders) {
-    setTotalOrders(orders.length);
-  }
+    fetchOrders();
+  }, [deleted])
 
   const handleDeleteOrder = async (id) => {
     await axios

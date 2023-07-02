@@ -12,26 +12,26 @@ import { DataGrid } from "@mui/x-data-grid";
 import DotsMenuBtn from "../components/DotsMenuBtn";
 import React, { useEffect, useState } from "react";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import ViewStreamIcon from '@mui/icons-material/ViewStream';
-import MicrosoftPowerBI from "../components/MicrosoftPowerBI";
-// import ReportComponent from "../components/ReportComponent";
+import ViewStreamIcon from "@mui/icons-material/ViewStream";
+import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
+import SalesBarGraph from "../components/SalesBarGraph ";
+import ReportComponent from "../components/ReportComponent";
+
 const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
   const theme = useTheme();
-  // const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [deleted, setDeleted] = useState(false);
+
+  // useEffect(() => {
+  //   fetchProducts(); // Call the fetchProducts method from App.js
+  //   console.log("useEffect with Fetch prduct from dashboard")
+  // }, [fetchProducts]);
 
   useEffect(() => {
     fetch("http://localhost:3000/orderList/viewOrders")
       .then((res) => res.json())
       .then((data) => setOrders(data));
-  }, [deleted, totalProducts, totalOrders, totalSales]);
-  
-//   useEffect(() => {
-//     fetch("http://localhost:3000/orderList/viewOrders")
-//       .then((res) => res.json())
-//       .then((data) => setOrders(data));
-//   }, []);
+  }, [deleted, totalOrders]);
 
   const handleDelete = async (id) => {
     await fetch("http://localhost:3000/orderList/deleteOrder/" + id, {
@@ -53,13 +53,12 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
       field: "action",
       headerName: "Action",
       renderCell: (params) => (
-        // <DotsMenuBtn product={params.id} handleDelete={handleDelete}/>
         <DotsMenuBtn product={params.row} handleDelete={handleDelete} />
       ),
       width: 150,
     },
   ];
-  // const threedots = <MoreHorizRoundedIcon/>;
+
   const rows = orders.map((row) => ({
     id: row.orderId,
     customerName: row.customerName,
@@ -69,8 +68,6 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
     date: row.date,
   }));
 
-  // console.log(products);
-
   return (
     <Box>
       <Box sx={theme.mixins.toolbar} />
@@ -78,7 +75,7 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
         As-Salaam-Alaikum, {user[0].userName}
       </Typography>
 
-      <Container maxWidth="lg" sx={{my: 5}}>
+      <Container maxWidth="lg" sx={{ my: 5 }}>
         <Grid container spacing={2}>
           <Grid item sm={4}>
             <Paper
@@ -128,7 +125,7 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
               }}
             >
               <Avatar sx={{ bgcolor: "#3167eb", mr: 1, width: 50, height: 50 }}>
-                <AccountBalanceWalletIcon />
+                <LocalMallRoundedIcon />
               </Avatar>
               <Stack>
                 <Typography color="textSecondary">Total Products</Typography>
@@ -139,9 +136,8 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
         </Grid>
       </Container>
 
-      {/* <ReportComponent/> */}
-      {/* <MicrosoftPowerBI/> */}
-
+      <ReportComponent />
+      <SalesBarGraph />
       <Box>
         <Box sx={{ display: "flex" }} mb={3}>
           <Typography sx={{ flexGrow: 1 }} fontWeight={700} variant="h6">

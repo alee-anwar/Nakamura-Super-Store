@@ -17,7 +17,7 @@ import {
 import CartItem from "../components/CartItem";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { Link, useNavigate } from "react-router-dom";
-import ErrorMessage from "../components/ErrorMessage";
+import EmptyMessage from "../components/EmptyMessage";
 import { useTranslation } from "react-i18next";
 
 const Cart = ({
@@ -84,7 +84,7 @@ const Cart = ({
       <Grid container>
         {cartItems.length === 0 ? (
           <Grid item xs={12} md={12}>
-            <ErrorMessage
+            <EmptyMessage
               path={"/shop"}
               errorMessage={t("Your cart is empty")}
               linkMsg={t("Return to shopping")}
@@ -163,7 +163,7 @@ const Cart = ({
                       onChange={handleOptionChange}
                     >
                       <FormControlLabel
-                        value="storePickup"
+                        value="Store Pickup"
                         control={
                           <Radio
                             color="primary"
@@ -193,7 +193,7 @@ const Cart = ({
                         sx={{ marginBottom: "-10px" }}
                       />
                       <FormControlLabel
-                        value="homeDelivery"
+                        value="Home Delivery"
                         control={
                           <Radio
                             color="primary"

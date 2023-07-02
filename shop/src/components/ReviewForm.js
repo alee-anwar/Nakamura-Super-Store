@@ -52,7 +52,7 @@ const singleProduct = {
   ],
 };
 
-const ReviewForm = ({ productId, description }) => {
+const ReviewForm = ({ productId, description, productTitle }) => {
   const [expanded, setExpanded] = useState(false);
   const [rating, setRating] = useState(0);
   const [name, setName] = useState("");
@@ -89,6 +89,7 @@ const ReviewForm = ({ productId, description }) => {
     // Create an object with the form data
     const formData = {
       productId: productId,
+      productTitle: productTitle,
       rating: rating,
       customerName: name,
       phoneNumber: phoneNumber,
@@ -188,6 +189,7 @@ const ReviewForm = ({ productId, description }) => {
                   value={rating}
                   onChange={(event, newValue) => {
                     setRating(newValue);
+                    // console.log(rating);
                   }}
                 />
               </Box>

@@ -28,7 +28,7 @@ export default function DotsMenuBtn(props) {
   };
 
   const handleDeleteClick = () => {
-    console.log(props.product.id)
+    console.log(props.product.id);
     props.handleDelete(props.product.id);
     handleClose();
   };
@@ -55,16 +55,10 @@ export default function DotsMenuBtn(props) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem
-          sx={{ py: 0.2 }}
-          onClick={handleViewClick}
-        >
-          Edit
+        <MenuItem sx={{ py: 0.2 }} onClick={handleViewClick}>
+          {props.viewType === "product" ? "Edit" : "View"}
         </MenuItem>
-        <MenuItem
-          sx={{ py: 0.2 }}
-          onClick={handleDeleteClick}
-        >
+        <MenuItem sx={{ py: 0.2 }} onClick={handleDeleteClick}>
           Delete
         </MenuItem>
       </Menu>

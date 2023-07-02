@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./custom.css";
 import { Box } from "@mui/material";
 import Logo from "../assets/bottle.gif";
-import ErrorMessage from "./ErrorMessage";
+import EmptyMessage from "./EmptyMessage";
 
 const Loading = () => {
   const [showNotFound, setShowNotFound] = useState(false);
@@ -31,7 +31,7 @@ const Loading = () => {
     >
         {showNotFound ? (
           <Box pt={20}>
-            <ErrorMessage
+            <EmptyMessage
               path={"/shop"}
               errorMessage={"Product Not Found"}
               linkMsg={"Return to shopping"}

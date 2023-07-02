@@ -85,7 +85,7 @@ export default function SignUp() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "75vh",
+        height: "85vh",
       }}
     >
       <CssBaseline />

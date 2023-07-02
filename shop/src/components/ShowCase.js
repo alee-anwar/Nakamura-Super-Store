@@ -46,7 +46,9 @@ const ShowCase = () => {
                 width: "100%",
                 height: "100%",
                 background:
-                  "linear-gradient(0deg, rgba(7,38,10,1) 46%, rgba(32,60,60,0) 100%)",
+                  "linear-gradient(0deg, rgba(7,38,10,1) 16%, rgba(32,60,60,0) 100%)",
+                // background: "linear-gradient(to top right, #ffe033, #f5f5f5)",
+
                 opacity: 0.7,
               },
             }}
@@ -83,8 +85,10 @@ const ShowCase = () => {
                 },
               }}
             >
-              <Box width='100%'>
-                <Typography variant="h6" pl={1}>{t(item.title)}</Typography>
+              <Box width="100%">
+                <Typography variant="h6" pl={1}>
+                  {t(item.title)}
+                </Typography>
               </Box>
 
               <Link to="/shop">

@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Logo from "../assets/empty.png";
 import { Link } from "react-router-dom";
 
-const ErrorMessage = ({ errorMessage, path, linkMsg }) => {
+const EmptyMessage = ({ errorMessage, path, linkMsg }) => {
   return (
     <Box
       sx={{
@@ -28,4 +28,4 @@ const ErrorMessage = ({ errorMessage, path, linkMsg }) => {
   );
 };
 
-export default ErrorMessage;
+export default EmptyMessage;
