@@ -33,14 +33,17 @@ function Checkout({
   totalCost,
   isAuthenticated,
   productQuantities,
+  setIsAuthenticated,
+  setCartItems,
 }) {
-  const [deliveryDate, setDeliveryDate] = React.useState("Same Day Delivery");
+  const [deliveryDate, setDeliveryDate] = useState("Same Day Delivery");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [successMessage, setSuccessMessage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const { t } = useTranslation();
+  const status = "Pending";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,30 +51,48 @@ function Checkout({
   const shippingMethod = location.state?.shippingMethod ?? "";
   const shippingCharges = shippingMethod === "Store Pickup" ? 0 : 150;
 
-  // console.log("deliveryDate: " + deliveryDate);
-  // console.log("SelectedDate: " + selectedDate);
-  // console.log("paymentMethod: " + paymentMethod);
-  console.log("cartItems: " + cartItems[0].productTitle);
-  // console.log("isAuthenticated: " + isAuthenticated);
-
   const total = totalCost + shippingCharges;
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  const { firstName, lastName, houseNo, phoneNo, streetNo, town, _id } =
+    userInfo ?? {};
 
   const handleClosePopup = () => {
     setShowPopup(false);
+    localStorage.removeItem("cartItems");
+    setCartItems([]);
   };
 
   const handleDeliveryDate = (event) => {
-    setDeliveryDate(event.target.value);
-    setShowCalendar(event.target.value === "Delivery On Date");
+    const value = event.target.value;
+    setDeliveryDate(value);
+    setShowCalendar(value === "Delivery On Date");
+
+    // If the user selects "Delivery On Date," set the selected date as the delivery date
+    // if (value === "Delivery On Date") {
+    //   // setDeliveryDate(selectedDate.toLocaleDateString("en-GB")); // Set the date in "DD/MM/YYYY" format
+    //   setDeliveryDate(selectedDate.toISOString());
+    // }
   };
+
+  useEffect(() => {
+    console.log("handleDeliveryDate:", deliveryDate);
+  }, [deliveryDate, selectedDate]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+
+    // Update the delivery date if the user selects a specific date
+    if (deliveryDate === "Delivery On Date") {
+      setDeliveryDate(date.toLocaleDateString("en-GB")); // Set the date in "DD/MM/YYYY" format
+    }
+    console.log("handleDateChange:  " + selectedDate);
   };
 
-  const handleConfirmOrder = async () => {
-    const orderId = Math.floor(Math.random() * 900000) + 100000;
+  const orderId = Math.floor(Math.random() * 900000) + 100000;
 
+  const handleConfirmOrder = async () => {
     const orderItems = cartItems.map((item) => ({
       productName: item.productTitle,
       productImage: item.image,
@@ -83,25 +104,28 @@ function Checkout({
     const body = {
       orderId: orderId.toString(),
       orderItems: orderItems,
-      totalPrice: totalCost,
+      totalPrice: total,
       shippingMethod: shippingMethod,
+      paymentMethod: paymentMethod,
       additionalComments: message,
       shippingCharges: shippingCharges,
       additionalComments: message,
+      customerId: _id,
+      firstName: firstName,
+      lastName: lastName,
+      houseNo: houseNo,
+      phoneNo: phoneNo,
+      streetNo: streetNo,
+      town: town,
+      deliveryDate: deliveryDate,
+      subTotal: totalCost,
+      shippingCost: shippingCharges,
+      status: status,
     };
-
-    // const data = {
-    //   orderId: orderId.toString(),
-    //   productName: cartItems[0].productTitle,
-    //   productId: cartItems[0]._id,
-    //   productQuantity: productQuantities[cartItems[0]._id],
-    //   // customerName: "John Doe", // Replace with the actual customer name
-    //   // phoneNo: "1234567890", // Replace with the actual customer phone number
-    //   totalPrice: totalCost,
-    //   shippingMethod: shippingMethod,
-    //   additionalComments: message,
-    // };
-
+    console.log("quantity:");
+    body.orderItems.forEach((item) => {
+      console.log(item.productQuantity);
+    });
     try {
       // Send the POST request to the backend API endpoint
       const response = await axios.post(
@@ -115,6 +139,7 @@ function Checkout({
       );
 
       // Handle the response
+      console.log("response: ", response.data);
       setSuccessMessage(response.data.message);
       console.log("Order confirmation response:", response.data.message);
       // TODO: Show confirmation message and clear cart state data
@@ -124,6 +149,8 @@ function Checkout({
       // TODO: Handle error and show appropriate message to the user
     }
   };
+
+  // setIsAuthenticated(true);
 
   return (
     <Container maxWidth="lg" sx={{ pt: 5 }}>
@@ -148,9 +175,18 @@ function Checkout({
                   <>
                     <Typography variant="h6">{t("Address")}</Typography>
                     <Divider />
+                    <Typography color="textSecondary" my={2}>
+                      {userInfo ? (
+                        <p>{`House# ${houseNo}, street# ${streetNo}, ${town}`}</p>
+                      ) : (
+                        <>
+                          <Skeleton />
+                          <Skeleton width="50%" />
+                        </>
+                      )}
+                    </Typography>
                     {/* TODO: Add address form here */}
-                    <Skeleton />
-                    <Skeleton width="50%" />
+
                     <Divider />
                   </>
                 )}
@@ -190,7 +226,7 @@ function Checkout({
                               value={selectedDate}
                               onChange={handleDateChange}
                               sx={{ mt: 2 }}
-                              inputFormat="dd/MM/yyyy"
+                              inputFormat="dd/MM/yyyy" // Set the input date format as "DD/MM/YYYY"
                             >
                               {({ inputProps, inputRef, ...other }) => (
                                 <TextField
@@ -235,6 +271,7 @@ function Checkout({
                       open={showPopup}
                       onClose={handleClosePopup}
                       message={successMessage}
+                      orderId={orderId}
                     />
                   </>
                 ) : (

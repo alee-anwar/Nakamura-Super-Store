@@ -33,16 +33,23 @@ const Header = ({ cartItems, wishlist }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [clickedButton, setClickedButton] = useState(null);
-  const [currentURL, setCurrentURL] = useState(window.location.pathname);
+  const [pathname, setPathname] = useState(window.location.pathname);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    setCurrentURL(window.location.pathname);
-    setClickedButton(null); // Reset the clickedButton state on page change
-  }, [setCurrentURL]);  
+    setPathname(window.location.pathname);
+    console.log("current", pathname);
+
+    return () => {
+      // Reset the clickedButton state on component unmount
+      if (!pathname.includes("shop")) {
+        setClickedButton(null); // Reset the clickedButton state if currentURL does not include "shop"
+      }
+    };
+  }, [window.location.pathname]);
 
   const handleLanguageMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -88,30 +95,42 @@ const Header = ({ cartItems, wishlist }) => {
 
   return (
     <AppBar elevation={1} sx={{ background: "#ffffff" }}>
-      <Toolbar sx={{ background: "#ffffff" }}>
+      <Toolbar sx={{ background: "#ffffff", p: 0 }}>
         <IconButton
           aria-label="menu"
           onClick={handleDrawerOpen}
-          sx={{ mr: 2, display: { md: "none" } }}
+          sx={{ display: { md: "none" }, pl: {xs: 1, sm:0, md: 0} }}
         >
           <MenuIcon color="primary" />
         </IconButton>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, pl: { xs: 0, sm: 1 } }}>
           <Link to="/">
             <Box
               component="img"
-              sx={{ height: 50 }}
+              sx={{
+                height: {
+                  xs: "40px", // Height for extra-small screens
+                  sm: "45px",
+                  md: "50px", // Height for medium screens and larger
+                },
+              }}
               alt="shop logo"
               src={Logo}
             />
           </Link>
         </Box>
-        <Box marginRight={4}>
+        <Box
+          component="div"
+          sx={{
+            display: { xs: "none", md: "block" },
+            marginRight: 4,
+          }}
+        >
           <SearchBar />
         </Box>
         <Box display="flex" alignItems="center">
           <Tooltip title={t("Wishlist")}>
-            <IconButton disableRipple>
+            <IconButton disableRipple >
               <Link to="/wishlist">
                 <Badge badgeContent={wishlist.length} color="primary">
                   <FavoriteBorderRoundedIcon color="primary" />
@@ -120,26 +139,25 @@ const Header = ({ cartItems, wishlist }) => {
             </IconButton>
           </Tooltip>
           <Tooltip title={t("Cart")}>
-
-          <IconButton disableRipple aria-label={notificationsLabel("100")}>
-            <Link to="/cart">
-              <Badge badgeContent={cartItems.length} color="primary">
-                <ShoppingCartRoundedIcon color="primary" />
-              </Badge>
-            </Link>
-          </IconButton>
+            <IconButton disableRipple aria-label={notificationsLabel("100")}>
+              <Link to="/cart">
+                <Badge badgeContent={cartItems.length} color="primary">
+                  <ShoppingCartRoundedIcon color="primary" />
+                </Badge>
+              </Link>
+            </IconButton>
           </Tooltip>
           <Tooltip title={t("Account")}>
-          <IconButton disableRipple>
-            <Link to="/account">
-              <Badge color="primary">
-                <PersonRoundedIcon color="primary" />
-              </Badge>
-            </Link>
-          </IconButton>
+            <IconButton disableRipple>
+              <Link to="/account">
+                <Badge color="primary">
+                  <PersonRoundedIcon color="primary" />
+                </Badge>
+              </Link>
+            </IconButton>
           </Tooltip>
 
-          <Box pl={1.5}>
+          <Box pl={1.5} mr={1}>
             <Button
               color="inherit"
               endIcon={menuOpen ? <ArrowDropUp /> : <ArrowDropDown />}
@@ -154,7 +172,7 @@ const Header = ({ cartItems, wishlist }) => {
               open={Boolean(anchorEl)}
               onClose={handleLanguageMenuClose}
             >
-              <MenuItem onClick={() => handleLanguageChange("en")}>
+              <MenuItem onClick={() => handleLanguageChange("en-US")}>
                 Eng
               </MenuItem>
               <MenuItem onClick={() => handleLanguageChange("ps")}>
@@ -187,9 +205,12 @@ const Header = ({ cartItems, wishlist }) => {
                 <ListItem disablePadding>
                   <Typography
                     variant={i18next.language === "ps" ? "body1" : "body2"}
-                    color={clickedButton === category.value && currentURL.includes("/shop") ? "primary" : "neutral"}
+                    color={
+                      clickedButton === category.value ? "primary" : "neutral"
+                    }
                     sx={{
-                      textDecoration: clickedButton === category.value && currentURL.includes("/shop") ? "underline" : "none"
+                      textDecoration:
+                        clickedButton === category.value ? "underline" : "none",
                     }}
                   >
                     {t(category.label)}
@@ -215,6 +236,16 @@ const Header = ({ cartItems, wishlist }) => {
           </Typography>
         </Toolbar>
         <Divider />
+        <Box
+          component="div"
+          sx={{
+            display: { xs: "block", md: "none" },
+            mx: 2,
+            // marginRight: 4,
+          }}
+        >
+          <SearchBar handleDrawerClose={handleDrawerClose} s />
+        </Box>
         <List>
           {categories.map((category) => (
             <ListItem key={category.id} onClick={handleDrawerClose}>

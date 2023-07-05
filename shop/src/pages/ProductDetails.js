@@ -1,31 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Divider,
-  OutlinedInput,
-  Paper,
-  Rating,
-  Stack,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import { AddShoppingCart, Favorite } from "@mui/icons-material";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import PinterestIcon from "@mui/icons-material/Pinterest";
+
+import { Box, Container, OutlinedInput, Paper, Tooltip } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -49,7 +26,6 @@ const ProductDetails = ({
   setProductQuantities,
 }) => {
   const [product, setProduct] = useState(null);
-  const [copied, setCopied] = useState(false);
   const params = useParams();
 
   useEffect(() => {
@@ -74,10 +50,9 @@ const ProductDetails = ({
     fetchProduct();
   }, [params.id]);
 
-  useEffect(() => {
-    console.log("product.stock: " + (product ? product.stock : ""));
-    console.log("availableStock: " + availableStock);
-  }, [product, availableStock]);
+  // useEffect(() => {
+  //   console.log("availableStock: " + availableStock);
+  // }, [product, availableStock]);
 
   const handleQuantityChange = (event) => {
     let value = parseInt(event.target.value);
@@ -97,18 +72,10 @@ const ProductDetails = ({
   };
 
   useEffect(() => {
-    console.log("Product Quantities", productQuantities[product?._id]);
-
     const selectedQuantity = productQuantities[product?._id] || 0;
     const availableStock = product?.stock - selectedQuantity;
     setAvailableStock(availableStock);
-    console.log("Available Stock:", availableStock);
   }, [productQuantities, product]);
-
-  // const handleCopyLink = () => {
-  //   const link = navigator.clipboard.writeText(window.location.href);
-  //   alert(`Link copied! ${link}`);
-  // };
 
   const handleCopyLink = () => {
     navigator.clipboard
@@ -120,12 +87,6 @@ const ProductDetails = ({
         console.error("Error copying link:", error);
       });
   };
-
-  // const handleCopyLink = () => {
-  //   setCopied(true);
-  //   // Add the logic to copy the link here
-  //   // You can use the navigator.clipboard API or any other method/library to copy the link
-  // };
 
   return (
     <Container maxWidth="lg" sx={{ pt: 5 }}>

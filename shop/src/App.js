@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 // import Layout from "./components/Layout";
@@ -16,6 +16,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Search from "./pages/Search";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import axios from "axios";
 
 const theme = createTheme({
   palette: {
@@ -46,6 +47,25 @@ function App() {
   const [quantity, setQuantity] = useState(1);
   const [availableStock, setAvailableStock] = useState();
   const [productQuantities, setProductQuantities] = useState({});
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = () => {
+    axios
+      .get("http://localhost:3000/productList/viewProducts", {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((error) => console.log(error.message));
+  };
+
+  useEffect(() => {
+    fetchProducts(); // Fetch products when the App component mounts
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -91,7 +111,6 @@ function App() {
                 totalCost={totalCost}
                 setTotalCost={setTotalCost}
                 availableStock={availableStock}
-
               />
             }
           />
@@ -179,6 +198,8 @@ function App() {
                 totalCost={totalCost}
                 isAuthenticated={isAuthenticated}
                 productQuantities={productQuantities} // Pass productQuantities as a prop
+                setIsAuthenticated={setIsAuthenticated}
+                setCartItems={setCartItems}
               />
             }
           />

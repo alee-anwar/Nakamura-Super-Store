@@ -15,7 +15,7 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 1200, min: 900 },
-    items: 4,
+    items: 5,
   },
   tablet: {
     breakpoint: { max: 900, min: 600 },
@@ -23,39 +23,21 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 600, min: 0 },
-    items: 2,
+    items: 3,
   },
 };
 
-const ShopByCategories = ({handleCategoryClick}) => {
+const ShopByCategories = ({ handleCategoryClick }) => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
-  // const [selectedCategory, setSelectedCategory] = useState(null);
-
-  // const handleCategoryClick = (category) => {
-  //   navigate(`/shop/${category.value}`);
-  // };
 
   return (
     <Box mt={2}>
       <Box display="flex">
         <Typography variant="h1" my={3} flexGrow={1}>
-          {t('Shop By Categories')}
+          {t("Shop By Categories")}
         </Typography>
-        {/* <Button
-          sx={{
-            fontWeight: "500",
-            color: "#262626",
-            "&:hover": {
-              color: "#ffe033",
-            },
-          }}
-          endIcon={<ChevronRightRoundedIcon />}
-          disableRipple
-        >
-          View All
-        </Button> */}
       </Box>
       <Carousel responsive={responsive} showArrows={false}>
         {categories.map((category) => (
@@ -73,8 +55,8 @@ const ShopByCategories = ({handleCategoryClick}) => {
                   src={category.url}
                   sx={{
                     border: "1px solid grey",
-                    width: 150,
-                    height: 150,
+                    width: { xs: 110, sm: 135, md: 150 },
+                    height: { xs: 110, sm: 135, md: 150 },
                     transition: "transform 0.5s ease",
                     "&:active": {
                       transform: "scale(0.9)",
@@ -86,12 +68,21 @@ const ShopByCategories = ({handleCategoryClick}) => {
                   }}
                 />
               ) : (
+                // <Skeleton
+                //   sx={{ bgcolor: "grey.500", borderRadius: "50%" }}
+                //   variant="rectangular"
+                //   width={{ xs: 110, sm: 135, md: 150 }}
+                //   height={{ xs: 110, sm: 135, md: 150 }}
+                //   // borderRadius="50%"
+                // />
                 <Skeleton
-                  sx={{ bgcolor: "grey.500", borderRadius: "50%" }}
-                  variant="rectangular"
-                  width={150}
-                  height={150}
-                  borderRadius="50%"
+                  variant="circular"
+                  sx={{
+                    bgcolor: "grey.500",
+                    borderRadius: "50%",
+                    width: { xs: 110, sm: 135, md: 150 },
+                    height: { xs: 110, sm: 135, md: 150 },
+                  }}
                 />
               )}
             </Box>

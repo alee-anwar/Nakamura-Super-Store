@@ -19,9 +19,11 @@ import {
   TableRow,
   TextField,
   MenuItem,
+  Alert,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
+import moment from "moment";
 
 const ViewOrder = () => {
   const theme = useTheme();
@@ -30,6 +32,7 @@ const ViewOrder = () => {
   const [order, setOrder] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [updatedOrderStatus, setUpdatedOrderStatus] = useState(order.status);
+  const [resMessage, setResMessage] = useState("");
 
   const handleChange = (event) => {
     setUpdatedOrderStatus(event.target.value);
@@ -38,15 +41,17 @@ const ViewOrder = () => {
   const handleSave = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/orderList/update-order-status/${orderId}`,
+        `http://localhost:3000/orderList/updateOrderStatus/${orderId}`,
         {
-          orderStatus: updatedOrderStatus,
+          status: updatedOrderStatus,
         }
       );
       // Handle the response if needed
-      console.log(response.data);
+      console.log("status response", response.data);
+      console.log("status Message", response.data.message);
+      setResMessage(response.data.message);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.response.data.message);
     }
   };
 
@@ -58,6 +63,7 @@ const ViewOrder = () => {
         );
         const data = response.data;
         setOrder(data);
+        console.log(order);
         setIsLoading(false);
         setUpdatedOrderStatus(data.status); // Set initial order status
       } catch (error) {
@@ -78,21 +84,35 @@ const ViewOrder = () => {
   }
 
   const {
-    customerName,
+    customerId,
+    firstName,
+    lastName,
     phoneNo,
-    shippingMethod,
-    paymentMethod,
-    status,
     town,
     streetNo,
     houseNo,
+    shippingMethod,
+    paymentMethod,
     orderItems,
     additionalComments,
+    orderDate,
+    deliveryDate,
+    subTotal,
+    shippingCost,
+    totalPrice,
+    status, // should be pending
   } = order;
+
+  const formattedOrderDate = moment(orderDate).format("DD/MM/YYYY");
 
   return (
     <Box>
       <Box sx={theme.mixins.toolbar} />
+      {resMessage && (
+        <Alert severity="success" onClose={() => setResMessage("")}>
+          {resMessage}
+        </Alert>
+      )}
       <Box sx={{ display: "flex" }} mb={3}>
         <Typography sx={{ flexGrow: 1 }} variant="h1">
           Order Details
@@ -104,21 +124,30 @@ const ViewOrder = () => {
           <Grid container spacing={2}>
             <Grid item md={12} display="flex">
               <Box flexGrow={1}>
-                <Box display="flex">
-                  <Typography fontWeight={600}>Order Date:</Typography>
-                  <Typography pl={1} color="textSecondary">
-                    6/17/2023
-                  </Typography>
-                  <Typography pl={3} fontWeight={600}>
-                    Delivery Date:
-                  </Typography>
-                  <Typography pl={1} color="textSecondary">
-                    Same Day Delivery
-                  </Typography>
-                  {/* <Typography>Order Date: {date}</Typography>
-                  <Typography>Delivery Date: {deliveryDate || selectedDate}</Typography> */}
+                <Box display="flex" flexDirection="column">
+                  <Box display="flex">
+                    <Typography fontWeight={600} variant="h6">
+                      Order#
+                    </Typography>
+                    <Typography pl={1} color="textSecondary" variant="h6">
+                      {order.orderId}
+                    </Typography>
+                  </Box>
+                  <Box display="flex">
+                    <Typography fontWeight={600}>Order Date:</Typography>
+                    <Typography pl={1} color="textSecondary">
+                      {formattedOrderDate}
+                    </Typography>
+                    <Typography pl={3} fontWeight={600}>
+                      Delivery Date:
+                    </Typography>
+                    <Typography pl={1} color="textSecondary">
+                      {deliveryDate}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
+
               <Stack direction="row" spacing={2}>
                 <Select
                   size="small"
@@ -132,9 +161,9 @@ const ViewOrder = () => {
                   {/* <MenuItem value="">
                     <em>None</em>
                   </MenuItem> */}
-                  <MenuItem value="pending">Pending</MenuItem>
-                  <MenuItem value="delivered">Delivered</MenuItem>
-                  <MenuItem value="rejected">Rejected</MenuItem>
+                  <MenuItem value="Pending">Pending</MenuItem>
+                  <MenuItem value="Delivered">Delivered</MenuItem>
+                  <MenuItem value="Cancelled">Cancelled</MenuItem>
                 </Select>
                 <Button variant="outlined" size="small" onClick={handleSave}>
                   Save
@@ -147,20 +176,26 @@ const ViewOrder = () => {
             <Grid container item md={12}>
               <Grid item md={4}>
                 <Typography fontWeight={600}>Customer</Typography>
-                <Typography color="textSecondary">{customerName}</Typography>
-                <Typography color="textSecondary">{phoneNo}</Typography>
+                <Typography color="textSecondary">{`Name: ${firstName} ${lastName}`}</Typography>
+                <Typography color="textSecondary">Phone# {phoneNo}</Typography>
               </Grid>
               <Grid item md={4}>
                 <Typography fontWeight={600}>Method/Status</Typography>
-                <Typography color="textSecondary">{shippingMethod}</Typography>
-                <Typography color="textSecondary">{paymentMethod}</Typography>
-                <Typography color="textSecondary">{status}</Typography>
+                <Typography color="textSecondary">
+                  Shipping Method: {shippingMethod}
+                </Typography>
+                <Typography color="textSecondary">
+                  Payment Method: {paymentMethod}
+                </Typography>
+                <Typography color="textSecondary">Status: {status}</Typography>
               </Grid>
               <Grid item md={4}>
                 <Typography fontWeight={600}>Deliver to</Typography>
-                <Typography color="textSecondary">{town}</Typography>
-                <Typography color="textSecondary">{streetNo}</Typography>
-                <Typography color="textSecondary">{houseNo}</Typography>
+                <Typography color="textSecondary">Town: {town}</Typography>
+                <Typography color="textSecondary">
+                  Street: {streetNo}
+                </Typography>
+                <Typography color="textSecondary">House# {houseNo}</Typography>
               </Grid>
             </Grid>
             <Grid container item md={12} spacing={2}>
@@ -189,10 +224,10 @@ const ViewOrder = () => {
                               />
                             </TableCell>
                             <TableCell>{item.productName}</TableCell>
-                            <TableCell>{item.productQuantity}</TableCell>
+                            <TableCell>{item.productQuantity || 1}</TableCell>
                             <TableCell>{item.unitPrice}</TableCell>
                             <TableCell>
-                              {item.productQuantity * item.unitPrice}
+                              {(item.productQuantity || 1) * item.unitPrice}
                             </TableCell>
                           </TableRow>
                         ))}
@@ -219,16 +254,22 @@ const ViewOrder = () => {
                       Shipping Cost:
                     </Typography>
 
-                    <Typography variant="body1" align="right">
+                    <Typography variant="body1" align="right" color="error">
                       Total:
                     </Typography>
                   </Grid>
                   <Grid item color="textSecondary">
-                      <Typography variant="body1" color='textSecondary'>AFN 100</Typography>
+                    <Typography variant="body1" color="textSecondary">
+                      {subTotal}
+                    </Typography>
 
-                      <Typography variant="body1" color='textSecondary'>AFN 0</Typography>
+                    <Typography variant="body1" color="textSecondary">
+                      {shippingCost}
+                    </Typography>
 
-                      <Typography variant="body1" color='textSecondary'>AFN 100</Typography>
+                    <Typography variant="body1" color="error">
+                      {totalPrice}
+                    </Typography>
                   </Grid>
 
                   {/* </Stack> */}
@@ -244,7 +285,8 @@ const ViewOrder = () => {
                     multiline
                     rows={5}
                     value={additionalComments}
-                    onChange={(event) => event.target.value}
+                    disabled
+                    // onChange={(event) => event.target.value}
                   />
                 </Box>
               </Grid>

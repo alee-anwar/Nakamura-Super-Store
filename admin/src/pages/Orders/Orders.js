@@ -15,7 +15,7 @@ const Orders = ({ fetchOrders, orders, setOrders }) => {
 
   useEffect(() => {
     fetchOrders();
-  }, [deleted])
+  }, [deleted]);
 
   const handleDeleteOrder = async (id) => {
     await axios
@@ -29,13 +29,15 @@ const Orders = ({ fetchOrders, orders, setOrders }) => {
 
   const columns = [
     { field: "id", headerName: "OID", width: 100 },
+    { field: "customerName", headerName: "Customer Name", width: 150 },
     { field: "productName", headerName: "Product Name", width: 150 },
-    { field: "productQuantity", headerName: "Quantity", width: 150 },
+    { field: "shippingMethod", headerName: "Shipping Method", width: 150 },
     // { field: "customerName", headerName: "Name", width: 250 },
     // { field: "phoneNo", headerName: "Phone#", width: 150 },
-    { field: "totalPrice", headerName: "Total", width: 150 },
-    { field: "status", headerName: "Status", width: 150 },
-    { field: "date", headerName: "Date", width: 150 },
+    { field: "totalPrice", headerName: "Total (AFN)", width: 110 },
+    { field: "town", headerName: "Order City", width: 130 },
+    { field: "status", headerName: "Status", width: 130 },
+    { field: "date", headerName: "Date", width: 130 },
     {
       field: "action",
       headerName: "Action",
@@ -51,16 +53,20 @@ const Orders = ({ fetchOrders, orders, setOrders }) => {
     },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
-  const rows = orders.map((row) => ({
-    id: row.orderId,
-    productName: row.orderItems[0].productName,
-    productQuantity: row.orderItems[0].productQuantity,
-    // customerName: row.customerName,
-    // phoneNo: row.phoneNo,
-    totalPrice: row.totalPrice,
-    status: row.status,
-    date: moment(row.date).format("DD/MM/YYYY"),
-  }));
+  const rows = orders
+    .map((row) => ({
+      id: row.orderId,
+      customerName: `${row.firstName || ''} ${row.lastName || ''}`,
+      productName: row.orderItems[0].productName,
+      shippingMethod: row.shippingMethod,
+      // customerName: row.customerName,
+      // phoneNo: row.phoneNo,
+      totalPrice: row.totalPrice,
+      town: row.town,
+      status: row.status,
+      date: moment(row.date).format("DD/MM/YYYY"),
+    }))
+    .reverse(); // Reverse the order of rows array to display latest orders first
 
   // console.log(products);
 
@@ -76,11 +82,6 @@ const Orders = ({ fetchOrders, orders, setOrders }) => {
 
       <div style={{ height: "78vh", width: "100%" }}>
         <DataGrid
-          // rows={rows}
-          // columns={columns}
-          // pageSize={9}
-          // pagination
-          // rowsPerPageOptions={[9, 18, 36]}
           rows={rows}
           columns={columns}
           initialState={{

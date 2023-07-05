@@ -179,10 +179,9 @@ const ProductEditForm = () => {
                       onBlur={formik.handleBlur}
                       error={formik.touched.sku && Boolean(formik.errors.sku)}
                       helperText={
-                        formik.touched.firstName && formik.errors.firstName
+                        formik.touched.sku && formik.errors.sku
                       }
                       margin="dense"
-                      required
                       fullWidth
                       size="small"
                       InputLabelProps={{
@@ -207,7 +206,6 @@ const ProductEditForm = () => {
                         formik.touched.productTitle &&
                         formik.errors.productTitle
                       }
-                      required
                       fullWidth
                       size="small"
                       InputLabelProps={{
@@ -228,7 +226,7 @@ const ProductEditForm = () => {
                       }
                       helperText={formik.touched.stock && formik.errors.stock}
                       margin="dense"
-                      required
+                      
                       fullWidth
                       size="small"
                       InputLabelProps={{
@@ -247,7 +245,7 @@ const ProductEditForm = () => {
                       onBlur={formik.handleBlur}
                       error={formik.touched.size && Boolean(formik.errors.size)}
                       helperText={formik.touched.size && formik.errors.size}
-                      required
+                      
                       fullWidth
                       size="small"
                       InputLabelProps={{
@@ -268,7 +266,7 @@ const ProductEditForm = () => {
                         formik.touched.color && Boolean(formik.errors.color)
                       }
                       helperText={formik.touched.color && formik.errors.color}
-                      required
+                      
                       fullWidth
                       size="small"
                       InputLabelProps={{
@@ -276,24 +274,28 @@ const ProductEditForm = () => {
                       }}
                     />
                   </Grid>
-
+                  
                   <Grid item sm={12} md={6}>
                     <TextField
                       margin="dense"
+                      select
                       label="Tag"
                       name="tag"
-                      value={formik.values.tag}
+                      value={formik.values.tag || ""} // Use empty string as the default value
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={formik.touched.tag && Boolean(formik.errors.tag)}
                       helperText={formik.touched.tag && formik.errors.tag}
-                      required
                       fullWidth
                       size="small"
                       InputLabelProps={{
                         shrink: true,
                       }}
-                    />
+                    >
+                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="Featured">Featured</MenuItem>
+                      <MenuItem value="Healthy">Healthy</MenuItem>
+                    </TextField>
                   </Grid>
 
                   <Grid item sm={12} md={6}>
@@ -312,7 +314,7 @@ const ProductEditForm = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      required
+                      
                       fullWidth
                       size="small"
                     />
@@ -332,7 +334,7 @@ const ProductEditForm = () => {
                         formik.touched.status && Boolean(formik.errors.status)
                       }
                       helperText={formik.touched.status && formik.errors.status}
-                      required
+                      
                       fullWidth
                       size="small"
                       InputLabelProps={{
@@ -366,7 +368,7 @@ const ProductEditForm = () => {
                   helperText={
                     formik.touched.description && formik.errors.description
                   }
-                  required
+                  
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -380,7 +382,7 @@ const ProductEditForm = () => {
                   label="URL"
                   fullWidth
                   size="small"
-                  required
+                  
                   name="image"
                   value={formik.values.image}
                   onChange={formik.handleChange}

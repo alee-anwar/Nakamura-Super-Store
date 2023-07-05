@@ -60,29 +60,31 @@ const Transactions = ({ fetchSales, transactions, setTransactions }) => {
   };
 
   const columns = [
-    { field: "id", headerName: "Transaction ID", width: 150 },
+    { field: "id", headerName: "Transaction ID", width: 120 },
+    { field: "oid", headerName: "OID", width: 110 },
+    { field: "customerName", headerName: "Customer Name", width: 150 },
+    { field: "phoneNo", headerName: "Phone#", width: 150 },
     { field: "amount", headerName: "Amount", width: 150 },
-    { field: "status", headerName: "Status", width: 150 },
-    { field: "oid", headerName: "OID", width: 150 },
-    { field: "customerName", headerName: "Customer Name", width: 200 },
+    // { field: "status", headerName: "Status", width: 150 },
     // { field: "phone", headerName: "Phone#", width: 150 },
     { field: "date", headerName: "Date", width: 150 },
-    {
-      field: "action",
-      headerName: "Action",
-      renderCell: (params) => (
-        <DotsMenuBtn product={params.id} handleDelete={handleDelete} />
-      ),
-      width: 150,
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   renderCell: (params) => (
+    //     <DotsMenuBtn product={params.id} handleDelete={handleDelete} />
+    //   ),
+    //   width: 150,
+    // },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
   const rows = transactions.map((row) => ({
-    id: row.transactionId,
-    amount: row.amount,
-    status: row.status,
+    id: row._id.slice(-7),
     oid: row.oid,
     customerName: row.customerName,
+    phoneNo: row.phoneNo,
+    amount: row.amount,
+    // status: row.status,
     phone: row.phoneNo,
     date: moment(row.date).format("DD/MM/YYYY"),
   }));

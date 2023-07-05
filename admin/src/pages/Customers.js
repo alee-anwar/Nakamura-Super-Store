@@ -28,18 +28,18 @@ const Customers = () => {
 
   console.log(customers);
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
+    { field: "id", headerName: "ID", width: 110 },
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
-    { field: "phoneNo", headerName: "Phone", width: 200 },
-    { field: "town", headerName: "Town", width: 150 },
-    { field: "streetNo", headerName: "Street", width: 150 },
-    { field: "houseNo", headerName: "House", width: 150 },
+    { field: "phoneNo", headerName: "Phone", width: 160 },
+    { field: "town", headerName: "Town", width: 180 },
+    { field: "streetNo", headerName: "Street", width: 130 },
+    { field: "houseNo", headerName: "House", width: 130 },
     {
       field: "action",
       headerName: "Action",
       renderCell: (params) => (
-        <DotsMenuBtn product={params.id} handleDelete={handleDelete} />
+        <DotsMenuBtn product={params.id} handleDelete={handleDelete} viewType="customer"/>
       ),
       width: 150,
     },

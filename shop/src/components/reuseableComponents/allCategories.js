@@ -24,7 +24,7 @@ export const categories = [
     id: 3,
     value: "Dairy & Eggs",
     label: "categories.dairy_eggs",
-    url: "https://envato-shoebox-0.imgix.net/23ce/9483-c3da-42cd-990a-946f0c6b9aaf/sq_milk+pouring+into+glass+and+bowl+with+cornflakes+on+the+table.jpg?auto=compress%2Cformat&fit=max&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark2.png&markalign=center%2Cmiddle&markalpha=18&w=700&s=0c7de67778adc150d7ef8cbf49ee075f",
+    url: "https://whisk.com/wp-content/uploads/2023/02/shutterstock_1679020255.jpg",
     alt: "Milk Pouring Into Glass And Bowl With Cornflakes",
   },
   {
@@ -50,6 +50,7 @@ export const categories = [
     id: 7,
     value: "Electronics",
     label: "categories.electronics", // Update label with translation
+    url: "https://library.homeserve.com/m/6ebaedaa498cc076/Blog-GettyImages-1129160928.jpg"
   },
   {
     id: 8,
@@ -61,6 +62,7 @@ export const categories = [
     id: 9,
     value: "Snaks & Baverages",
     label: "categories.snacks_beverages", // Update label with translation
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxkV29Y-EaIZWccIATYD_7m_e6h_xwECUrcpybc0bN9ItZVhsP7P3uV-baTzcMSRbrIio&usqp=CAU"
   },
   {
     id: 10,

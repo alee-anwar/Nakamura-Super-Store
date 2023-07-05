@@ -56,8 +56,18 @@ export default function DotsMenuBtn(props) {
         }}
       >
         <MenuItem sx={{ py: 0.2 }} onClick={handleViewClick}>
-          {props.viewType === "product" ? "Edit" : "View"}
+          {(() => {
+            switch (props.viewType) {
+              case "product":
+                return "Edit";
+              case "order":
+                return "View";
+              default:
+                return "";
+            }
+          })()}
         </MenuItem>
+
         <MenuItem sx={{ py: 0.2 }} onClick={handleDeleteClick}>
           Delete
         </MenuItem>

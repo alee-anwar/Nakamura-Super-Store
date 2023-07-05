@@ -13,47 +13,84 @@ import DotsMenuBtn from "../components/DotsMenuBtn";
 import React, { useEffect, useState } from "react";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ViewStreamIcon from "@mui/icons-material/ViewStream";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 import SalesBarGraph from "../components/SalesBarGraph ";
 import ReportComponent from "../components/ReportComponent";
+import axios from "axios";
+import moment from "moment";
 
-const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
+const Dashboard = ({
+  user,
+  totalSales,
+  totalProducts,
+  totalOrders,
+  totalReviews,
+  completedOrders,
+  pendingOrders,
+  rejectedOrders,
+  inStockProducts,
+  outOfStockProducts,
+  positiveReviews,
+  negativeReviews,
+}) => {
   const theme = useTheme();
   const [orders, setOrders] = useState([]);
   const [deleted, setDeleted] = useState(false);
 
   // useEffect(() => {
-  //   fetchProducts(); // Call the fetchProducts method from App.js
-  //   console.log("useEffect with Fetch prduct from dashboard")
-  // }, [fetchProducts]);
+  //   fetch("http://localhost:3000/orderList/viewOrders")
+  //     .then((res) => res.json())
+  //     .then((data) => setOrders(data));
+  // }, [deleted, totalOrders]);
 
   useEffect(() => {
+    const today = new Date().toISOString().split("T")[0]; // Get today's date in the format 'YYYY-MM-DD'
+
     fetch("http://localhost:3000/orderList/viewOrders")
       .then((res) => res.json())
-      .then((data) => setOrders(data));
+      .then((data) => {
+        // Filter orders to include only today's orders
+        const todayOrders = data.filter((order) => {
+          const orderDate = order.orderDate.split("T")[0]; // Get the order date in the format 'YYYY-MM-DD'
+          return orderDate === today;
+        });
+
+        setOrders(todayOrders);
+      });
   }, [deleted, totalOrders]);
 
-  const handleDelete = async (id) => {
-    await fetch("http://localhost:3000/orderList/deleteOrder/" + id, {
-      method: "DELETE",
-    });
-    const newOrders = orders.filter((order) => order.id !== id);
+  const handleDeleteOrder = async (id) => {
+    await axios
+      .delete(`http://localhost:3000/orderList/deleteOrder/${id}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err.message));
+    const newOrders = orders.filter((order) => order.orderId !== id);
     setOrders(newOrders);
     setDeleted(true);
   };
 
   const columns = [
     { field: "id", headerName: "OID", width: 100 },
-    { field: "customerName", headerName: "Name", width: 250 },
-    { field: "phoneNo", headerName: "Phone#", width: 150 },
-    { field: "totalPrice", headerName: "Total", width: 150 },
-    { field: "status", headerName: "Status", width: 150 },
-    { field: "date", headerName: "Date", width: 150 },
+    { field: "customerName", headerName: "Customer Name", width: 150 },
+    { field: "productName", headerName: "Product Name", width: 150 },
+    { field: "shippingMethod", headerName: "Shipping Method", width: 150 },
+    // { field: "customerName", headerName: "Name", width: 250 },
+    // { field: "phoneNo", headerName: "Phone#", width: 150 },
+    { field: "totalPrice", headerName: "Total (AFN)", width: 110 },
+    { field: "town", headerName: "Order City", width: 130 },
+    { field: "status", headerName: "Status", width: 130 },
+    { field: "date", headerName: "Date", width: 130 },
     {
       field: "action",
       headerName: "Action",
       renderCell: (params) => (
-        <DotsMenuBtn product={params.row} handleDelete={handleDelete} />
+        // <DotsMenuBtn product={params.id} handleDelete={handleDelete}/>
+        <DotsMenuBtn
+          product={params.row}
+          handleDelete={handleDeleteOrder}
+          viewType="order"
+        />
       ),
       width: 150,
     },
@@ -61,15 +98,19 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
 
   const rows = orders.map((row) => ({
     id: row.orderId,
-    customerName: row.customerName,
-    phoneNo: row.phoneNo,
+    customerName: `${row.firstName || ""} ${row.lastName || ""}`,
+    productName: row.orderItems[0].productName,
+    shippingMethod: row.shippingMethod,
+    // customerName: row.customerName,
+    // phoneNo: row.phoneNo,
     totalPrice: row.totalPrice,
+    town: row.town,
     status: row.status,
-    date: row.date,
+    date: moment(row.date).format("DD/MM/YYYY"),
   }));
 
   return (
-    <Box>
+    <Box mb={4}>
       <Box sx={theme.mixins.toolbar} />
       <Typography variant="h1">
         As-Salaam-Alaikum, {user[0].userName}
@@ -77,7 +118,7 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
 
       <Container maxWidth="lg" sx={{ my: 5 }}>
         <Grid container spacing={2}>
-          <Grid item sm={4}>
+          <Grid item sm={3}>
             <Paper
               sx={{
                 padding: 4,
@@ -86,17 +127,35 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
                 alignItems: "center",
               }}
             >
-              <Avatar sx={{ bgcolor: "#ff9017", mr: 1, width: 50, height: 50 }}>
+              <Avatar sx={{ bgcolor: "#ffd800", mr: 1, width: 50, height: 50 }}>
                 <AccountBalanceWalletIcon />
               </Avatar>
               <Stack>
                 <Typography color="textSecondary">Total Sales</Typography>
-                <Typography>AFN. {totalSales}</Typography>
+                <Typography>{totalSales}</Typography>
+              </Stack>
+            </Paper>
+          </Grid>
+          <Grid item sm={3}>
+            <Paper
+              sx={{
+                padding: 4,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Avatar sx={{ bgcolor: "#3167eb", mr: 1, width: 50, height: 50 }}>
+                <LocalMallRoundedIcon />
+              </Avatar>
+              <Stack>
+                <Typography color="textSecondary">Total Products</Typography>
+                <Typography>{totalProducts}</Typography>
               </Stack>
             </Paper>
           </Grid>
 
-          <Grid item sm={4}>
+          <Grid item sm={3}>
             <Paper
               sx={{
                 padding: 4,
@@ -115,7 +174,7 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
             </Paper>
           </Grid>
 
-          <Grid item sm={4}>
+          <Grid item sm={3}>
             <Paper
               sx={{
                 padding: 4,
@@ -124,19 +183,27 @@ const Dashboard = ({ user, totalSales, totalProducts, totalOrders }) => {
                 alignItems: "center",
               }}
             >
-              <Avatar sx={{ bgcolor: "#3167eb", mr: 1, width: 50, height: 50 }}>
-                <LocalMallRoundedIcon />
+              <Avatar sx={{ bgcolor: "#ff9017", mr: 1, width: 50, height: 50 }}>
+                <StarRoundedIcon />
               </Avatar>
               <Stack>
-                <Typography color="textSecondary">Total Products</Typography>
-                <Typography>{totalProducts}</Typography>
+                <Typography color="textSecondary">Total Reviews</Typography>
+                <Typography>{totalReviews}</Typography>
               </Stack>
             </Paper>
           </Grid>
         </Grid>
       </Container>
 
-      <ReportComponent />
+      <ReportComponent
+        completedOrders={completedOrders}
+        pendingOrders={pendingOrders}
+        rejectedOrders={rejectedOrders}
+        inStockProducts={inStockProducts}
+        outOfStockProducts={outOfStockProducts}
+        positiveReviews={positiveReviews}
+        negativeReviews={negativeReviews}
+      />
       <SalesBarGraph />
       <Box>
         <Box sx={{ display: "flex" }} mb={3}>

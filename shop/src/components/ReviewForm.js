@@ -11,6 +11,7 @@ import {
   AccordionDetails,
   Avatar,
   Divider,
+  Alert,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
@@ -59,6 +60,9 @@ const ReviewForm = ({ productId, description, productTitle }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState([]);
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [showRatingAlert, setShowRatingAlert] = useState(false);
+  const [updateReviews, setUpdateReviews] = useState(false)
 
   //   const handleExpand = (panel) => (newExpanded) => {
   //     setExpanded(newExpanded ? panel : false);
@@ -73,36 +77,50 @@ const ReviewForm = ({ productId, description, productTitle }) => {
   useEffect(() => {
     // Fetch reviews from the API based on the productId
     axios
-      .get(`/api/reviews/${productId}`)
+      .get(`http://localhost:3000/reviewList/searchReview/${productTitle}`)
       .then((response) => {
-        setReviews(response.data);
-        console.log(response.data);
+        setReviews(response.data.data.searchedReview);
+        setTotalReviews(response.data.results);
+        console.log("reviews", reviews);
+        console.log("results", response.data.results);
+        console.log("data", response.data.data.searchedReview);
+        console.log("status", response.data.status);
+        setUpdateReviews(false);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [productId]);
+  }, [updateReviews]);
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
+    if (rating === 0) {
+      setShowRatingAlert(true);
+      return;
+    }
+
+    // Reset the rating alert
+    setShowRatingAlert(false);
     // Create an object with the form data
     const formData = {
       productId: productId,
       productTitle: productTitle,
       rating: rating,
-      customerName: name,
+      name: name,
       phoneNumber: phoneNumber,
-      review: reviewText,
+      reviewText: reviewText,
     };
 
     // Make an API call to submit the review
     axios
-      .post("/api/postReview", formData)
+      .post("http://localhost:3000/reviewList/postReview", formData)
       .then((response) => {
         // Handle the response from the server
         console.log(response.data); // You can customize this part based on your server response
+        console.log(formData);
         // Reset the form fields
+        setUpdateReviews(true);
         setRating(0);
         setName("");
         setPhoneNumber("");
@@ -132,13 +150,11 @@ const ReviewForm = ({ productId, description, productTitle }) => {
         onChange={handleExpand("panel2")}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="subtitle1">
-            Reviews ({singleProduct.reviews?.length})
-          </Typography>
+          <Typography variant="subtitle1">Reviews ({totalReviews})</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {singleProduct?.reviews?.map((review) => (
-            <Box key={review.id} py={1}>
+          {reviews.map((review) => (
+            <Box py={1}>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Avatar>
                   {review.customerName
@@ -164,7 +180,7 @@ const ReviewForm = ({ productId, description, productTitle }) => {
                 lineHeight={1}
                 pb={1}
               >
-                {review.review}
+                {review.reviewMessage}
               </Typography>
               <Divider />
             </Box>
@@ -218,7 +234,7 @@ const ReviewForm = ({ productId, description, productTitle }) => {
               />
               <TextField
                 id="review-text"
-                label="Review"
+                label="Comment"
                 multiline
                 rows={4}
                 variant="outlined"
@@ -239,6 +255,10 @@ const ReviewForm = ({ productId, description, productTitle }) => {
                 Submit
               </Button>
             </Stack>
+            {/* Rating alert */}
+            {showRatingAlert && (
+              <Alert sx={{mt: 1}} severity="error">Please enter a review rating.</Alert>
+            )}
           </Box>
         </AccordionDetails>
       </Accordion>

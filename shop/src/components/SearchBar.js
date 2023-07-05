@@ -52,7 +52,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const SearchBar = () => {
+const SearchBar = ({ handleDrawerClose }) => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -63,6 +63,7 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     navigate("/search", { state: { Data: search } });
+    handleDrawerClose();
     setSearch(""); // Clear the search input after search
   };
 
@@ -108,7 +109,7 @@ const SearchBar = () => {
       <IconButton
         aria-label="search"
         onClick={handleSearch}
-        sx={{ p: 0, pl: 1}}
+        sx={{ p: 0, pl: 1 }}
         color="primary"
         disableRipple
       >

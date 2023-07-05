@@ -30,8 +30,8 @@ const Products = ({ fetchProducts, products, setProducts }) => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    { field: "sku", headerName: "SKU", width: 50 },
+    { field: "id", headerName: "ID", width: 100 },
+    { field: "sku", headerName: "SKU", width: 80 },
     {
       field: "image",
       headerName: "Image",
@@ -49,7 +49,7 @@ const Products = ({ fetchProducts, products, setProducts }) => {
       },
     },
     { field: "productTitle", headerName: "Name", width: 120 },
-    { field: "category", headerName: "Category", width: 120 },
+    { field: "category", headerName: "Category", width: 150 },
     { field: "subcategory", headerName: "Sub Category", width: 130 },
     {
       field: "price",
@@ -57,7 +57,7 @@ const Products = ({ fetchProducts, products, setProducts }) => {
       width: 80,
       valueFormatter: ({ value }) => `AFN ${value}`,
     },
-    { field: "color", headerName: "Color", width: 80 },
+    // { field: "color", headerName: "Color", width: 80 },
     { field: "stock", headerName: "Stock", width: 70 },
     { field: "tag", headerName: "Tag", width: 100 },
     { field: "status", headerName: "Status", width: 100 },
@@ -76,9 +76,24 @@ const Products = ({ fetchProducts, products, setProducts }) => {
     },
   ];
 
+  // const rows = products.map((row) => ({
+  //   // id: row._id.slice(-7), // Extract the last 6 digits of the ID
+  //   id: row._id, // Extract the last 6 digits of the ID
+  //   sku: row.sku,
+  //   image: row.image,
+  //   productTitle: row.productTitle,
+  //   category: row.category,
+  //   price: row.price,
+  //   status: row.status,
+  //   subcategory: row.subcategory,
+  //   color: row.color,
+  //   stock: row.stock,
+  //   tag: row.tag,
+  //   date: moment(row.date).format("DD/MM/YYYY"),
+  // }));
+
   const rows = products.map((row) => ({
-    // id: row._id.slice(-7), // Extract the last 6 digits of the ID
-    id: row._id, // Extract the last 6 digits of the ID
+    id: row._id,
     sku: row.sku,
     image: row.image,
     productTitle: row.productTitle,
@@ -86,11 +101,12 @@ const Products = ({ fetchProducts, products, setProducts }) => {
     price: row.price,
     status: row.status,
     subcategory: row.subcategory,
-    color: row.color,
+    // color: row.color,
     stock: row.stock,
     tag: row.tag,
     date: moment(row.date).format("DD/MM/YYYY"),
-  }));
+  })).reverse();
+  
 
   return (
     <Box>
@@ -103,8 +119,6 @@ const Products = ({ fetchProducts, products, setProducts }) => {
           Add Product
         </Button>
       </Box>
-
-      <PDFFile/>
 
       <div style={{ height: "78vh", width: "100%" }}>
         <DataGrid

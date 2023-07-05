@@ -29,21 +29,23 @@ import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
   productTitle: Yup.string().required("Title is required"),
+  stock: Yup.string().required("Enter Product Stock"),
   sku: Yup.string().required("SKU is required"),
   description: Yup.string().required("Description is required"),
-  price: Yup.number().required("Price is required"),
-  status: Yup.string().required("Status is required"),
+  price: Yup.number()
+    .required("Price is required")
+    .positive("Price must be positive"),
+  // status: Yup.string().required("Status is required"),
   date: Yup.date().required("Date is required"),
-
   category: Yup.string().required("Category is required"),
-  subcategory: Yup.string().required("Subcategory is required"),
+  image: Yup.string().required("Image is required"),
 });
 
-const CreateProduct = () => {
+const CreateProductForm = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [signupError, setSignupError] = useState(null);
-  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -51,10 +53,9 @@ const CreateProduct = () => {
       sku: "",
       description: "",
       category: "",
+      subcategory: "",
       price: "",
       status: "",
-      // date: "",
-      subcategory: "",
       color: "",
       tag: "",
       image: "",
@@ -62,10 +63,10 @@ const CreateProduct = () => {
       size: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values, { setSubmitting, resetForm }) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       setSubmitting(true);
-      setSignupError(null);
-      setSignupSuccess(false);
+      setErrorMsg(null);
+      setSuccess(false);
       console.log(values);
 
       axios
@@ -75,9 +76,10 @@ const CreateProduct = () => {
           },
         })
         .then((response) => {
-          console.log("Data posted:", response.data);
+          console.log("Data updated:", response.data);
           console.log("Signup success:", response.data);
-          setSignupSuccess(true);
+          setSuccess(true);
+
           resetForm();
           navigate("/products");
         })
@@ -85,13 +87,13 @@ const CreateProduct = () => {
           console.error("Error posting data:", error);
           if (error.response) {
             // Request was made and server responded with a non-2xx status code
-            setSignupError(error.response.data.message);
+            setErrorMsg(error.response.data.message);
           } else if (error.request) {
             // Request was made but no response was received
-            setSignupError("Network error. Please try again later.");
+            setErrorMsg("Network error. Please try again later.");
           } else {
             // Something else happened in making the request
-            setSignupError("An error occurred. Please try again.");
+            setErrorMsg("An error occurred. Please try again.");
           }
         })
         .finally(() => {
@@ -104,14 +106,14 @@ const CreateProduct = () => {
     <Box maxWidth={"md"} ml={{ sm: 0, md: 0, lg: 20 }} mb={3}>
       <Box sx={theme.mixins.toolbar} />
 
-      {signupError && (
+      {errorMsg && (
         <Alert severity="error">
           <Typography variant="body2" color="error">
-            {signupError}
+            {errorMsg}
           </Typography>
         </Alert>
       )}
-      {signupSuccess && (
+      {success && (
         <Alert severity="success">
           <Typography variant="body2" color="success">
             Product Create Successful!
@@ -120,23 +122,20 @@ const CreateProduct = () => {
       )}
 
       <form onSubmit={formik.handleSubmit}>
-        <Box sx={{ display: "flex" }} mb={3}>
+        <Box component="div" sx={{ display: "flex" }} mb={3}>
           <Typography sx={{ flexGrow: 1 }} variant="h1">
             Add Product
           </Typography>
           <Button
+            type="submit"
             variant="contained"
-            sx={{ bgcolor: "white", color: "black", mr: 2 }}
-            disabled
+            disabled={formik.isSubmitting}
           >
-            Save To Draft
-          </Button>
-          <Button type="submit" variant="contained">
             {formik.isSubmitting ? "Publishing..." : "Publish Now"}
           </Button>
         </Box>
 
-        <Grid container spacing={2} >
+        <Grid container spacing={2}>
           <Grid container item spacing={2} direction="row" md={8} mt={0.1}>
             {/* <Grid item> */}
             <Stack spacing={2}>
@@ -145,19 +144,16 @@ const CreateProduct = () => {
                 <Grid container columnSpacing={2}>
                   <Grid item sm={12} md={6}>
                     <TextField
-                      margin="dense"
                       label="SKU"
                       name="sku"
                       value={formik.values.sku}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.sku && formik.errors.sku}
-                      helperText={
-                        formik.touched.firstName && formik.errors.firstName
-                      }
-                      required
+                      error={formik.touched.sku && Boolean(formik.errors.sku)}
+                      helperText={formik.touched.sku && formik.errors.sku}
                       fullWidth
                       size="small"
+                      margin="dense"
                     />
                   </Grid>
                   <Grid item sm={12} md={6}>
@@ -168,11 +164,10 @@ const CreateProduct = () => {
                       value={formik.values.stock}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.stock && formik.errors.stock}
-                      helperText={
-                        formik.touched.stock && formik.errors.stock
+                      error={
+                        formik.touched.stock && Boolean(formik.errors.stock)
                       }
-                      required
+                      helperText={formik.touched.stock && formik.errors.stock}
                       fullWidth
                       size="small"
                     />
@@ -187,13 +182,12 @@ const CreateProduct = () => {
                       onBlur={formik.handleBlur}
                       error={
                         formik.touched.productTitle &&
-                        formik.errors.productTitle
+                        Boolean(formik.errors.productTitle)
                       }
                       helperText={
                         formik.touched.productTitle &&
                         formik.errors.productTitle
                       }
-                      required
                       fullWidth
                       size="small"
                     />
@@ -207,7 +201,7 @@ const CreateProduct = () => {
                       value={formik.values.size}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.size && formik.errors.size}
+                      error={formik.touched.size && Boolean(formik.errors.size)}
                       helperText={formik.touched.size && formik.errors.size}
                       fullWidth
                       size="small"
@@ -221,7 +215,9 @@ const CreateProduct = () => {
                       value={formik.values.color}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.color && formik.errors.color}
+                      error={
+                        formik.touched.color && Boolean(formik.errors.color)
+                      }
                       helperText={formik.touched.color && formik.errors.color}
                       fullWidth
                       size="small"
@@ -230,17 +226,21 @@ const CreateProduct = () => {
                   <Grid item sm={12} md={6}>
                     <TextField
                       margin="dense"
+                      select
                       label="Tag"
                       name="tag"
-                      value={formik.values.tag}
+                      value={formik.values.tag || ""} // Use empty string as the default value
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.tag && formik.errors.tag}
+                      error={formik.touched.tag && Boolean(formik.errors.tag)}
                       helperText={formik.touched.tag && formik.errors.tag}
-                      required
                       fullWidth
                       size="small"
-                    />
+                    >
+                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="Featured">Featured</MenuItem>
+                      <MenuItem value="Healthy">Healthy</MenuItem>
+                    </TextField>
                   </Grid>
                   <Grid item sm={12} md={6}>
                     <TextField
@@ -250,9 +250,10 @@ const CreateProduct = () => {
                       value={formik.values.price}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.price && formik.errors.price}
+                      error={
+                        formik.touched.price && Boolean(formik.errors.price)
+                      }
                       helperText={formik.touched.price && formik.errors.price}
-                      required
                       fullWidth
                       size="small"
                     />
@@ -262,48 +263,26 @@ const CreateProduct = () => {
                       margin="dense"
                       select
                       label="Status"
-                      id="status"
                       name="status"
-                      value={formik.values.status}
+                      value={formik.values.status || ""} // Use empty string as the default value
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.status && formik.errors.status}
+                      error={
+                        formik.touched.status && Boolean(formik.errors.status)
+                      }
                       helperText={formik.touched.status && formik.errors.status}
-                      required
                       fullWidth
                       size="small"
                     >
                       <MenuItem value="">None</MenuItem>
-                      <MenuItem value={"Active"}>Active</MenuItem>
-                      <MenuItem value={"Deactive"}>Deactive</MenuItem>
+                      <MenuItem value="Active">Active</MenuItem>
+                      <MenuItem value="Deactive">Deactive</MenuItem>
                     </TextField>
                   </Grid>
-
-                  {/* <Grid item sm={12} md={6}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DatePicker
-                        label="Date"
-                        name="date"
-                        value={formik.values.date}
-                        onChange={(newValue) =>
-                          formik.setFieldValue("date", newValue)
-                        }
-                        onBlur={formik.handleBlur}
-                        sx={{
-                          width: "100%",
-                          marginTop: 1,
-                          "& .MuiInputBase-input.MuiOutlinedInput-input": {
-                            paddingTop: "8.5px",
-                            paddingBottom: "8.5px",
-                          },
-                        }}
-                      />
-                    </LocalizationProvider>
-                  </Grid> */}
                 </Grid>
               </Paper>
-            {/* </Grid> */}
-            {/* <Grid item sm={12} md={12}> */}
+              {/* </Grid> */}
+              {/* <Grid item sm={12} md={12}> */}
               <Paper elevation={2} sx={{ p: 3, height: "auto" }}>
                 <Typography color="textSecondary">Description</Typography>
                 <TextField
@@ -315,16 +294,16 @@ const CreateProduct = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={
-                    formik.touched.description && formik.errors.description
+                    formik.touched.description &&
+                    Boolean(formik.errors.description)
                   }
                   helperText={
                     formik.touched.description && formik.errors.description
                   }
-                  required
                 />
               </Paper>
-            {/* </Grid> */}
-            {/* <Grid item sm={12} md={12}> */}
+              {/* </Grid> */}
+              {/* <Grid item sm={12} md={12}> */}
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <Typography color="textSecondary">Images</Typography>
                 <TextField
@@ -332,18 +311,16 @@ const CreateProduct = () => {
                   label="URL"
                   fullWidth
                   size="small"
-                  required
                   name="image"
                   value={formik.values.image}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.image && formik.errors.image}
+                  error={formik.touched.image && Boolean(formik.errors.image)}
                   helperText={formik.touched.image && formik.errors.image}
                 />
               </Paper>
-            {/* </Grid> */}
+              {/* </Grid> */}
             </Stack>
-
           </Grid>
           <Grid container item spacing={2} direction="column" md={4}>
             <Grid item>
@@ -392,12 +369,104 @@ const CreateProduct = () => {
                 </FormControl>
               </Paper>
             </Grid>
+
             <Grid item>
               <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
                 <FormControl required component="fieldset">
                   <FormLabel>Sub Categories</FormLabel>
-                  {/* <FormGroup> */}
-                  {subcategories.map((subcategory) => (
+                  <FormGroup>
+                    {subcategories.map((subcategory) => (
+                      <FormControlLabel
+                        key={subcategory.value}
+                        control={
+                          <Checkbox
+                            checked={
+                              formik.values.subcategory === subcategory.value
+                            }
+                            size="small"
+                            disableRipple={true}
+                            sx={{ color: "#757575" }}
+                            name="subcategory"
+                            value={subcategory.value}
+                            // onChange={formik.handleChange}
+                            onChange={() => {
+                              // Update the value of subcategory field
+                              if (
+                                formik.values.subcategory === subcategory.value
+                              ) {
+                                // If the same subcategory is already selected, remove the value
+                                formik.setFieldValue("subcategory", "");
+                              } else {
+                                // Set the new selected value
+                                formik.setFieldValue(
+                                  "subcategory",
+                                  subcategory.value
+                                );
+                              }
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography sx={{ color: "#757575" }}>
+                            {subcategory.label}
+                          </Typography>
+                        }
+                        sx={{ mb: -1 }}
+                      />
+                    ))}
+                  </FormGroup>
+                  {formik.touched.subcategory && formik.errors.subcategory && (
+                    <FormHelperText error>
+                      {formik.errors.subcategory}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Grid>
+      </form>
+    </Box>
+  );
+};
+
+export default CreateProductForm;
+
+{
+  /* <Grid item sm={12} md={6}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        label="Date"
+                        name="date"
+                        value={formik.values.date}
+                        onChange={(newValue) =>
+                          formik.setFieldValue("date", newValue)
+                        }
+                        onBlur={formik.handleBlur}
+                        sx={{
+                          width: "100%",
+                          marginTop: 1,
+                          "& .MuiInputBase-input.MuiOutlinedInput-input": {
+                            paddingTop: "8.5px",
+                            paddingBottom: "8.5px",
+                          },
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Grid> */
+}
+
+{
+  /* <Grid item>
+              <Paper elevation={3} sx={{ p: 3, height: "auto" }}>
+                <FormControl required component="fieldset">
+                  <FormLabel>Sub Categories</FormLabel> */
+}
+{
+  /* <FormGroup> */
+}
+{
+  /* {subcategories.map((subcategory) => (
                     <FormControlLabel
                       key={subcategory.value}
                       control={
@@ -425,7 +494,7 @@ const CreateProduct = () => {
                                 subcategory.value
                               );
                             }
-                          }}
+                          }} 
                           // onChange={(e) => {
                           //   const { value, checked } = e.target;
                           //   let selectedSubcategories = formik.values.subcategory.split(",");
@@ -448,20 +517,37 @@ const CreateProduct = () => {
                       sx={{ mb: -1 }}
                     />
                   ))}
-                  {/* </FormGroup> */}
-                  {formik.touched.subcategory && formik.errors.subcategory && (
+                  {/* </FormGroup> */
+}
+{
+  /* {formik.touched.subcategory && formik.errors.subcategory && (
                     <FormHelperText error>
                       {formik.errors.subcategory}
                     </FormHelperText>
                   )}
                 </FormControl>
               </Paper>
-            </Grid>
-          </Grid>
-        </Grid>
-      </form>
-    </Box>
-  );
-};
+            </Grid> */
+}
 
-export default CreateProduct;
+{
+  /* <Button
+            variant="contained"
+            sx={{ bgcolor: "white", color: "black", mr: 2 }}
+            disabled
+          >
+            Save To Draft
+          </Button> */
+}
+{
+  /* <Button type="submit" variant="contained"> */
+}
+{
+  /* {formik.isSubmitting ? "Publishing..." : "Publish Now"} */
+}
+{
+  /* Publish Now */
+}
+{
+  /* </Button> */
+}

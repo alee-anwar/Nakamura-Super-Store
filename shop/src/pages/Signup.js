@@ -19,7 +19,12 @@ const validationSchema = Yup.object().shape({
   // lastName: Yup.string().required("Last name is required"),
   // email: Yup.string().email("Invalid email").required("Email is required"),
   // password: Yup.string().required("Password is required"),
-  phoneNo: Yup.string().required("Phone number is required"),
+  phoneNo: Yup.string()
+      .matches(
+        /^\+923\d{9}$/,
+        "Phone number must start with '+923' and have 9 digits after that"
+      )
+      .required("Phone number is required"),
   town: Yup.string().required("Town name is required"),
   streetNo: Yup.number().required("Street number is required"),
   houseNo: Yup.string().required("House number is required"),
@@ -35,7 +40,7 @@ const Signup = () => {
   const formik = useFormik({
     initialValues: {
       firstName: "",
-      // lastName: "",
+      lastName: "",
       // email: "",
       // password: "",
       phoneNo: "",

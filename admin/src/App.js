@@ -40,10 +40,22 @@ function App() {
   const [totalSales, setTotalSales] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
 
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
+  const [outOfStockProducts, setOutOfStockProducts] = useState([]);
+  const [inStockProducts, setInStockProducts] = useState([]);
+
+  const [completedOrders, setCompletedOrders] = useState([]);
+  const [pendingOrders, setPendingOrders] = useState([]);
+  const [rejectedOrders, setRejectedOrders] = useState([]);
+
+  const [positiveReviews, setPositiveReviews] = useState([]);
+  const [negativeReviews, setNegativeReviews] = useState([]);
 
   // Declare the method and implementing its functionality
   const fetchProducts = () => {
@@ -59,6 +71,19 @@ function App() {
       .then((res) => {
         setProducts(res.data);
         setTotalProducts(res.data.length);
+
+        const outOfStockProducts = products.filter(
+          (product) => product.stock <= 0
+        );
+        const inStockProducts = products.filter((product) => product.stock > 0);
+        setOutOfStockProducts(outOfStockProducts);
+        setInStockProducts(inStockProducts);
+
+        const totalOutOfStockProducts = outOfStockProducts.length;
+        const totalInStockProducts = inStockProducts.length;
+
+        console.log("Total Out of Stock Products:", totalOutOfStockProducts);
+        console.log("Total In Stock Products:", totalInStockProducts);
       })
       .catch((error) => console.log(error.message));
   };
@@ -66,6 +91,22 @@ function App() {
   useEffect(() => {
     fetchProducts(); // Fetch products when the App component mounts
   }, [totalProducts]);
+
+  // const fetchOrders = () => {
+  //   axios
+  //     .get("http://localhost:3000/orderList/viewOrders", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         // Authorization: `bearer ${token}`
+  //         // Authorization: token
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setOrders(res.data);
+  //       setTotalOrders(res.data.length);
+  //     })
+  //     .catch((error) => console.log(error.message));
+  // };
 
   const fetchOrders = () => {
     axios
@@ -77,8 +118,31 @@ function App() {
         },
       })
       .then((res) => {
-        setOrders(res.data);
-        setTotalOrders(res.data.length);
+        const orders = res.data;
+        setOrders(orders);
+        setTotalOrders(orders.length);
+
+        const completedOrders = orders.filter(
+          (order) => order.status === "Delivered"
+        );
+        const pendingOrders = orders.filter(
+          (order) => order.status === "Pending"
+        );
+        const rejectedOrders = orders.filter(
+          (order) => order.status === "Cancelled"
+        );
+
+        setCompletedOrders(completedOrders);
+        setPendingOrders(pendingOrders);
+        setRejectedOrders(rejectedOrders);
+
+        const totalCompletedOrders = completedOrders.length;
+        const totalPendingOrders = pendingOrders.length;
+        const totalRejectedOrders = rejectedOrders.length;
+
+        console.log("Total Delivered Orders:", totalCompletedOrders);
+        console.log("Total Pending Orders:", totalPendingOrders);
+        console.log("Total Cancelled Orders:", totalRejectedOrders);
       })
       .catch((error) => console.log(error.message));
   };
@@ -107,6 +171,34 @@ function App() {
 
   useEffect(() => {
     fetchSales();
+  }, [totalSales]);
+
+  const fetchReviews = () => {
+    axios
+      .get("http://localhost:3000/reviewList/viewReviews", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        const reviews = res.data;
+        setReviews(reviews);
+        setTotalReviews(reviews.length)
+
+        const positiveReviews = reviews.filter((review) => review.rating >= 3);
+        const negativeReviews = reviews.filter((review) => review.rating < 3);
+
+        setPositiveReviews(positiveReviews);
+        setNegativeReviews(negativeReviews);
+
+        console.log("Positive Reviews:", positiveReviews);
+        console.log("Negative Reviews:", negativeReviews);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    fetchReviews();
   }, [totalSales]);
 
   useEffect(() => {
@@ -139,16 +231,24 @@ function App() {
                     totalSales={totalSales}
                     totalOrders={totalOrders}
                     totalProducts={totalProducts}
+                    totalReviews={totalReviews}
                     setTotalOrders={setTotalOrders}
                     setTotalProducts={setTotalProducts}
                     setTotalSales={setTotalSales}
                     fetchProducts={fetchProducts}
                     fetchOrders={fetchOrders}
+                    completedOrders={completedOrders}
+                    pendingOrders={pendingOrders}
+                    rejectedOrders={rejectedOrders}
+                    inStockProducts={inStockProducts}
+                    outOfStockProducts={outOfStockProducts}
+                    positiveReviews={positiveReviews}
+                    negativeReviews={negativeReviews}
                   />
                 }
               />
               <Route
-                path="products"
+                path="/products"
                 element={
                   <Products
                     setTotalProducts={setTotalProducts}
@@ -173,7 +273,16 @@ function App() {
                 }
               />
               <Route path="viewOrder/:orderId" element={<ViewOrder />} />
-              <Route path="reviews" element={<Reviews />} />
+              <Route
+                path="reviews"
+                element={
+                  <Reviews
+                    reviews={reviews}
+                    setReviews={setReviews}
+                    fetchReviews={fetchReviews}
+                  />
+                }
+              />
               <Route
                 path="transactions"
                 element={
