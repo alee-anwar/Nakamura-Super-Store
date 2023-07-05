@@ -126,7 +126,7 @@ const Header = ({ cartItems, wishlist }) => {
             marginRight: 4,
           }}
         >
-          <SearchBar />
+          <SearchBar handleDrawerClose={handleDrawerClose}/>
         </Box>
         <Box display="flex" alignItems="center">
           <Tooltip title={t("Wishlist")}>
