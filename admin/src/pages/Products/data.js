@@ -75,6 +75,7 @@ export const subcategories = [
   { value: "Baby Care", label: "Baby Care" },
   { value: "Cleaning Supplies", label: "Cleaning Supplies" },
   { value: "Laundry Detergent", label: "Laundry Detergent" },
+  { value: "Others", label: "Others" },
 ];
 
 //   Sure! Here are a few important categories you typically find in a supermarket or a superstore, along with some subcategories:

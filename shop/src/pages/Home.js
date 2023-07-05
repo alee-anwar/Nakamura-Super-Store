@@ -13,7 +13,9 @@ const Home = ({
   wishlist,
   setWishlist,
   setTotalCost,
-  handleCategoryClick
+  handleCategoryClick,
+  featuredProducts,
+  healthyProducts
 }) => {
   return (
     <>
@@ -30,6 +32,8 @@ const Home = ({
           wishlist={wishlist}
           setWishlist={setWishlist}
           setTotalCost={setTotalCost}
+          featuredProducts={featuredProducts}
+
         />
         <FreshItems
           cartItems={cartItems}
@@ -37,6 +41,7 @@ const Home = ({
           wishlist={wishlist}
           setWishlist={setWishlist}
           setTotalCost={setTotalCost}
+          healthyProducts={healthyProducts}
         />
       </Container>
     </>

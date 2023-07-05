@@ -104,6 +104,7 @@ const FeaturedItems = ({
   wishlist,
   setWishlist,
   setTotalCost,
+  featuredProducts
 }) => {
   const [featuredItems, setFeaturedItems] = useState(bestSellers);
   const [error, setError] = useState(null);
@@ -167,7 +168,7 @@ const FeaturedItems = ({
         arrows
         itemClass="custom-carousel-item"
       >
-        {featuredItems.map((item) => {
+        {featuredProducts.map((item) => {
           return (
             <ProductCard
               key={item._id}

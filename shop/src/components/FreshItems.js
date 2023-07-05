@@ -137,6 +137,7 @@ const FreshItems = ({
   wishlist,
   setWishlist,
   setTotalCost,
+  healthyProducts
 }) => {
   const { t } = useTranslation();
 
@@ -175,7 +176,7 @@ const FreshItems = ({
         arrows
         itemClass="custom-carousel-item"
       >
-        {Vegetables.map((item) => {
+        {healthyProducts.map((item) => {
           return (
             <ProductCard
               key={item._id}
