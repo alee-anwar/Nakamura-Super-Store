@@ -47,7 +47,9 @@ function App() {
   const [quantity, setQuantity] = useState(1);
   const [availableStock, setAvailableStock] = useState();
   const [productQuantities, setProductQuantities] = useState({});
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [healthyProducts, setHealthyProducts] = useState([]);
 
   const fetchProducts = () => {
     axios
@@ -58,13 +60,21 @@ function App() {
         },
       })
       .then((res) => {
-        setProducts(res.data);
+        // Filter products based on tags
+        const featuredProducts = res.data.filter(product => product.tag === "Featured");
+        const healthyProducts = res.data.filter(product => product.tag === "Healthy");
+  
+        // Set the filtered products as state
+        setFeaturedProducts(featuredProducts);
+        setHealthyProducts(healthyProducts);
       })
       .catch((error) => console.log(error.message));
   };
 
   useEffect(() => {
     fetchProducts(); // Fetch products when the App component mounts
+    console.log("featured" + featuredProducts);
+    console.log("healthy" + healthyProducts);
   }, []);
 
   return (
@@ -83,6 +93,8 @@ function App() {
                 wishlist={wishlist}
                 setWishlist={setWishlist}
                 setTotalCost={setTotalCost}
+                featuredProducts={featuredProducts}
+                healthyProducts={healthyProducts}
               />
             }
           />

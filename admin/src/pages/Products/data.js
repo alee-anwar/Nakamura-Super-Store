@@ -48,8 +48,8 @@ export const categories = [
   },
   {
     id: 9,
-    value: "Snaks & Baverages",
-    label: "Snaks & Baverages",
+    value: "Snacks & Beverages",
+    label: "Snacks & Beverages",
   },
   {
     id: 10,

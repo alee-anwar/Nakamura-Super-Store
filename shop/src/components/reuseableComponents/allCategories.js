@@ -60,7 +60,7 @@ export const categories = [
   },
   {
     id: 9,
-    value: "Snaks & Baverages",
+    value: "Snacks & Beverages",
     label: "categories.snacks_beverages", // Update label with translation
     url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxkV29Y-EaIZWccIATYD_7m_e6h_xwECUrcpybc0bN9ItZVhsP7P3uV-baTzcMSRbrIio&usqp=CAU"
   },
