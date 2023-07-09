@@ -60,8 +60,8 @@ const Transactions = ({ fetchSales, transactions, setTransactions }) => {
   };
 
   const columns = [
-    { field: "id", headerName: "Transaction ID", width: 120 },
-    { field: "oid", headerName: "OID", width: 110 },
+    // { field: "id", headerName: "Transaction ID", width: 120 },
+    { field: "id", headerName: "OID", width: 110 },
     { field: "customerName", headerName: "Customer Name", width: 150 },
     { field: "phoneNo", headerName: "Phone#", width: 150 },
     { field: "amount", headerName: "Amount", width: 150 },
@@ -78,16 +78,16 @@ const Transactions = ({ fetchSales, transactions, setTransactions }) => {
     // },
   ];
   // const threedots = <MoreHorizRoundedIcon/>;
+  console.log("trasactions: " + transactions)
   const rows = transactions.map((row) => ({
-    id: row._id.slice(-7),
-    oid: row.oid,
-    customerName: row.customerName,
+    // id: row._id.slice(-7),
+    id: row.orderId,
+    customerName: `${row.firstName || ''} ${row.lastName || ''}`,
     phoneNo: row.phoneNo,
-    amount: row.amount,
+    amount: row.totalPrice,
     // status: row.status,
-    phone: row.phoneNo,
     date: moment(row.date).format("DD/MM/YYYY"),
-  }));
+  })).reverse();
 
   // console.log(products);
 

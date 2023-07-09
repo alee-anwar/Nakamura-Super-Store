@@ -48,7 +48,7 @@ const Products = ({ fetchProducts, products, setProducts }) => {
         );
       },
     },
-    { field: "productTitle", headerName: "Name", width: 120 },
+    { field: "productTitle", headerName: "Name", width: 150 },
     { field: "category", headerName: "Category", width: 150 },
     { field: "subcategory", headerName: "Sub Category", width: 130 },
     {

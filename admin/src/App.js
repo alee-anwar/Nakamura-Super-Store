@@ -160,7 +160,7 @@ function App() {
 
         // Calculate total amount
         const totalAmount = data.reduce(
-          (acc, transaction) => acc + transaction.amount,
+          (acc, transaction) => acc + transaction.totalPrice,
           0
         );
         setTotalSales(totalAmount);

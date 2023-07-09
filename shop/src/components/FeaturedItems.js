@@ -8,6 +8,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import "./custom.css";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 
 const bestSellers = [
@@ -109,6 +110,7 @@ const FeaturedItems = ({
   const [featuredItems, setFeaturedItems] = useState(bestSellers);
   const [error, setError] = useState(null);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -151,6 +153,7 @@ const FeaturedItems = ({
           }}
           endIcon={<ChevronRightRoundedIcon />}
           disableRipple
+          onClick={() => navigate('/shop')}
         >
           {t('View All')}
         </Button>

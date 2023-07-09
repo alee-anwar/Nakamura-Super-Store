@@ -54,7 +54,7 @@ const Wishlist = ({
           </Grid>
         ) : (
           wishlist.map((item) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
+            <Grid item xs={6} sm={6} md={4} lg={3} key={item._id} mb={1}>
               <ProductCard
                 cartItems={cartItems}
                 setCartItems={setCartItems}

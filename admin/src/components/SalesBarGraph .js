@@ -89,25 +89,25 @@ const SalesGraph = () => {
           datasets: [
             {
               label: "Products",
-              data: [120, 150, 200, 180, 220, 160, 210],
+              data: [20, 50, 20, 18, 22, 16, 21],
               backgroundColor: "#C4E8C2",
               borderWidth: 0,
             },
             {
               label: "Orders",
-              data: [100, 170, 140, 190, 200, 150, 180],
+              data: [10, 17, 14, 19, 20, 15, 18],
               backgroundColor: "#6BBD99",
               borderWidth: 0,
             },
             {
               label: "Transactions",
-              data: [80, 130, 160, 170, 120, 190, 140],
+              data: [8, 13, 6, 17, 12, 9, 14],
               backgroundColor: "#4A8DB7",
               borderWidth: 0,
             },
             {
               label: "Customers",
-              data: [200, 180, 150, 130, 170, 160, 190],
+              data: [20, 18, 10, 13, 17, 16, 19],
               backgroundColor: "#78A6C8",
               borderWidth: 0,
             },
@@ -120,25 +120,25 @@ const SalesGraph = () => {
           datasets: [
             {
               label: "Products",
-              data: [500, 600, 550, 700],
+              data: [50, 60, 55, 70],
               backgroundColor: "#C4E8C2",
               borderWidth: 0,
             },
             {
               label: "Orders",
-              data: [450, 650, 600, 550],
+              data: [45, 65, 60, 50],
               backgroundColor: "#6BBD99",
               borderWidth: 0,
             },
             {
               label: "Transactions",
-              data: [400, 550, 500, 600],
+              data: [40, 50, 50, 60],
               backgroundColor: "#4A8DB7",
               borderWidth: 0,
             },
             {
               label: "Customers",
-              data: [350, 500, 450, 550],
+              data: [35, 50, 45, 55],
               backgroundColor: "#78A6C8",
               borderWidth: 0,
             },
@@ -165,8 +165,8 @@ const SalesGraph = () => {
             {
               label: "Products",
               data: [
-                1500, 1800, 1900, 1700, 2200, 2000, 1900, 2100, 1800, 1900,
-                1600, 1700,
+                150, 180, 190, 170, 220, 200, 190, 210, 180, 190,
+                160, 170,
               ],
               backgroundColor: "#C4E8C2",
               borderWidth: 0,
@@ -174,8 +174,8 @@ const SalesGraph = () => {
             {
               label: "Orders",
               data: [
-                1400, 1700, 1500, 1600, 1800, 1700, 1900, 2000, 1700, 1600,
-                1500, 1800,
+                140, 170, 150, 160, 180, 170, 190, 200, 170, 160,
+                150, 180,
               ],
               backgroundColor: "#6BBD99",
               borderWidth: 0,
@@ -183,8 +183,8 @@ const SalesGraph = () => {
             {
               label: "Transactions",
               data: [
-                1300, 1500, 1700, 1800, 1600, 1700, 1500, 1900, 1600, 1500,
-                1400, 1700,
+                130, 150, 170, 180, 100, 170, 150, 190, 160, 150,
+                140, 170,
               ],
               backgroundColor: "#4A8DB7",
               borderWidth: 0,
@@ -192,8 +192,8 @@ const SalesGraph = () => {
             {
               label: "Customers",
               data: [
-                1800, 2000, 1900, 1700, 1600, 1800, 2000, 1900, 1700, 1600,
-                1800, 1900,
+                180, 200, 100, 170, 160, 180, 200, 190, 170, 160,
+                180, 190,
               ],
               backgroundColor: "#78A6C8",
               borderWidth: 0,
@@ -208,25 +208,25 @@ const SalesGraph = () => {
           datasets: [
             {
               label: "Products",
-              data: [8000, 9000, 9500, 10000],
+              data: [800, 900, 950, 1000],
               backgroundColor: "#C4E8C2",
               borderWidth: 0,
             },
             {
               label: "Orders",
-              data: [7500, 8500, 8000, 9000],
+              data: [750, 850, 800, 900],
               backgroundColor: "#6BBD99",
               borderWidth: 0,
             },
             {
               label: "Transactions",
-              data: [7000, 8000, 8500, 9000],
+              data: [700, 800, 850, 900],
               backgroundColor: "#4A8DB7",
               borderWidth: 0,
             },
             {
               label: "Customers",
-              data: [9000, 9500, 9000, 9500],
+              data: [900, 950, 900, 950],
               backgroundColor: "#78A6C8",
               borderWidth: 0,
             },

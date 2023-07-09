@@ -54,6 +54,9 @@ const Hero = styled.section`
   height: 720px;
   width: 100%;
   // top: 104px;
+  @media screen and (max-width: 600px) {
+    height: 250px;
+  }
 `;
 const GradientOverlay = styled.div`
   background: linear-gradient(
@@ -85,6 +88,16 @@ const TextContainer = styled.div`
   & h1 {
     font-weight: 700;
     margin-bottom: 2rem;
+  }
+  @media screen and (max-width: 600px) {
+    top: 75px;
+    left: 60px;
+    font-size: 8px;
+  }
+  @media screen and (max-width: 900px) {
+    top: 160px;
+    left: 60px;
+    font-size: 16px;
   }
 `;
 const Right = styled.div`

@@ -53,7 +53,7 @@ const Customers = () => {
     town: row.town,
     streetNo: row.streetNo,
     houseNo: row.houseNo,
-  }));
+  })).reverse();
 
   // console.log(products);
   // const getRowId = (row) => row._id

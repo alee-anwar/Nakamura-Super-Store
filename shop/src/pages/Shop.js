@@ -126,10 +126,10 @@ const Shop = ({
             </Link>
           </Box>
           <Grid container columns={12} spacing={2} my={2}>
-            <Grid item xs={4} md={3} key="filter-sidebar">
+            <Grid item xs={12} md={3} key="filter-sidebar">
               <Paper
                 elevation={2}
-                sx={{ padding: "16px", width: "auto", height: "60vh"}}
+                sx={{ padding: "16px", width: "auto", height: {xs: "auto", md:"60vh"}}}
               >
                 <FormControl component="fieldset" p={2}>
                   <Typography variant="h6">{t('Price')}</Typography>
@@ -159,7 +159,7 @@ const Shop = ({
                 </FormControl>
               </Paper>
             </Grid>
-            <Grid container item xs={8} md={9}>
+            <Grid container item xs={12} md={9}>
               <Grid container columns={12} spacing={1}>
                 {filteredProducts.length > 0
                   ? filteredProducts.map((item) => (

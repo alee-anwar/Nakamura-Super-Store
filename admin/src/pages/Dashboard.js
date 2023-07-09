@@ -44,21 +44,50 @@ const Dashboard = ({
   //     .then((data) => setOrders(data));
   // }, [deleted, totalOrders]);
 
+  // useEffect(() => {
+  //   const today = new Date().toISOString().split("T")[0]; // Get today's date in the format 'YYYY-MM-DD'
+
+  //   fetch("http://localhost:3000/orderList/viewOrders")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       // Filter orders to include only today's orders
+  //       const todayOrders = data.filter((order) => {
+  //         const orderDate = new Date(order.orderDate)
+  //           .toISOString()
+  //           .split("T")[0]; // Convert orderDate to ISO string and get the date portion
+  //         return orderDate === today;
+  //       });
+
+  //       setOrders(todayOrders);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, [deleted, totalOrders]);
+
   useEffect(() => {
-    const today = new Date().toISOString().split("T")[0]; // Get today's date in the format 'YYYY-MM-DD'
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to 00:00:00:000 (midnight)
+    const todayDateString = today.toISOString().split("T")[0]; // Get today's date in the format 'YYYY-MM-DD'
+    console.log("todayDateString: " + todayDateString)
 
     fetch("http://localhost:3000/orderList/viewOrders")
       .then((res) => res.json())
       .then((data) => {
         // Filter orders to include only today's orders
         const todayOrders = data.filter((order) => {
-          const orderDate = order.orderDate.split("T")[0]; // Get the order date in the format 'YYYY-MM-DD'
-          return orderDate === today;
+          const orderDate = new Date(order.orderDate);
+          const orderDateString = orderDate.toISOString().split("T")[0]; // Get the order's date in the format 'YYYY-MM-DD'
+          console.log("orderDateString: " + orderDateString)
+
+          return orderDateString === todayDateString;
         });
 
+        console.log("Today's Orders:", todayOrders);
         setOrders(todayOrders);
-      });
+      })
+      .catch((error) => console.log(error));
   }, [deleted, totalOrders]);
+  
+  
 
   const handleDeleteOrder = async (id) => {
     await axios
@@ -107,7 +136,7 @@ const Dashboard = ({
     town: row.town,
     status: row.status,
     date: moment(row.date).format("DD/MM/YYYY"),
-  }));
+  })).reverse();
 
   return (
     <Box mb={4}>

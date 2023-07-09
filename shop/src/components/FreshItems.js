@@ -7,6 +7,7 @@ import { Box, Button, Typography } from "@mui/material";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import "./custom.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Vegetables = [
   {
@@ -137,15 +138,16 @@ const FreshItems = ({
   wishlist,
   setWishlist,
   setTotalCost,
-  healthyProducts
+  healthyProducts,
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <Box py={2}>
       <Box display="flex">
         <Typography variant="h1" my={3} flexGrow={1}>
-          {t('Healthy Food')}
+          {t("Healthy Food")}
         </Typography>
 
         <Button
@@ -159,8 +161,9 @@ const FreshItems = ({
           }}
           endIcon={<ChevronRightRoundedIcon />}
           disableRipple
+          onClick={() => navigate("/shop")}
         >
-          {t('View All')}
+          {t("View All")}
         </Button>
       </Box>
 
