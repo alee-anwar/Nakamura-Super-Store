@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import {
   Box,
@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const MyAccount = ({ cartItems, setIsAuthenticated, isAuthenticated }) => {

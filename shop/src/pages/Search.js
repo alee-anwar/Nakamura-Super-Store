@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Container, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import ProductCard from "../components/ProductCard";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import Searching from "../components/Searching";
-import Loading from "../components/Loading";
 import { useTranslation } from "react-i18next";
 
 export default function Search({
@@ -20,7 +18,7 @@ export default function Search({
   const location = useLocation();
   console.log(location.state.Data);
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
 
@@ -32,10 +30,10 @@ export default function Search({
         );
         console.log(response.data.data.searchedForProduct);
         setProducts(response.data.data.searchedForProduct);
-        setIsLoading(false);
+        // setIsLoading(false);
       } catch (error) {
         console.error("Error searching products:", error);
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
 

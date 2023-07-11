@@ -1,9 +1,6 @@
-import { Avatar, Box, Button, Skeleton, Typography } from "@mui/material";
-import React, { useMemo, useState } from "react";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
+import { Avatar, Box, Skeleton, Typography } from "@mui/material";
+import React from "react";
 import Carousel from "react-multi-carousel";
-import PropTypes from "prop-types";
 import { categories } from "./reuseableComponents/allCategories";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -68,13 +65,6 @@ const ShopByCategories = ({ handleCategoryClick }) => {
                   }}
                 />
               ) : (
-                // <Skeleton
-                //   sx={{ bgcolor: "grey.500", borderRadius: "50%" }}
-                //   variant="rectangular"
-                //   width={{ xs: 110, sm: 135, md: 150 }}
-                //   height={{ xs: 110, sm: 135, md: 150 }}
-                //   // borderRadius="50%"
-                // />
                 <Skeleton
                   variant="circular"
                   sx={{

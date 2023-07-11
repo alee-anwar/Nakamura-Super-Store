@@ -25,7 +25,6 @@ import CheckoutItem from "../components/CheckoutItem";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import { useLocation } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
 
 function Checkout({
@@ -33,7 +32,6 @@ function Checkout({
   totalCost,
   isAuthenticated,
   productQuantities,
-  setIsAuthenticated,
   setCartItems,
 }) {
   const [deliveryDate, setDeliveryDate] = useState("Same Day Delivery");
@@ -107,7 +105,6 @@ function Checkout({
       totalPrice: total,
       shippingMethod: shippingMethod,
       paymentMethod: paymentMethod,
-      additionalComments: message,
       shippingCharges: shippingCharges,
       additionalComments: message,
       customerId: _id,

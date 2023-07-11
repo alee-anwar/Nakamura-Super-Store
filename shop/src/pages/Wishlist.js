@@ -20,6 +20,7 @@ const Wishlist = ({
   const handleGoBack = () => {
     navigate(-1);
   };
+  
   useEffect(() => {
     const savedWishlistItems = JSON.parse(localStorage.getItem("wishlist"));
     if (savedWishlistItems) {

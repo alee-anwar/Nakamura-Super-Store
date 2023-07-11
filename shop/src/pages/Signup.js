@@ -8,7 +8,6 @@ import {
   Button,
   Container,
   Typography,
-  Box,
   Grid,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";

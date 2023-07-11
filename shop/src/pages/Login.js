@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import {
   Box,
@@ -7,11 +7,10 @@ import {
   InputBase,
   Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { ErrorMessage, Field, useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
@@ -20,19 +19,8 @@ const Login = ({  setIsAuthenticated }) => {
   const { t } = useTranslation();
   const [showOtpVerification, setShowOtpVerification] = useState(false);
   const [showPhoneNoInput, setShowPhoneNoInput] = useState(true);
-  const [resMsg, setResMsg] = useState("");
   const [phoneNo, setPhoneNo] = useState(0);
   const navigate = useNavigate();
-
-  // Define validation schema for phone number
-  // const validationSchemaPhone = Yup.object().shape({
-  //   phoneNo: Yup.string()
-  //     .matches(
-  //       /^(\+923|03)\d{9}$/,
-  //       "Phone number must start with '+923' or '03' and have 9 digits after that"
-  //     )
-  //     .required("Phone number is required"),
-  // });
 
   const validationSchemaPhone = Yup.object().shape({
     phoneNo: Yup.string()

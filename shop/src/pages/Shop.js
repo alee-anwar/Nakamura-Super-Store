@@ -14,7 +14,7 @@ import {
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import ProductCard from "../components/ProductCard";
 // import FilterSidebar from "../components/FilterSidebar";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useTranslation } from "react-i18next";
 
@@ -28,12 +28,11 @@ const Shop = ({
 }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState(""); // State for sorting order
   const [loading, setLoading] = useState(true); // Loading state
   const { t } = useTranslation();
 
-  const location = useLocation(); // Get the current location
   const { value } = useParams(); // Get the product ID from the URL params
   const navigate = useNavigate();
 
@@ -52,7 +51,7 @@ const Shop = ({
         console.log(response.data);
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
-        setError(error.message);
+        // setError(error.message);
         setLoading(false); // Set loading to false if an error occurs
       }
     };

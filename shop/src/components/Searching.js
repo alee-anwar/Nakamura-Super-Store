@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./custom.css";
 import { Box, Stack, Typography } from "@mui/material";
-import Logo from "../assets/bottle.gif";
 import EmptyMessage from "./EmptyMessage";
 import { useTranslation } from "react-i18next";
 
